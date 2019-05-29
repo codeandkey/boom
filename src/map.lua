@@ -57,7 +57,7 @@ function map.render()
 
             if tile_id ~= 0 then
                 love.graphics.setColor(map.tiles[tile_id].color)
-                love.graphics.rectangle('fill', x * tile_width, y * tile_height, tile_width, tile_height)
+                love.graphics.rectangle('fill', (x - 1) * tile_width, (y - 1) * tile_height, tile_width, tile_height)
             end
         end
     end
