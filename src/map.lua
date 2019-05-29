@@ -1,45 +1,17 @@
 --[[
     map.lua
     functions for loading/managing tile-based maps
-
-    as a PLACEHOLDER a map is a table with the following fields:
-        width   : map width (in tiles)
-        height  : map height (in tiles)
-        data    : array of tile IDs (row-major, single dimension, first tile at top-left corner)
-        start_x : player initial x
-        start_y : player initial y
 --]]
 
 local obj = require 'obj'
-local map = { tiles = {} }
-
---[[
-    constants
---]]
-
-local tile_width  = 16
-local tile_height = 16
-
---[[
-    tile type definitions
---]]
-
-map.tiles[0] = nil -- air/empty
-
--- some basic colored tiles
-
-map.tiles[1] = { color={ 1, 1, 1, 1 } }
-map.tiles[2] = { color={ 1, 0, 0, 1 } }
-map.tiles[3] = { color={ 0, 1, 0, 1 } }
-map.tiles[4] = { color={ 0, 0, 1, 1 } }
+local map = {}
 
 --[[
     loader functions
 --]]
 
 function map.load(name)
-    -- placeholder map loader
-    map.current = require('maps/' .. name)
+    map.current = require('assets/maps/' .. name)
 
     for k, v in pairs(map.current.objects) do
         obj.create(v.typename, v.initial)
