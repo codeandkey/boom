@@ -18,6 +18,6 @@ return {
     end,
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.rectangle('line', self.x, self.y, player_width, player_height)
+        love.graphics.rectangle('line', self.x, self.y, nade_width, nade_height)
     end,
 }
