@@ -58,4 +58,35 @@ function map.render(map_data)
     end
 end
 
+--[[
+    collision testing
+--]]
+
+function map.collide_aabb(map_data, box)
+    -- collide points along each edge of the bounding box
+
+    --[[
+        TODO: this should be replaced with a more efficient algorithm using actual aabb testing
+        during the map load tiles should be merged together into large collision boxes, so we can
+        test collisions against those instead of individual tiles like this.
+
+        horizontal blocks are a good optimization to start with, vertical merging is more difficult
+    --]]
+
+    for x=box.x,(box.x+box.w) do
+        if map.collide_point(map_data, { x=x, y=box.y+box.h }) then return true end
+        if map.collide_point(map_data, { x=x, y=box.y }) then return true end
+    end
+
+    for y=box.y,(box.y+box.h) do
+        if map.collide_point(map_data, { x=box.x, y=y }) then return true end
+        if map.collide_point(map_data, { x=box.x+box.w, y=y }) then return true end
+    end
+end
+
+function map.collide_point(map_data, p)
+    -- we need to convert real coordinates to tile coordinates
+    return map_data.data[1 + math.floor(p.x / tile_width) + map_data.width * math.floor(p.y / tile_height)] ~= 0
+end
+
 return map

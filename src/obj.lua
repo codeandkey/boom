@@ -43,4 +43,16 @@ function obj.render_all()
     end
 end
 
+function obj.get_collisions(handle)
+    local output = {}
+
+    for i, v in pairs(obj.object_list) do
+        if v ~= handle and v.__solid and util.aabb(handle, v) then
+            table.insert(output, v)
+        end
+    end
+
+    return output
+end
+
 return obj
