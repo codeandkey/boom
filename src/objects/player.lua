@@ -3,11 +3,12 @@
     basic player object
 --]]
 
-local player_width = 16
-local player_height = 32
+local map = require 'map'
 
 return {
     init = function(self)
+        self.w = 16
+        self.h = 32
     end,
     destroy = function(self)
     end,
@@ -30,6 +31,7 @@ return {
     end,
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.rectangle('line', self.x, self.y, player_width, player_height)
+        if map.collide_aabb(self) then love.graphics.setColor(1, 0, 0, 1) end
+        love.graphics.rectangle('line', self.x, self.y, self.w, self.h)
     end,
 }
