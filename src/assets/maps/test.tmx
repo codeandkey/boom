@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="2">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="7">
  <tileset firstgid="1" source="../tiled/tileset_placeholder.json"/>
  <layer id="1" name="Tile Layer 1" width="256" height="256">
   <data encoding="csv">
@@ -262,10 +262,17 @@
 </data>
  </layer>
  <objectgroup id="2" name="Object Layer 1">
-  <object id="1" name="neat" type="player" x="432" y="16" width="176" height="176">
+  <object id="1" name="neat" type="player" x="240" y="64" width="16" height="32"/>
+ </objectgroup>
+ <objectgroup id="3" name="geometry">
+  <object id="2" type="noclip" x="144" y="80" width="48" height="16">
    <properties>
-    <property name="nope" type="bool" value="true"/>
+    <property name="hello" value="world"/>
    </properties>
   </object>
+  <object id="3" type="noclip" x="256" y="112" width="128" height="16"/>
+  <object id="4" type="noclip" x="192" y="96" width="16" height="16"/>
+  <object id="5" type="noclip" x="208" y="112" width="16" height="16"/>
+  <object id="6" type="noclip" x="224" y="128" width="32" height="16"/>
  </objectgroup>
 </map>

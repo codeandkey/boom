@@ -64,8 +64,8 @@ function map.load(name)
                 local initial = object.properties
                 initial.x = object.x
                 initial.y = object.y
-                initial.w = object.w
-                initial.h = object.h
+                initial.w = object.width
+                initial.h = object.height
                 initial.name = object.name
                 initial.angle = object.rotation
 
@@ -144,6 +144,16 @@ function map.collide_point(p)
     end
 
     return false
+end
+
+function map.layer_by_name(name)
+    for k, v in ipairs(map.current.layers) do
+        if v.name == name then
+            return v.boom_layer
+        end
+    end
+
+    return nil
 end
 
 return map
