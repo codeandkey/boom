@@ -11,6 +11,17 @@
 local util = require 'util'
 local obj = {}
 
+--[[
+    obj.create(typename, initial)
+
+    Initializes a new object from <initial>.
+    The object type is read from 'objects/<typename>.lua'.
+    Calls the type initializer function if there is one.
+    Will crash and burn if <typename> is not a valid object type.
+
+    Returns the object created (equivalent to <initial>)
+--]]
+
 function obj.create(typename, initial)
     initial.__type = require('objects/' .. typename)
     initial.__destroy = false
@@ -22,9 +33,22 @@ function obj.create(typename, initial)
     return initial
 end
 
+--[[
+    obj.destroy(handle)
+
+    Marks the object pointed to by <handle> for destruction.
+    The object is not destroyed immediately -- it is destroyed on the next update.
+--]]
+
 function obj.destroy(handle)
     handle.__destroy = true
 end
+
+--[[
+    obj.update_layer(layer, dt)
+
+    Updates all of the objects within <layer> by <dt> seconds.
+--]]
 
 function obj.update_layer(layer, dt)
     for i, v in pairs(layer) do
@@ -43,6 +67,12 @@ function obj.update_layer(layer, dt)
     end
 end
 
+--[[
+    obj.render_layer(layer)
+
+    Renders all of the objects within <layer>.
+--]]
+
 function obj.render_layer(layer)
     for i, v in pairs(layer) do
         if v.__type.render ~= nil then
@@ -50,6 +80,17 @@ function obj.render_layer(layer)
         end
     end
 end
+
+--[[
+    obj.get_collisions(handle, layer, first)
+
+    Performs a collision test between <handle> and all solid objects within <layer>.
+
+    Any objects without a truthy value for 'solid' are ignored in the collision test.
+
+    If <first> is truthy then the first colliding object is returned, or nil if there are no collisions.
+    If <first> is not truthy then an array of all colliding objects is returned.
+--]]
 
 function obj.get_collisions(handle, layer, first)
     local output = {}
