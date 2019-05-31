@@ -8,14 +8,12 @@
         __destroy : destroy flag, once 'true' will be destroyed on next step
 --]]
 
-local obj = { object_list = {} }
+local obj = {}
 
 function obj.create(typename, initial)
     initial.__type = require('objects/' .. typename)
     initial.__destroy = false
     initial.__type.init(initial, params)
-
-    table.insert(obj.object_list, initial)
 
     return initial
 end
@@ -25,28 +23,28 @@ function obj.destroy(handle)
     handle.__type.destroy(handle)
 end
 
-function obj.update_all(dt)
-    for i, v in pairs(obj.object_list) do
+function obj.update_layer(layer, dt)
+    for i, v in pairs(layer) do
         if v.__destroy then
             -- drop this object out of the array and proceed
             v.__type.destroy(v)
-            obj.object_list[i] = nil
+            layer[i] = nil
         else
             v.__type.update(v, dt)
         end
     end
 end
 
-function obj.render_all()
-    for i, v in pairs(obj.object_list) do
+function obj.render_layer(layer)
+    for i, v in pairs(layer) do
         v.__type.render(v)
     end
 end
 
-function obj.get_collisions(handle)
+function obj.get_collisions(handle, layer)
     local output = {}
 
-    for i, v in pairs(obj.object_list) do
+    for i, v in pairs(layer) do
         if v ~= handle and v.__solid and util.aabb(handle, v) then
             table.insert(output, v)
         end

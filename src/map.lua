@@ -54,7 +54,36 @@ function map.load(name)
                     end
                 end
             end
-        elseif v.type == 'objectlayer' then
+        elseif v.type == 'objectgroup' then
+            -- object init is pretty quick. we pass the map properties as the template
+            -- the object structure doesn't mesh well with the obj system so we embed
+            -- a new object list (boom_layer).
+            v.boom_layer = {}
+
+            for _, object in ipairs(v.objects) do
+                local initial = object.properties
+                initial.x = object.x
+                initial.y = object.y
+                initial.w = object.w
+                initial.h = object.h
+                initial.name = object.name
+                initial.angle = object.rotation
+
+                table.insert(v.boom_layer, obj.create(object.type, initial))
+            end
+        end
+    end
+end
+
+--[[
+    update functions
+--]]
+
+function map.update(dt)
+    for k, v in ipairs(map.current.layers) do
+        -- for now, we only need to update object layers
+        if v.type == 'objectgroup' then
+            obj.update_layer(v.boom_layer, dt)
         end
     end
 end
@@ -65,9 +94,12 @@ end
 
 function map.render()
     for k, v in ipairs(map.current.layers) do
-        if v.type == 'tilelayer' then
-            love.graphics.draw(v.batch)
-        elseif v.type == 'objectlayer' then
+        if v.visible then
+            if v.type == 'tilelayer' then
+                love.graphics.draw(v.batch)
+            elseif v.type == 'objectgroup' then
+                obj.render_layer(v.boom_layer)
+            end
         end
     end
 end
@@ -100,7 +132,18 @@ end
 
 function map.collide_point(p)
     -- we need to convert real coordinates to tile coordinates
-    return map.current.data[1 + math.floor(p.x / tile_width) + map.current.width * math.floor(p.y / tile_height)] ~= 0
+    for k, v in ipairs(map.current.layers) do
+        if v.type == 'tilelayer' then
+            local idx = 1 + math.floor((p.x - v.offsetx) / map.current.tilewidth)
+            idx = idx + map.current.width * math.floor((p.y - v.offsety) / map.current.tileheight)
+
+            if v.data[idx] ~= 0 then
+                return true
+            end
+        end
+    end
+
+    return false
 end
 
 return map
