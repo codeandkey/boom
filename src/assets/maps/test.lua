@@ -8,8 +8,8 @@ return {
   height = 256,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 3,
-  nextobjectid = 2,
+  nextlayerid = 4,
+  nextobjectid = 7,
   properties = {},
   tilesets = {
     {
@@ -329,15 +329,93 @@ return {
           name = "neat",
           type = "player",
           shape = "rectangle",
-          x = 432,
-          y = 16,
-          width = 176,
-          height = 176,
+          x = 240,
+          y = 64,
+          width = 16,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 3,
+      name = "geometry",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 2,
+          name = "",
+          type = "noclip",
+          shape = "rectangle",
+          x = 144,
+          y = 80,
+          width = 48,
+          height = 16,
           rotation = 0,
           visible = true,
           properties = {
-            ["nope"] = true
+            ["hello"] = "world"
           }
+        },
+        {
+          id = 3,
+          name = "",
+          type = "noclip",
+          shape = "rectangle",
+          x = 256,
+          y = 112,
+          width = 128,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 4,
+          name = "",
+          type = "noclip",
+          shape = "rectangle",
+          x = 192,
+          y = 96,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 5,
+          name = "",
+          type = "noclip",
+          shape = "rectangle",
+          x = 208,
+          y = 112,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 6,
+          name = "",
+          type = "noclip",
+          shape = "rectangle",
+          x = 224,
+          y = 128,
+          width = 32,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     }
