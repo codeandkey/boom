@@ -8,7 +8,12 @@ local util = require 'util'
 local map = {}
 
 --[[
-    loader functions
+    map.load(name)
+
+    Loads a Lua map from assets/maps/<name>.lua
+    The map should be exported from Tiled. (File -> Export Map)
+
+    Initializes tileset textures, objects, and all other resources in the map
 --]]
 
 function map.load(name)
@@ -76,7 +81,9 @@ function map.load(name)
 end
 
 --[[
-    update functions
+    map.update(dt)
+
+    Updates the state of all objects in the map by <dt> seconds.
 --]]
 
 function map.update(dt)
@@ -89,7 +96,11 @@ function map.update(dt)
 end
 
 --[[
-    rendering functions
+    map.render()
+
+    Renders all of the map content, including all tiles and all objects.
+    Layers which have 'visible' unset will be ignored.
+    Layer order is respected.
 --]]
 
 function map.render()
@@ -105,46 +116,11 @@ function map.render()
 end
 
 --[[
-    collision testing
+    map.layer_by_name(name)
+
+    Locates an OBJECT LAYER by it's name and returns it.
+    If no layer matches <name> then nil is returned.
 --]]
-
-function map.collide_aabb(box)
-    -- collide points along each edge of the bounding box
-
-    --[[
-        TODO: this should be replaced with a more efficient algorithm using actual aabb testing
-        during the map load tiles should be merged together into large collision boxes, so we can
-        test collisions against those instead of individual tiles like this.
-
-        horizontal blocks are a good optimization to start with, vertical merging is more difficult
-    --]]
-
-    for x=box.x,(box.x+box.w) do
-        if map.collide_point({ x=x, y=box.y+box.h }) then return true end
-        if map.collide_point({ x=x, y=box.y }) then return true end
-    end
-
-    for y=box.y,(box.y+box.h) do
-        if map.collide_point({ x=box.x, y=y }) then return true end
-        if map.collide_point({ x=box.x+box.w, y=y }) then return true end
-    end
-end
-
-function map.collide_point(p)
-    -- we need to convert real coordinates to tile coordinates
-    for k, v in ipairs(map.current.layers) do
-        if v.type == 'tilelayer' then
-            local idx = 1 + math.floor((p.x - v.offsetx) / map.current.tilewidth)
-            idx = idx + map.current.width * math.floor((p.y - v.offsety) / map.current.tileheight)
-
-            if v.data[idx] ~= 0 then
-                return true
-            end
-        end
-    end
-
-    return false
-end
 
 function map.layer_by_name(name)
     for k, v in ipairs(map.current.layers) do
