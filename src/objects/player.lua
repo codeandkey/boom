@@ -29,7 +29,6 @@ return {
         self.geometry_layer = self.geometry_layer or map.layer_by_name('geometry')
 
         -- update velocity from inputs
-        
         self.is_walking = false
 
         if love.keyboard.isDown('left') then
@@ -42,11 +41,13 @@ return {
             self.is_walking = true
         end
 
+        -- perform jumping if we can/should
         if love.keyboard.isDown('up') and self.jump_enabled then
             self.dy = self.jump_dy
             self.jump_enabled = false
         end
 
+        -- slow the player down when 'down' is pressed
         if love.keyboard.isDown('down') then
             if self.dx > 0 then
                 self.dx = math.max(self.dx - self.crouch_decel * dt, 0)
@@ -113,6 +114,9 @@ return {
     end,
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
+
+        -- clamp player rendering to integers, otherwise fuzzy collisions
+        -- end up making the player look all jittery
         love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.w, self.h)
     end,
 }
