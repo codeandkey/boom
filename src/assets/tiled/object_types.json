@@ -1,0 +1,19 @@
+[
+    {
+        "color": "#ffa0a0a4",
+        "name": "noclip",
+        "properties": [
+            {
+                "name": "solid",
+                "type": "bool",
+                "value": true
+            }
+        ]
+    },
+    {
+        "color": "#ffaa00ff",
+        "name": "player",
+        "properties": [
+        ]
+    }
+]

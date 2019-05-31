@@ -11,10 +11,9 @@ function love.load()
 end
 
 function love.update(dt)
-    obj.update_all(dt)
+    map.update(dt)
 end
 
 function love.draw()
     map.render()
-    obj.render_all()
 end

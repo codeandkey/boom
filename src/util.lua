@@ -1,6 +1,6 @@
 --[[
     util.lua
-    functions for maths and collisions
+    functions for maths and collisions, other helpers
 --]]
 
 local util = {}
@@ -13,3 +13,9 @@ function util.aabb(a, b)
 
     return true
 end
+
+function util.basename(str)
+    return string.gsub(str, "(.*/)(.*)", "%2")
+end
+
+return util
