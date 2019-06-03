@@ -106,6 +106,8 @@ end
 function map.render()
     for k, v in ipairs(map.current.layers) do
         if v.visible then
+            love.graphics.setColor(1, 1, 1, 1)
+
             if v.type == 'tilelayer' then
                 love.graphics.draw(v.batch)
             elseif v.type == 'objectgroup' then
