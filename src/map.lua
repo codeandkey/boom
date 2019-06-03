@@ -20,6 +20,9 @@ function map.load(name)
     map.current = require('assets/maps/' .. name)
     map.current.tiles = {}
 
+    -- initialize the physics world for the map
+    map.current.phys_world = love.physics.newWorld(0, map.current.properties.gravity or 9.8 * 16)
+
     -- for now, only allow one tileset
     -- this is because batches can only go through one image and dividing
     -- that will be very painful when loading
@@ -87,6 +90,8 @@ end
 --]]
 
 function map.update(dt)
+    map.current.phys_world:update(dt)
+
     for k, v in ipairs(map.current.layers) do
         -- for now, we only need to update object layers
         if v.type == 'objectgroup' then
@@ -132,6 +137,10 @@ function map.layer_by_name(name)
     end
 
     return nil
+end
+
+function map.get_physics_world()
+    return map.current.phys_world
 end
 
 return map
