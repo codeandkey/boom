@@ -74,6 +74,11 @@ return {
         -- apply gravity
         self.dy = self.dy + self.gravity * dt
 
+        -- if the player is moving suspiciously vertically then disable jumping
+        if math.abs(self.dy) > 20 then
+            self.jump_enabled = false
+        end
+
         -- resolve new velocity
         -- first, resolve horizontal movement
 
@@ -97,8 +102,6 @@ return {
         
         self.y = self.y + self.dy * dt
         collision = obj.get_collisions(self, self.geometry_layer, true)
-
-        self.jump_enabled = false
 
         if collision ~= nil then
             if self.dy >= 0 then
