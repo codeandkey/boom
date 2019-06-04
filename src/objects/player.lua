@@ -10,8 +10,8 @@ return {
     init = function(self)
         -- constants
         self.gravity = self.gravity or 200
-        self.crouch_decel = self.crouch_decel or 400
-        self.passive_decel = self.passive_decel or 100
+        self.crouch_decel = self.crouch_decel or 600
+        self.passive_decel = self.passive_decel or 400
         self.jump_dy = self.jump_dy or -160
         self.dx_accel = self.dx_accel or 1600
         self.dx_max = self.dx_max or 150
