@@ -9,7 +9,24 @@ provides an entertaining experience.
 
 ## Boom.
 
-Document how to run the game here
+Before running the game you'll need to install the Love2d engine. Love is
+available on the official repositories for most linux distributions.
+If you need help or don't know how to install love2d for your system you can
+check out the [Love2d website](https://love2d.org).
+
+Boom can be run either by executing the `boom` executable
+
+```BASH
+./boom
+```
+
+or by running the command
+
+```BASH
+love src
+```
+
+from the root directory.
 
 ## Boom. Maps.
 
