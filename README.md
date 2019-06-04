@@ -38,6 +38,8 @@ Document the physics engine credits / interaction here
 
 ## Boom. Devs.
 
+<!-- Please forgive my html in markdown for the really pretty table -->
+
 <table>
   <tr>
     <td align="center">
