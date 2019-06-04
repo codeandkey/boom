@@ -1,6 +1,6 @@
 # Boom
 
-![nade](16x16_nade.png "boom")
+![nade](src/assets/sprites/16x16_nade.png "boom")
 
 Boom is an open-source platformer designed as a prototype for creating a
 finished platformer. The goal of this project is to finish the game in it's
