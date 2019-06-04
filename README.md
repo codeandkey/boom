@@ -30,11 +30,16 @@ from the root directory.
 
 ## Boom. Maps.
 
-Document how to generate / use maps here
+To design maps for Boom you will need to get the [Tiled](https://www.mapeditor.org/) map editor.
+In the `src/assets` directory you will find Boom's object types and tilesets
+which can be imported into the map editor.
+
+Some useful object types:
+- `noclip` is solid ground that players can move and jump on.
 
 ## Boom. Physics.
 
-Document the physics engine credits / interaction here
+Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/). 
 
 ## Boom. Devs.
 
