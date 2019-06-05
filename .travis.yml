@@ -3,4 +3,5 @@ language: minimal
 script:
     - sudo apt -y update
     - sudo apt -y install lua luarocks
+    - luarocks install luacheck
     - luacheck -r src --globals love --exclude-files src/assets
