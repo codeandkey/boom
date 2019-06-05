@@ -29,7 +29,7 @@ function obj.create(layer, typename, initial)
     initial.__layer = layer
 
     if initial.__type.init ~= nil then
-        initial.__type.init(initial, params)
+        initial.__type.init(initial)
     end
 
     table.insert(layer, initial)
