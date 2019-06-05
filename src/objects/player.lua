@@ -82,7 +82,7 @@ return {
 		if self.throw_time > 0 then
 	            self.throw_time = self.throw_time - 1
                 else
-	            obj.create('nade', 'nade')
+	            obj.create('nade', {x = self.x, y = self.y, velocity = 1})
 		    self.throw_time = 0
 		    self.throwing_nade = false
 		end
@@ -166,7 +166,8 @@ return {
 	else
             love.graphics.setColor(1, 0, 1, 1)
         end
-	love.graphics.newImage('assets/sprites/32x32_player.png')
+	img = love.graphics.newImage('assets/sprites/32x32_player.png')
+	love.graphics.draw(img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
         love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.w, self.h)
