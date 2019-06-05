@@ -1,6 +1,6 @@
 dist: xenial
 language: minimal
 script:
-    - apt -y update
-    - apt -y install lua luarocks
+    - sudo apt -y update
+    - sudo apt -y install lua luarocks
     - luacheck -r src --globals love --exclude-files src/assets
