@@ -3,6 +3,7 @@
     grenade object
 --]]
 
+local obj = require 'obj'
 local nade_width = 16
 local nade_height = 16
 
