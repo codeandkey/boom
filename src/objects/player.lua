@@ -9,7 +9,7 @@ local obj = require 'obj'
 return {
     init = function(self)
         -- constants
-        self.gravity = self.gravity or 200
+        self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
         self.jump_dy = self.jump_dy or -160
