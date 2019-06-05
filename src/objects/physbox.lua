@@ -13,7 +13,12 @@ local map = require 'map'
 return {
     init = function(self)
         self.shape = love.physics.newRectangleShape(self.w, self.h)
-        self.body = love.physics.newBody(map.get_physics_world(), self.x + self.w / 2, self.y + self.h / 2, self.type or 'static')
+
+        self.body = love.physics.newBody(map.get_physics_world(),
+                                         self.x + self.w / 2,
+                                         self.y + self.h / 2,
+                                         self.type or 'static')
+
         self.fixture = love.physics.newFixture(self.body, self.shape)
 
         if self.image then
