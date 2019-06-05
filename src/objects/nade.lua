@@ -12,7 +12,7 @@ return {
     end,
 
     destroy = function(self)
-	obj.create('explosion', {x = self.x, y = self.y})
+	obj.create(self.__layer, 'explosion', {x = self.x, y = self.y})
     end,
 
     update = function(self, dt)

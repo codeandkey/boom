@@ -22,13 +22,16 @@ local obj = {}
     Returns the object created (equivalent to <initial>)
 --]]
 
-function obj.create(typename, initial)
+function obj.create(layer, typename, initial)
     initial.__type = require('objects/' .. typename)
     initial.__destroy = false
+    initial.__layer = layer
 
     if initial.__type.init ~= nil then
         initial.__type.init(initial, params)
     end
+
+    table.insert(layer, initial)
 
     return initial
 end

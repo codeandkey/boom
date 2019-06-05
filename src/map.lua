@@ -76,8 +76,9 @@ function map.load(name)
                 initial.h = object.height
                 initial.name = object.name
                 initial.angle = object.rotation
+                initial.__layer = v.boom_layer
 
-                table.insert(v.boom_layer, obj.create(object.type, initial))
+                obj.create(v.boom_layer, object.type, initial)
             end
         end
     end

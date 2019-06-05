@@ -82,7 +82,7 @@ return {
 		if self.throw_time > 0 then
 	            self.throw_time = self.throw_time - 1
                 else
-	            obj.create('nade', {x = self.x, y = self.y, velocity = 1})
+	            obj.create(self.__layer, 'nade', {x = self.x, y = self.y, velocity = 1})
 		    self.throw_time = 0
 		    self.throwing_nade = false
 		end
