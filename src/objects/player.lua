@@ -27,8 +27,6 @@ return {
         self.jump_enabled = false
         self.is_walking = false
     end,
-    destroy = function(self)
-    end,
     update = function(self, dt)
         -- find the world geometry layer if we haven't already
         self.geometry_layer = self.geometry_layer or map.layer_by_name('geometry')

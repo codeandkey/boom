@@ -29,7 +29,7 @@ function map.load(name)
     assert(#map.current.tilesets <= 1)
 
     -- initialize tilesets
-    for k, v in ipairs(map.current.tilesets) do
+    for _, v in ipairs(map.current.tilesets) do
         v.texture = love.graphics.newImage('assets/sprites/' .. util.basename(v.image))
 
         -- create quads for each tile in the set
@@ -46,7 +46,7 @@ function map.load(name)
     end
 
     -- initialize layers
-    for k, v in ipairs(map.current.layers) do
+    for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
             -- create render batch alongside data
             v.batch = love.graphics.newSpriteBatch(map.current.tilesets[1].texture, 1000, 'static')
@@ -93,7 +93,7 @@ end
 function map.update(dt)
     map.current.phys_world:update(dt)
 
-    for k, v in ipairs(map.current.layers) do
+    for _, v in ipairs(map.current.layers) do
         -- for now, we only need to update object layers
         if v.type == 'objectgroup' then
             obj.update_layer(v.boom_layer, dt)
@@ -110,7 +110,7 @@ end
 --]]
 
 function map.render()
-    for k, v in ipairs(map.current.layers) do
+    for _, v in ipairs(map.current.layers) do
         if v.visible then
             love.graphics.setColor(1, 1, 1, 1)
 
@@ -131,7 +131,7 @@ end
 --]]
 
 function map.layer_by_name(name)
-    for k, v in ipairs(map.current.layers) do
+    for _, v in ipairs(map.current.layers) do
         if v.name == name then
             return v.boom_layer
         end

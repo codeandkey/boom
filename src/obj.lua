@@ -78,7 +78,7 @@ end
 --]]
 
 function obj.render_layer(layer)
-    for i, v in pairs(layer) do
+    for _, v in pairs(layer) do
         if v.__type.render ~= nil then
             v.__type.render(v)
         end
@@ -107,7 +107,7 @@ function obj.get_collisions(handle, layer, first)
         end
     end
 
-    for i, v in pairs(layer) do
+    for _, v in pairs(layer) do
         if v ~= handle and v.solid and util.aabb(handle, v) then
             if first then
                 return v
