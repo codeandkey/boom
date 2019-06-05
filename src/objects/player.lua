@@ -9,6 +9,7 @@ local obj = require 'obj'
 return {
     init = function(self)
         -- constants
+	self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
@@ -72,7 +73,7 @@ return {
         if love.keyboard.isDown('x') and not self.anim_playing then
 	    -- PLACEHOLDER: start an anim for throwing the grenade --
 	    self.anim_time = 50 -- set placeholder timing for animation
-	    self.throw_time = 40 -- set placeholder for timing of granade release
+	    self.throw_time = 40 -- set placeholder for timing of grenade release
             self.throwing_nade = true
 	    self.anim_playing = true
         end
@@ -166,8 +167,7 @@ return {
 	else
             love.graphics.setColor(1, 0, 1, 1)
         end
-	img = love.graphics.newImage('assets/sprites/32x32_player.png')
-	love.graphics.draw(img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
+	love.graphics.draw(self.img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
     end,
