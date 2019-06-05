@@ -73,7 +73,7 @@ return {
         if love.keyboard.isDown('x') and not self.anim_playing then
 	    -- PLACEHOLDER: start an anim for throwing the grenade --
 	    self.anim_time = 50 -- set placeholder timing for animation
-	    self.throw_time = 40 -- set placeholder for timing of granade release
+	    self.throw_time = 40 -- set placeholder for timing of grenade release
             self.throwing_nade = true
 	    self.anim_playing = true
         end
