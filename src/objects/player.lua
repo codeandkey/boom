@@ -142,7 +142,7 @@ return {
         end
 
         -- now, resolve vertical movement
-        
+
         self.y = self.y + self.dy * dt
         collision = obj.get_collisions(self, self.geometry_layer, true)
 

@@ -10,9 +10,9 @@ return {
     init = function(self)
 	    -- consts
 	    img = love.graphics.newImage('assets/sprites/16x16_nade.png')
-    	self.gravity = self.gravity or 350
+        self.gravity = self.gravity or 350
 
-      	-- state
+        -- state
         fuse_time = 100
     end,
 
