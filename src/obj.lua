@@ -6,15 +6,16 @@
     each object is a table with the following fields:
         __type    : object functable
         __destroy : destroy flag, once 'true' will be destroyed on next step
+        __layer   : the layer containing the object
 --]]
 
 local util = require 'util'
 local obj = {}
 
 --[[
-    obj.create(typename, initial)
+    obj.create(layer, typename, initial)
 
-    Initializes a new object from <initial>.
+    Initializes a new object from <initial> and inserts it into <layer>.
     The object type is read from 'objects/<typename>.lua'.
     Calls the type initializer function if there is one.
     Will crash and burn if <typename> is not a valid object type.
