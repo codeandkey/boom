@@ -9,11 +9,11 @@ local nade_height = 16
 return {
     init = function(self)
 	    -- consts
-	    img = love.graphics.newImage('assets/sprites/16x16_nade.png')
+	    self.img = love.graphics.newImage('assets/sprites/16x16_nade.png')
         self.gravity = self.gravity or 350
 
         -- state
-        fuse_time = 100
+        self.fuse_time = 100
     end,
 
     destroy = function(self)
@@ -22,10 +22,10 @@ return {
 
     update = function(self, dt)
         -- decrement fuse and explode if expired
-        if fuse_time > 0 then
-            fuse_time = fuse_time - 1
+        if self.fuse_time > 0 then
+            self.fuse_time = self.fuse_time - 1
         else
-            fuse_time = 0
+            self.fuse_time = 0
             obj.destroy(self)
         end
 
@@ -38,6 +38,6 @@ return {
     end,
 
     render = function(self)
-	    love.graphics.draw(img, self.x, self.y + nade_height, 0, 1, 1, 0, 16)
+	    love.graphics.draw(self.img, self.x, self.y + nade_height, 0, 1, 1, 0, 16)
     end,
 }
