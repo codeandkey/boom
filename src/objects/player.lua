@@ -170,6 +170,5 @@ return {
 	love.graphics.draw(img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
-        love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.w, self.h)
     end,
 }
