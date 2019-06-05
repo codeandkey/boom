@@ -21,8 +21,6 @@ return {
     end,
 
     render = function(self)
-        love.graphics.setColor(1, 0, 1, 1)
-	love.graphics.draw(img, self.x, self.y, 0, 1, 1, 0, 32)
-        love.graphics.rectangle('line', self.x, self.y, nade_width, nade_height)
+	love.graphics.draw(img, self.x, self.y + nade_height, 0, 1, 1, 0, 16)
     end,
 }
