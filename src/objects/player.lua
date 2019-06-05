@@ -9,17 +9,17 @@ local obj = require 'obj'
 return {
     init = function(self)
         -- constants
-	      self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
+	    self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
         self.jump_dy = self.jump_dy or -180
         self.dx_accel = self.dx_accel or 1600
         self.dx_max = self.dx_max or 150
-	      self.anim_time = 0
-	      self.anim_playing = false
-	      self.throwing_nade = false
-	      self.throw_time = 0
+	    self.anim_time = 0
+	    self.anim_playing = false
+	    self.throwing_nade = false
+	    self.throw_time = 0
 
         -- state
         self.dx = 0
