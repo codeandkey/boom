@@ -9,12 +9,17 @@ local obj = require 'obj'
 return {
     init = function(self)
         -- constants
+	    self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
-        self.jump_dy = self.jump_dy or -160
+        self.jump_dy = self.jump_dy or -180
         self.dx_accel = self.dx_accel or 1600
         self.dx_max = self.dx_max or 150
+	    self.anim_time = 0
+	    self.anim_playing = false
+	    self.throwing_nade = false
+	    self.throw_time = 0
 
         -- state
         self.dx = 0
@@ -63,6 +68,46 @@ return {
                 end
             end
         end
+
+        -- throw a grenade if we can/should
+        if love.keyboard.isDown('x') and not self.anim_playing then
+	          -- PLACEHOLDER: start an anim for throwing the grenade --
+	          self.anim_time = 50 -- set placeholder timing for animation
+	          self.throw_time = 40 -- set placeholder for timing of grenade release
+            self.throwing_nade = true
+	          self.anim_playing = true
+        end
+
+	-- decrement throw timer and create nade object when expired
+	  if self.throwing_nade then
+		    if self.throw_time > 0 then
+	          self.throw_time = self.throw_time - 1
+        else
+	          obj.create(self.__layer, 'nade', {x = self.x, y = self.y, dx = 200, dy = -200})
+		        self.throw_time = 0
+		        self.throwing_nade = false
+		    end
+	  end
+
+	  -- enforce throwing_nade if throw_time > 0
+	  if self.throw_time > 0 and not self.throwing_nade then
+	      self.throwing_nade = true
+    end
+
+	  -- decrement anim timer
+	  if self.anim_playing then
+	      if self.anim_time > 0 then
+	          self.anim_time = self.anim_time - 1
+	      else
+	          self.anim_time = 0
+	          self.anim_playing = false
+	      end
+	  end
+
+	  -- enforce anim_playing if anim_time > 0
+	  if self.anim_time > 0 and not self.anim_playing then
+	      self.anim_playing = true
+	  end
 
         -- limit maximum horizontal speed
         if self.dx > self.dx_max then
@@ -116,10 +161,14 @@ return {
         end
     end,
     render = function(self)
-        love.graphics.setColor(1, 0, 1, 1)
-
-        -- clamp player rendering to integers, otherwise fuzzy collisions
-        -- end up making the player look all jittery
-        love.graphics.rectangle('line', math.floor(self.x), math.floor(self.y), self.w, self.h)
+	      --PLACEHOLDER: set color while anim_playing
+	    if self.anim_playing then
+	        love.graphics.setColor(1, 1, 0, 1)
+	    else
+          love.graphics.setColor(1, 0, 1, 1)
+      end
+	    love.graphics.draw(self.img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
+      -- clamp player rendering to integers, otherwise fuzzy collisions
+      -- end up making the player look all jittery
     end,
 }

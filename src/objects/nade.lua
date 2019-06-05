@@ -3,23 +3,42 @@
     grenade object
 --]]
 
+local obj = require 'obj'
 local nade_width = 16
 local nade_height = 16
 
 return {
     init = function(self)
-        img = love.graphics.newImage('nade.png') 
+	    -- consts
+	    img = love.graphics.newImage('assets/sprites/16x16_nade.png')
+    	self.gravity = self.gravity or 350
+
+      	-- state
+        fuse_time = 100
     end,
+
     destroy = function(self)
-        obj.create('explosion', {x = self.x, y = self.y})
+	    obj.create(self.__layer, 'explosion', {x = self.x, y = self.y})
     end,
+
     update = function(self, dt)
-        --logic
-        self.x = self.x + self.velocity * dt
+        -- decrement fuse and explode if expired
+        if fuse_time > 0 then
+            fuse_time = fuse_time - 1
+        else
+            fuse_time = 0
+            obj.destroy(self)
+        end
+
+	    -- apply gravity
+	    self.dy = self.dy + self.gravity * dt
+
+	    -- update position
+	    self.x = self.x + self.dx * dt
+	    self.y = self.y + self.dy * dt
     end,
+
     render = function(self)
-        love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.draw(img, self.x, self.y, 0, 1, 1, 0, 32)
-        love.graphics.rectangle('line', self.x, self.y, nade_width, nade_height)
+	    love.graphics.draw(img, self.x, self.y + nade_height, 0, 1, 1, 0, 16)
     end,
 }
