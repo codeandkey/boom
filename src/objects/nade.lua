@@ -22,7 +22,6 @@ return {
     end,
 
     update = function(self, dt)
-
         -- decrement fuse and explode if expired
         if fuse_time > 0 then
             fuse_time = fuse_time - 1
