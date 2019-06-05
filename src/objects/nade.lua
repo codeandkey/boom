@@ -27,7 +27,7 @@ return {
             fuse_time = fuse_time - 1
         else
             fuse_time = 0
-            self.destroy()
+            __destroy = true
         end
 
 	    -- apply gravity
