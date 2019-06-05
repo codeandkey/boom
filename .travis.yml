@@ -4,4 +4,4 @@ script:
     - sudo apt -y update
     - sudo apt -y install lua5.1 luarocks
     - sudo luarocks install luacheck
-    - luacheck -r src --globals love --exclude-files src/assets
+    - luacheck src
