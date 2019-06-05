@@ -9,6 +9,7 @@
 --]]
 
 local map = require 'map'
+local util = require 'util'
 
 return {
     init = function(self)
