@@ -152,7 +152,7 @@ return {
                 self.y = collision.y - (self.h + 1)
                 self.jump_enabled = true
             else
-                self.y = collsiion.y + collision.h + 1
+                self.y = collision.y + collision.h + 1
             end
 
             self.dy = 0
