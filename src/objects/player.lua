@@ -9,6 +9,7 @@ local obj = require 'obj'
 return {
     init = function(self)
         -- constants
+	self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
@@ -79,13 +80,13 @@ return {
 
 	-- decrement throw timer and create nade object when expired
 	if self.throwing_nade then
-		if self.throw_time > 0 then
-	            self.throw_time = self.throw_time - 1
-                else
-	            obj.create('nade', {x = self.x, y = self.y, velocity = 1})
-		    self.throw_time = 0
-		    self.throwing_nade = false
-		end
+	    if self.throw_time > 0 then
+                self.throw_time = self.throw_time - 1
+            else
+                obj.create('nade', {x = self.x, y = self.y, velocity = 1})
+	        self.throw_time = 0
+	        self.throwing_nade = false
+	    end
 	end
 
 	-- enforce throwing_nade if throw_time > 0
@@ -166,8 +167,7 @@ return {
 	else
             love.graphics.setColor(1, 0, 1, 1)
         end
-	img = love.graphics.newImage('assets/sprites/32x32_player.png')
-	love.graphics.draw(img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
+	love.graphics.draw(self.img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
     end,
