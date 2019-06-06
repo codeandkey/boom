@@ -39,9 +39,8 @@ function map.load(name)
         for y=0,(v.imageheight/v.tileheight)-1 do
             for x=0,(v.imagewidth/v.tilewidth)-1 do
                 map.current.tiles[cur_tile] = love.graphics.newQuad(x * tw, y * th, tw, th, v.imagewidth, v.imageheight)
+                cur_tile = cur_tile + 1
             end
-
-            cur_tile = cur_tile + 1
         end
     end
 
