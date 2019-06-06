@@ -18,7 +18,7 @@
     spr:pause()           | pauses the animation
     spr:play()            | starts the animation from wherever it left off
     spr:update(dt)        | advances the animation state by <dt> seconds
-    spr:frame() [Quad]    | returns the Quad 
+    spr:frame() [Quad]    | returns a Quad for the current frame
 --]]
 
 local util = require 'util'
@@ -56,7 +56,7 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
         for x=0,(out.image_w / frame_w)-1 do
             out.frames[cur_frame] = love.graphics.newQuad(x * frame_w,
                                                           y * frame_h,
-                                                          frame_w, frame_h, 
+                                                          frame_w, frame_h,
                                                           out.image_w, out.image_h)
             cur_frame = cur_frame + 1
         end
