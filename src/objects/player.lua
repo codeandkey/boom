@@ -5,11 +5,11 @@
 
 local map = require 'map'
 local obj = require 'obj'
+local sprite = require 'sprite'
 
 return {
     init = function(self)
         -- constants
-	    self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
@@ -26,8 +26,15 @@ return {
         self.dy = 0
         self.jump_enabled = false
         self.is_walking = false
+
+        -- resources
+        self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.spr:play()
     end,
     update = function(self, dt)
+        -- update the sprite
+        self.spr:update(dt)
+
         -- find the world geometry layer if we haven't already
         self.geometry_layer = self.geometry_layer or map.layer_by_name('geometry')
 
@@ -159,14 +166,15 @@ return {
         end
     end,
     render = function(self)
-	      --PLACEHOLDER: set color while anim_playing
+	    -- PLACEHOLDER: set color while anim_playing
 	    if self.anim_playing then
 	        love.graphics.setColor(1, 1, 0, 1)
 	    else
-          love.graphics.setColor(1, 0, 1, 1)
-      end
-	    love.graphics.draw(self.img, self.x - 8, self.y + 32, 0, 1, 1, 0, 32)
-      -- clamp player rendering to integers, otherwise fuzzy collisions
-      -- end up making the player look all jittery
+            love.graphics.setColor(1, 1, 1, 1)
+        end
+
+        -- clamp player rendering to integers, otherwise fuzzy collisions
+        -- end up making the player look all jittery
+        love.graphics.draw(self.spr.image, self.spr:frame(), math.floor(self.x), math.floor(self.y))
     end,
 }
