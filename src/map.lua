@@ -31,7 +31,7 @@ function map.load(name)
 
     -- initialize tilesets
     for _, v in ipairs(map.current.tilesets) do
-        v.texture = assets.sprite(v.image)
+        v.texture = assets.image(v.image)
 
         -- create quads for each tile in the set
         local cur_tile = v.firstgid

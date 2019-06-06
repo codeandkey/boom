@@ -7,28 +7,28 @@ local util = require 'util'
 local assets = {}
 
 local prefixes = {
-    sprites = 'assets/sprites/',
+    images  = 'assets/sprites/',
     maps    = 'assets/maps/',
 }
 
-local sprite_cache = {}
+local image_cache = {}
 
 --[[
-    assets.sprite(file)
+    assets.image(file)
 
     loads a cached Image from a filename or path.
     only the last part of the path is considered.
     EG: if file = '/tmp/player.png', the function will load from 'assets/sprites/player.png'
 --]]
 
-function assets.sprite(file)
-    local path = prefixes.sprites .. util.basename(file)
+function assets.image(file)
+    local path = prefixes.images .. util.basename(file)
 
-    if sprite_cache[path] == nil then
-        sprite_cache[path] = love.graphics.newImage(path)
+    if image_cache[path] == nil then
+        image_cache[path] = love.graphics.newImage(path)
     end
 
-    return sprite_cache[path]
+    return image_cache[path]
 end
 
 --[[

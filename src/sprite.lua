@@ -37,7 +37,7 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     local out = { frames = {} }
 
     -- load the spritesheet texture
-    out.image = assets.sprite(tex_path)
+    out.image = assets.image(tex_path)
     out.image_w, out.image_h = out.image:getDimensions()
 
     -- verify non-overlapping frames fit into the image
