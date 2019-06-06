@@ -3,8 +3,8 @@
     functions for loading/managing tile-based maps
 --]]
 
+local assets = require 'assets'
 local obj = require 'obj'
-local util = require 'util'
 local map = {}
 
 --[[
@@ -17,7 +17,7 @@ local map = {}
 --]]
 
 function map.load(name)
-    map.current = require('assets/maps/' .. name)
+    map.current = assets.map(name)
     map.current.tiles = {}
 
     -- initialize the physics world for the map
@@ -30,7 +30,7 @@ function map.load(name)
 
     -- initialize tilesets
     for _, v in ipairs(map.current.tilesets) do
-        v.texture = love.graphics.newImage('assets/sprites/' .. util.basename(v.image))
+        v.texture = assets.image(v.image)
 
         -- create quads for each tile in the set
         local cur_tile = v.firstgid
@@ -39,9 +39,8 @@ function map.load(name)
         for y=0,(v.imageheight/v.tileheight)-1 do
             for x=0,(v.imagewidth/v.tilewidth)-1 do
                 map.current.tiles[cur_tile] = love.graphics.newQuad(x * tw, y * th, tw, th, v.imagewidth, v.imageheight)
+                cur_tile = cur_tile + 1
             end
-
-            cur_tile = cur_tile + 1
         end
     end
 
