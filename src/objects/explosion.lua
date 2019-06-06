@@ -4,12 +4,12 @@
 --]]
 
 local obj = require 'obj'
-local width = 32
-local height = 32
 
 return {
     init = function(self)
         self.anim_time = 1
+        self.w = self.w or 32
+        self.h = self.h or 32
     end,
 
     update = function(self, dt)
@@ -23,6 +23,6 @@ return {
 
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.rectangle('line', self.x, self.y, width, height)
+        love.graphics.rectangle('line', self.x, self.y, self.w, self.h)
     end,
 }
