@@ -10,7 +10,6 @@ local sprite = require 'sprite'
 return {
     init = function(self)
         -- constants
-	    self.img = love.graphics.newImage('assets/sprites/32x32_player.png')
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
@@ -29,7 +28,7 @@ return {
         self.is_walking = false
 
         -- resources
-        self.spr = sprite.create('player.png', self.w, self.h, 0.25)
+        self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.spr:play()
     end,
     update = function(self, dt)
