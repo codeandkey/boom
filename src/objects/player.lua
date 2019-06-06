@@ -27,8 +27,6 @@ return {
         self.jump_enabled = false
         self.is_walking = false
     end,
-    destroy = function(self)
-    end,
     update = function(self, dt)
         -- find the world geometry layer if we haven't already
         self.geometry_layer = self.geometry_layer or map.layer_by_name('geometry')
@@ -144,7 +142,7 @@ return {
         end
 
         -- now, resolve vertical movement
-        
+
         self.y = self.y + self.dy * dt
         collision = obj.get_collisions(self, self.geometry_layer, true)
 
@@ -154,7 +152,7 @@ return {
                 self.y = collision.y - (self.h + 1)
                 self.jump_enabled = true
             else
-                self.y = collsiion.y + collision.h + 1
+                self.y = collision.y + collision.h + 1
             end
 
             self.dy = 0

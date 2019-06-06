@@ -1,0 +1,7 @@
+dist: xenial
+language: minimal
+script:
+    - sudo apt -y update
+    - sudo apt -y install lua5.1 luarocks
+    - sudo luarocks install luacheck
+    - luacheck src

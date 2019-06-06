@@ -4,7 +4,6 @@
 --]]
 
 local map = require 'map'
-local obj = require 'obj'
 
 function love.load()
     map.load('test')

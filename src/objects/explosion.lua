@@ -6,19 +6,15 @@
 local obj = require 'obj'
 local width = 32
 local height = 32
-local damaging = true
 
 return {
     init = function(self)
-        self.anim_time = 50
-    end,
-
-    destroy = function(self)
+        self.anim_time = 1
     end,
 
     update = function(self, dt)
         if self.anim_time > 0 then
-            self.anim_time = self.anim_time - 1
+            self.anim_time = self.anim_time - dt
         else
             self.anim_time = 0
             obj.destroy(self)
