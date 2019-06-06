@@ -21,6 +21,7 @@
     spr:frame() [Quad]    | returns a Quad for the current frame
 --]]
 
+local assets = require 'assets'
 local util = require 'util'
 local sprite = {}
 
@@ -36,9 +37,7 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     local out = { frames = {} }
 
     -- load the spritesheet texture
-    local path = 'assets/sprites/' .. util.basename(tex_path)
-    print('loading sprite from ' .. path)
-    out.image = love.graphics.newImage('assets/sprites/' .. util.basename(tex_path))
+    out.image = assets.sprite(tex_path)
     out.image_w, out.image_h = out.image:getDimensions()
 
     -- verify non-overlapping frames fit into the image
