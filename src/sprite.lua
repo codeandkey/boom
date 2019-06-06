@@ -22,7 +22,6 @@
 --]]
 
 local assets = require 'assets'
-local util = require 'util'
 local sprite = {}
 
 --[[
