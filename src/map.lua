@@ -5,7 +5,6 @@
 
 local assets = require 'assets'
 local obj = require 'obj'
-local util = require 'util'
 local map = {}
 
 --[[
