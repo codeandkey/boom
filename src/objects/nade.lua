@@ -14,7 +14,10 @@ return {
         self.h = self.h or 16
 
         -- state
-        self.fuse_time = 100
+        self.fuse_time = 2.5
+        self.shape = love.physics.newCircleShape(self.w / 2)
+        self.body = love.physics.newBody(map.get_physics_world(), self.x, self.y, 'dynamic')
+        self.fixture = love.physics.newFixture(self.body, self.shape, 1)
 
         -- resources
         self.spr = sprite.create('16x16_nade.png', self.w, self.h, 0.25)
@@ -27,9 +30,8 @@ return {
     update = function(self, dt)
         -- decrement fuse and explode if expired
         if self.fuse_time > 0 then
-            self.fuse_time = self.fuse_time - 1
+            self.fuse_time = self.fuse_time - dt
         else
-            self.fuse_time = 0
             obj.destroy(self)
         end
 
