@@ -23,6 +23,6 @@ return {
 
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.rectangle('line', self.x, self.y, self.w, self.h)
+        love.graphics.rectangle('line', self.x - self.w / 2, self.y - self.h / 2, self.w, self.h)
     end,
 }
