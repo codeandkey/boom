@@ -17,7 +17,7 @@ function camera.set(x, y, w)
 
     camera.w = w or camera.w
     camera.h = camera.w * ratio
-    camera.x = x + camera.w / 2
+    camera.x = x
     camera.y = y
 end
 
@@ -25,8 +25,8 @@ function camera.apply()
     local sw, sh = love.graphics.getDimensions()
 
     love.graphics.push()
-    love.graphics.translate(-(camera.x - camera.w / 2), -(camera.y - camera.h / 2))
     love.graphics.scale(sw / camera.w, sh / camera.h)
+    love.graphics.translate(-(camera.x - camera.w / 2), -(camera.y - camera.h / 2))
 end
 
 function camera.unapply()
