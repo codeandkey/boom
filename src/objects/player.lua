@@ -18,7 +18,6 @@ return {
         self.dx_accel = self.dx_accel or 1600
         self.dx_max = self.dx_max or 150
         self.grenade_dampening = 3
-        self.camera_width = 500
 
         -- state
         self.dx = 0
@@ -33,6 +32,9 @@ return {
         -- resources
         self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.spr:play()
+
+        -- create a camera for the player
+        self.camera = obj.create(self.__layer, 'camera', { x = self.x + self.w / 2, y = self.y + self.h / 2 })
     end,
     update = function(self, dt)
         -- update the sprite
@@ -175,7 +177,7 @@ return {
         end
 
         -- update the camera location
-        camera.set(math.floor(self.x), math.floor(self.y), self.camera_width)
+        self.camera:center_on(self.x + self.w / 2, self.y + self.h / 2)
     end,
     render = function(self)
         -- PLACEHOLDER: set color while anim_playing
