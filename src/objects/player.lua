@@ -3,7 +3,6 @@
     basic player object
 --]]
 
-local camera = require 'camera'
 local map = require 'map'
 local obj = require 'obj'
 local sprite = require 'sprite'
