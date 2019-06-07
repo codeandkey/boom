@@ -16,7 +16,6 @@ return {
         if self.anim_time > 0 then
             self.anim_time = self.anim_time - dt
         else
-            self.anim_time = 0
             obj.destroy(self)
         end
     end,
