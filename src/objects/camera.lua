@@ -29,17 +29,17 @@ return {
         self.target_y = self.y
 
         -- member functions
-        self.center_on = function(self, x, y)
-            self.target_x = x
-            self.target_y = y
+        self.center_on = function(this, x, y)
+            this.target_x = x
+            this.target_y = y
         end
 
-        self.resize = function(self, size)
+        self.resize = function(this, size)
             if size ~= nil then
-                self.last_size = self.size
-                self.size = size
+                this.last_size = this.size
+                this.size = size
             else
-                self.target_size = self.last_size
+                this.target_size = this.last_size
             end
         end
     end,
