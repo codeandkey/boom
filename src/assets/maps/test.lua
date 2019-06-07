@@ -1,7 +1,7 @@
 return {
   version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.2.3",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 256,
@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 5,
-  nextobjectid = 19,
+  nextobjectid = 20,
   properties = {},
   tilesets = {
     {
@@ -349,7 +349,23 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 19,
+          name = "box1",
+          type = "physbox",
+          shape = "rectangle",
+          x = 208.579,
+          y = 81.5202,
+          width = 305.841,
+          height = 12.9308,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["type"] = "dynamic"
+          }
+        }
+      }
     },
     {
       type = "objectgroup",
