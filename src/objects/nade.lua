@@ -13,6 +13,7 @@ return {
         self.gravity = self.gravity or 350
         self.w = self.w or 16
         self.h = self.h or 16
+        self.spin = self.spin or math.random(-100, 100)
 
         -- state
         self.fuse_time = 2.5
@@ -22,6 +23,10 @@ return {
 
         -- resources
         self.spr = sprite.create('16x16_nade.png', self.w, self.h, 0.25)
+
+        -- apply initial force
+        self.body:applyLinearImpulse(self.dx, self.dy)
+        self.body:applyAngularImpulse(self.spin)
     end,
 
     destroy = function(self)
@@ -35,16 +40,12 @@ return {
         else
             obj.destroy(self)
         end
-
-        -- apply gravity
-        self.dy = self.dy + self.gravity * dt
-
-        -- update position
-        self.x = self.x + self.dx * dt
-        self.y = self.y + self.dy * dt
     end,
 
     render = function(self)
-        love.graphics.draw(self.spr.image, self.spr:frame(), self.x, self.y)
+        love.graphics.draw(self.spr.image, self.spr:frame(),
+                           self.body:getX(), self.body:getY(),
+                           self.body:getAngle(),
+                           1, 1, self.w / 2, self.h / 2)
     end,
 }
