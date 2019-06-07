@@ -11,28 +11,38 @@ return {
         self.anim_time = 1
         self.w = self.w or 32
         self.h = self.h or 32
-        self.intensity = self.intensity or 10000
+        self.intensity = self.intensity or 300
+        self.radius = self.radius or 75
+        self.resolution = self.resolution or 100
 
-        -- apply an impulse to nearby physics objects
-        local phys_objects = map.layer_by_name('phys_objects')
+        -- shoot out explosion rays
+        for i=0,self.resolution-1 do
+            local theta = (i / self.resolution) * 3.141 * 2.0
 
-        for _, box in pairs(phys_objects) do
-            local impulse_normal = {
-                x = box.body:getX() - (self.x + self.w / 2),
-                y = box.body:getY() - (self.y + self.h / 2),
-            }
+            -- pew pew
+            map.get_physics_world():rayCast(
+                self.x, self.y,
+                self.x + self.radius * math.cos(theta),
+                self.y + self.radius * math.sin(theta),
+                function (fixture, x, y, xn, yn, fraction)
+                    -- compute the impulse vector
+                    local impulse_vector = {
+                        x = x - self.x,
+                        y = y - self.y,
+                    }
 
-            -- normalize the impulse vector to length 1
-            local length = math.sqrt(math.pow(impulse_normal.x, 2) + math.pow(impulse_normal.y, 2))
+                    local impulse_length = fraction * self.radius
 
-            impulse_normal.x = impulse_normal.x / math.pow(length, 2)
-            impulse_normal.y = impulse_normal.y / math.pow(length, 2)
+                    -- normalize to appropriate intensity
+                    impulse_vector.x = impulse_vector.x * self.intensity / math.pow(impulse_length, 2)
+                    impulse_vector.y = impulse_vector.y * self.intensity / math.pow(impulse_length, 2)
 
-            -- re-multiply by the explosion intensity
-            impulse_normal.x = impulse_normal.x * self.intensity
-            impulse_normal.y = impulse_normal.y * self.intensity
+                    -- grab the body and throw it
+                    fixture:getBody():applyLinearImpulse(impulse_vector.x, impulse_vector.y, x, y)
 
-            box.body:applyLinearImpulse(impulse_normal.x, impulse_normal.y)
+                    return 0
+                end
+            )
         end
     end,
 
