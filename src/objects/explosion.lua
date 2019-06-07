@@ -16,13 +16,12 @@ return {
         if self.anim_time > 0 then
             self.anim_time = self.anim_time - dt
         else
-            self.anim_time = 0
             obj.destroy(self)
         end
     end,
 
     render = function(self)
         love.graphics.setColor(1, 0, 1, 1)
-        love.graphics.rectangle('line', self.x, self.y, self.w, self.h)
+        love.graphics.rectangle('line', self.x - self.w / 2, self.y - self.h / 2, self.w, self.h)
     end,
 }
