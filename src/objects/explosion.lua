@@ -24,7 +24,7 @@ return {
                 self.x, self.y,
                 self.x + self.radius * math.cos(theta),
                 self.y + self.radius * math.sin(theta),
-                function (fixture, x, y, xn, yn, fraction)
+                function (fixture, x, y, _, _, fraction)
                     -- compute the impulse vector
                     local impulse_vector = {
                         x = x - self.x,
