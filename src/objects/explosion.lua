@@ -11,8 +11,8 @@ return {
         self.anim_time = 1
         self.w = self.w or 32
         self.h = self.h or 32
-        self.intensity = self.intensity or 300
-        self.radius = self.radius or 75
+        self.intensity = self.intensity or 350
+        self.radius = self.radius or 300
         self.resolution = self.resolution or 100
 
         -- shoot out explosion rays
