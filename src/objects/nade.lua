@@ -4,16 +4,20 @@
 --]]
 
 local obj = require 'obj'
-local nade_height = 16
+local sprite = require 'sprite'
 
 return {
     init = function(self)
-	    -- consts
-	    self.img = love.graphics.newImage('assets/sprites/16x16_nade.png')
+        -- consts
         self.gravity = self.gravity or 350
+        self.w = self.w or 16
+        self.h = self.h or 16
 
         -- state
         self.fuse_time = 100
+
+        -- resources
+        self.spr = sprite.create('16x16_nade.png', self.w, self.h, 0.25)
     end,
 
     destroy = function(self)
@@ -38,6 +42,6 @@ return {
     end,
 
     render = function(self)
-	    love.graphics.draw(self.img, self.x, self.y + nade_height, 0, 1, 1, 0, 16)
+	    love.graphics.draw(self.spr.image, self.spr:frame(), self.x, self.y)
     end,
 }
