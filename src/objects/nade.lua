@@ -5,6 +5,7 @@
 
 local obj = require 'obj'
 local sprite = require 'sprite'
+local map = require 'map'
 
 return {
     init = function(self)
@@ -24,7 +25,7 @@ return {
     end,
 
     destroy = function(self)
-	    obj.create(self.__layer, 'explosion', {x = self.x, y = self.y})
+        obj.create(self.__layer, 'explosion', {x = self.x, y = self.y})
     end,
 
     update = function(self, dt)
@@ -35,15 +36,15 @@ return {
             obj.destroy(self)
         end
 
-	    -- apply gravity
-	    self.dy = self.dy + self.gravity * dt
+        -- apply gravity
+        self.dy = self.dy + self.gravity * dt
 
-	    -- update position
-	    self.x = self.x + self.dx * dt
-	    self.y = self.y + self.dy * dt
+        -- update position
+        self.x = self.x + self.dx * dt
+        self.y = self.y + self.dy * dt
     end,
 
     render = function(self)
-	    love.graphics.draw(self.spr.image, self.spr:frame(), self.x, self.y)
+        love.graphics.draw(self.spr.image, self.spr:frame(), self.x, self.y)
     end,
 }

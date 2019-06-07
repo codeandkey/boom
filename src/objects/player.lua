@@ -23,10 +23,10 @@ return {
         self.dy = 0
         self.jump_enabled = false
         self.is_walking = false
-	    self.anim_playing = false
-	    self.throwing_nade = false
-	    self.anim_time = 0
-	    self.throw_time = 0
+        self.anim_playing = false
+        self.throwing_nade = false
+        self.anim_time = 0
+        self.throw_time = 0
 
         -- resources
         self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
@@ -77,49 +77,49 @@ return {
 
         -- throw a grenade if we can/should
         if love.keyboard.isDown('x') and not self.anim_playing then
-	        -- PLACEHOLDER: start an anim for throwing the grenade --
-	        self.anim_time = 50 -- set placeholder timing for animation
-	        self.throw_time = 40 -- set placeholder for timing of grenade release
+            -- PLACEHOLDER: start an anim for throwing the grenade --
+            self.anim_time = 50 -- set placeholder timing for animation
+            self.throw_time = 40 -- set placeholder for timing of grenade release
             self.throwing_nade = true
-	        self.anim_playing = true
+            self.anim_playing = true
         end
 
-	    -- decrement throw timer and create nade object when expired
-	    if self.throwing_nade then
-	        if self.throw_time > 0 then
-	            self.throw_time = self.throw_time - 1
+        -- decrement throw timer and create nade object when expired
+        if self.throwing_nade then
+            if self.throw_time > 0 then
+                self.throw_time = self.throw_time - 1
             else
-	            obj.create(self.__layer, 'nade', {
+                obj.create(self.__layer, 'nade', {
                     x = self.x + self.w / 2,
                     y = self.y + self.h / 2,
                     dx = self.dx / self.grenade_dampening,
                     dy = self.dy / self.grenade_dampening,
                 })
 
-		        self.throw_time = 0
-		        self.throwing_nade = false
-		    end
-	    end
-
-	    -- enforce throwing_nade if throw_time > 0
-	    if self.throw_time > 0 and not self.throwing_nade then
-	        self.throwing_nade = true
+                self.throw_time = 0
+                self.throwing_nade = false
+            end
         end
 
-	    -- decrement anim timer
-	    if self.anim_playing then
-	        if self.anim_time > 0 then
-	            self.anim_time = self.anim_time - 1
-	        else
-	            self.anim_time = 0
-	            self.anim_playing = false
-	        end
-	    end
+        -- enforce throwing_nade if throw_time > 0
+        if self.throw_time > 0 and not self.throwing_nade then
+            self.throwing_nade = true
+        end
 
-	    -- enforce anim_playing if anim_time > 0
-	    if self.anim_time > 0 and not self.anim_playing then
-	        self.anim_playing = true
-	    end
+        -- decrement anim timer
+        if self.anim_playing then
+            if self.anim_time > 0 then
+                self.anim_time = self.anim_time - 1
+            else
+                self.anim_time = 0
+                self.anim_playing = false
+            end
+        end
+
+        -- enforce anim_playing if anim_time > 0
+        if self.anim_time > 0 and not self.anim_playing then
+            self.anim_playing = true
+        end
 
         -- limit maximum horizontal speed
         if self.dx > self.dx_max then
@@ -173,10 +173,10 @@ return {
         end
     end,
     render = function(self)
-	    -- PLACEHOLDER: set color while anim_playing
-	    if self.anim_playing then
-	        love.graphics.setColor(1, 1, 0, 1)
-	    else
+        -- PLACEHOLDER: set color while anim_playing
+        if self.anim_playing then
+            love.graphics.setColor(1, 1, 0, 1)
+        else
             love.graphics.setColor(1, 1, 1, 1)
         end
 
