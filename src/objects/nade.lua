@@ -4,6 +4,7 @@
 --]]
 
 local obj = require 'obj'
+local shaders = require 'shaders'
 local sprite = require 'sprite'
 local map = require 'map'
 
@@ -18,9 +19,9 @@ return {
 
         -- flash phases. start blue and then speed up and end on red
         self.flash_params = {
-            { color={ 1, 0.3, 0, 1 }, pct=0.0, delay=0.07 },  -- red
+            { color={ 1, 0.2, 0, 1 }, pct=0.0, delay=0.07 },  -- red
             { color={ 1, 0.7, 0, 1 }, pct=0.25, delay=0.15 }, -- orange
-            { color={ 0, 0.7, 1, 1 }, pct=0.5, delay=0.3 },   -- blue
+            { color={ 1, 1, 1, 1 }, pct=0.5, delay=0.3 },   -- blue
         }
 
         -- state
@@ -58,7 +59,7 @@ return {
             self.in_flash = not self.in_flash
             local pct = self.fuse_time / self.init_fuse_time
 
-            for k, phase in ipairs(self.flash_params) do
+            for _, phase in ipairs(self.flash_params) do
                 if pct > phase.pct then
                     self.flash_timer = phase.delay
                     self.flash_color = phase.color
@@ -70,6 +71,7 @@ return {
     render = function(self)
         if self.in_flash then
             love.graphics.setColor(self.flash_color)
+            love.graphics.setShader(shaders.flash)
         else
             love.graphics.setColor(1, 1, 1, 1)
         end
@@ -78,5 +80,7 @@ return {
                            self.body:getX(), self.body:getY(),
                            self.body:getAngle(),
                            1, 1, self.w / 2, self.h / 2)
+
+        love.graphics.setShader()
     end,
 }
