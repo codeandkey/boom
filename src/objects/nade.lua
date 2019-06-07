@@ -62,7 +62,6 @@ return {
                 if pct > phase.pct then
                     self.flash_timer = phase.delay
                     self.flash_color = phase.color
-                    print('applying phase ' .. k)
                 end
             end
         end
