@@ -14,9 +14,20 @@ return {
         self.w = self.w or 16
         self.h = self.h or 16
         self.spin = self.spin or math.random(-100, 100)
+        self.in_flash = false
+
+        -- flash phases. start blue and then speed up and end on red
+        self.flash_params = {
+            { color={ 1, 0.3, 0, 1 }, pct=0.0, delay=0.07 },  -- red
+            { color={ 1, 0.7, 0, 1 }, pct=0.25, delay=0.15 }, -- orange
+            { color={ 0, 0.7, 1, 1 }, pct=0.5, delay=0.3 },   -- blue
+        }
 
         -- state
         self.fuse_time = 2.5
+        self.init_fuse_time = self.fuse_time -- initial fuse time, needed for flashing
+        self.flash_timer = 0
+        self.flash_color = { 0.3, 0.3, 0.3, 1 }
         self.shape = love.physics.newCircleShape(self.w / 2)
         self.body = love.physics.newBody(map.get_physics_world(), self.x, self.y, 'dynamic')
         self.fixture = love.physics.newFixture(self.body, self.shape, 1)
@@ -40,9 +51,30 @@ return {
         else
             obj.destroy(self)
         end
+
+        self.flash_timer = self.flash_timer - dt
+
+        if self.flash_timer < 0 then
+            self.in_flash = not self.in_flash
+            local pct = self.fuse_time / self.init_fuse_time
+
+            for k, phase in ipairs(self.flash_params) do
+                if pct > phase.pct then
+                    self.flash_timer = phase.delay
+                    self.flash_color = phase.color
+                    print('applying phase ' .. k)
+                end
+            end
+        end
     end,
 
     render = function(self)
+        if self.in_flash then
+            love.graphics.setColor(self.flash_color)
+        else
+            love.graphics.setColor(1, 1, 1, 1)
+        end
+
         love.graphics.draw(self.spr.image, self.spr:frame(),
                            self.body:getX(), self.body:getY(),
                            self.body:getAngle(),
