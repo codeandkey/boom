@@ -52,7 +52,7 @@ return {
         else
             obj.destroy(self)
         end
-        
+
         self.flash_timer = self.flash_timer - dt
 
         -- set flash phase based on current fuse time
