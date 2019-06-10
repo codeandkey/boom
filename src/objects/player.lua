@@ -176,7 +176,14 @@ return {
         end
 
         -- update the camera location
-        self.camera:center_on(self.x + self.w / 2, self.y + self.h / 2)
+        -- if player is moving pan ahead of them
+        if math.abs(self.dx) > 20 then
+            self.camera:center_on(self.x + self.w * 4 * self.dx/math.abs(self.dx), self.y + self.h * -2)
+            self.camera:settargetsize(650) --PLACEHOLDER: Should be replaced with a % of screen size
+        else
+            self.camera:center_on(self.x + self.w / 2, self.y + self.h * -1)
+            self.camera:settargetsize(600) --PLACEHOLDER: Should be replaced with screen size
+        end
     end,
     render = function(self)
         -- PLACEHOLDER: set color while anim_playing
