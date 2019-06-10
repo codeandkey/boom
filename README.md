@@ -56,14 +56,14 @@ Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/).
       <img src="https://avatars1.githubusercontent.com/u/35495466?s=460&v=4"
         width=128px>
       <h3><a href="https://github.com/quigley-c">Carson Quigley</a></h3>
-      <h4><a href="https://quigleyc.com">site</a><h4>
+      <h4><a href="https://quigleyc.com">quigleyc.com</a><h4>
     </td>
     <td align="center">
       <a href="https://github.com/codeandkey">
       <img src="https://avatars1.githubusercontent.com/u/3630356?s=460&v=4"
         width=128px>
       <h3><a href="https://github.com/codeandkey">Justin S</a></h3>
-      <h4><a href="https://codeandkey.github.io">site</a><h4>
+      <h4><a href="https://codeandkey.github.io">codeandkey.github.io</a><h4>
     </td>
   </tr>
 </table>
