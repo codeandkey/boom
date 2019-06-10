@@ -30,11 +30,6 @@ return {
         -- effect of target velocity on focus box position, higher is more
         self.velocity_factor = 1
 
-        -- animation factors
-        -- higher is slower
-        self.size_anim_factor = self.size_anim_factor or 16
-        self.position_anim_factor = self.position_anim_factor or 32
-
         -- state
         self.size = self.target_size
         self.target = nil
@@ -55,6 +50,11 @@ return {
             this.target.dx = dx
             this.target.dy = dy
             this.target.direction = direction
+        end
+
+        -- useful for letting camera resolve itself while still controlling location
+        self.settargetsize = function(this, target)
+            this.target_size = target
         end
     end,
 

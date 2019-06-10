@@ -1,7 +1,7 @@
 return {
   version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.2.3",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 256,
@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 5,
-  nextobjectid = 19,
+  nextobjectid = 25,
   properties = {},
   tilesets = {
     {
@@ -349,7 +349,68 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 19,
+          name = "box1",
+          type = "physbox",
+          shape = "rectangle",
+          x = 208.579,
+          y = 81.5202,
+          width = 185.528,
+          height = 12.9308,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["type"] = "dynamic"
+          }
+        },
+        {
+          id = 21,
+          name = "box2",
+          type = "physbox",
+          shape = "rectangle",
+          x = 395.795,
+          y = 140.552,
+          width = 23.0505,
+          height = 21.9261,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["type"] = "dynamic"
+          }
+        },
+        {
+          id = 23,
+          name = "box3",
+          type = "physbox",
+          shape = "rectangle",
+          x = 554.056,
+          y = 157.699,
+          width = 38.7923,
+          height = 37.6679,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["type"] = "dynamic"
+          }
+        },
+        {
+          id = 24,
+          name = "box4",
+          type = "physbox",
+          shape = "rectangle",
+          x = 505.144,
+          y = 174.003,
+          width = 10.6819,
+          height = 36.5435,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["type"] = "dynamic"
+          }
+        }
+      }
     },
     {
       type = "objectgroup",
