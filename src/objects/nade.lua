@@ -17,11 +17,11 @@ return {
         self.spin = self.spin or math.random(-100, 100)
         self.in_flash = false
 
-        -- flash phases. start blue and then speed up and end on red
+        -- flash phases. Sets the color and timing for flashes.
         self.flash_params = {
             { color={ 1, 0.2, 0, 1 }, pct=0.0, delay=0.07 },  -- red
-            { color={ 1, 0.7, 0, 1 }, pct=0.25, delay=0.15 }, -- orange
-            { color={ 1, 1, 1, 1 }, pct=0.5, delay=0.3 },   -- blue
+            { color={ 1, 0.7, 0, 1 }, pct=0.25, delay=0.15 }, -- yellow
+            { color={ 1, 1, 1, 1 }, pct=0.5, delay=0.3 },   -- white
         }
 
         -- state
@@ -52,9 +52,10 @@ return {
         else
             obj.destroy(self)
         end
-
+        
         self.flash_timer = self.flash_timer - dt
 
+        -- set flash phase based on current fuse time
         if self.flash_timer < 0 then
             self.in_flash = not self.in_flash
             local pct = self.fuse_time / self.init_fuse_time
