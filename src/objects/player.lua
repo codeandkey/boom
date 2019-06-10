@@ -68,9 +68,9 @@ return {
         else
             if not self.jump_enabled and not self.is_walking then
                 if self.dx > 0 then
-                    self.dx = math.max(self.dx - self.passive_decel / 1.5 * dt, 0)
+                    self.dx = math.max(self.dx - (self.passive_decel / 1.5) * dt, 0)
                 else
-                    self.dx = math.min(self.dx + self.passive_decel / 1.5 * dt, 0)
+                    self.dx = math.min(self.dx + (self.passive_decel / 1.5) * dt, 0)
                 end
             else
                 if self.jump_enabled and not self.is_walking then
