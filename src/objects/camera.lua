@@ -23,6 +23,9 @@ return {
         self.focus_hbox_center = 0.3
         self.focus_vbox_center = 0.7
 
+        -- anim factor for camera size. higher is faster
+        self.size_anim_factor = 2
+
         -- camera dampening factors for each axis. higher is slower
         self.horizontal_damp = 1
         self.vertical_damp = 1.2
