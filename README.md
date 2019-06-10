@@ -35,7 +35,11 @@ In the `src/assets` directory you will find Boom's object types and tilesets
 which can be imported into the map editor.
 
 Some useful object types:
+- `player` is the player spawn point.
 - `noclip` is solid ground that players can move and jump on.
+- `physbox` is a physics object. Requires `type` string parameter.
+	- setting `type` to `dynamic` allows interaction with other objects.
+	- setting `type` to `static` forces a static object.
 
 ## Boom. Physics.
 
