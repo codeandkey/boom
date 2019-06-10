@@ -177,7 +177,7 @@ return {
 
         -- update the camera location
         -- if player is moving pan ahead of them
-        if math.abs(self.dx) > 20 then
+        if math.abs(self.dx) == self.dx_max then
             self.camera:center_on(self.x + self.w * 4 * self.dx/math.abs(self.dx), self.y + self.h * -2)
             self.camera:settargetsize(650) --PLACEHOLDER: Should be replaced with a % of screen size
         else
