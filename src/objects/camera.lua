@@ -18,7 +18,7 @@ return {
         self.target_size = self.target_size or 600 -- default target size
 
         -- animation factors
-        -- higher is slower
+        -- higher is faster
         self.size_anim_factor = self.size_anim_factor or 2
         self.position_anim_factor = self.position_anim_factor or 2
 
