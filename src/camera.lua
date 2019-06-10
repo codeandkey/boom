@@ -4,12 +4,7 @@
     camera system
 --]]
 
-local camera = {
-    x = 0,
-    y = 0,
-    w = 300,
-    h = 240,
-}
+local camera = {}
 
 function camera.set(x, y, w)
     local sw, sh = love.graphics.getDimensions()
@@ -19,6 +14,11 @@ function camera.set(x, y, w)
     camera.h = camera.w * ratio
     camera.x = x
     camera.y = y
+
+    camera.left = camera.x - camera.w / 2
+    camera.top = camera.y - camera.h / 2
+    camera.bottom = camera.top + camera.h
+    camera.right = camera.x + camera.w
 end
 
 function camera.apply()
@@ -32,5 +32,7 @@ end
 function camera.unapply()
     love.graphics.pop()
 end
+
+camera.set(0, 0, 600)
 
 return camera
