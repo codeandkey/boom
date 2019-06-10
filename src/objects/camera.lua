@@ -54,11 +54,8 @@ return {
     update = function(self, dt)
         -- update camera size and position from dt
         self.size = self.size + dt * self.size_anim_factor * (self.target_size - self.size)
-        self.dx = self.position_anim_factor * (self.target_x - self.x)
-        self.dy = self.position_anim_factor * (self.target_y - self.y)
-
-        self.x = self.x + self.dx * dt
-        self.y = self.y + self.dy * dt
+        self.x = self.x + dt * self.position_anim_factor * (self.target_x - self.x)
+        self.y = self.y + dt * self.position_anim_factor * (self.target_y - self.y)
 
         -- update engine camera with new values
         camera.set(self.x, self.y, self.size)
