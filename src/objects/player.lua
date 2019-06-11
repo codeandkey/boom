@@ -30,7 +30,10 @@ return {
         self.direction = 'right'
 
         -- resources
-        self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
+
+        self.spr = self.walk
         self.spr:play()
 
         -- create a camera for the player
@@ -46,16 +49,21 @@ return {
         -- update velocity from inputs
         self.is_walking = false
 
+        -- assume not walking unless we override it
+        self.spr = self.idle
+
         if love.keyboard.isDown('left') then
             self.dx = self.dx - self.dx_accel * dt
             self.is_walking = true
             self.direction = 'left'
+            self.spr = self.walk
         end
 
         if love.keyboard.isDown('right') then
             self.dx = self.dx + self.dx_accel * dt
             self.is_walking = true
             self.direction = 'right'
+            self.spr = self.walk
         end
 
         -- perform jumping if we can/should
@@ -205,6 +213,8 @@ return {
 
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
+
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
+
     end,
 }

@@ -42,6 +42,8 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     -- load the spritesheet texture
     out.image = assets.image(tex_path)
     out.image_w, out.image_h = out.image:getDimensions()
+    out.frame_w = frame_w
+    out.frame_h = frame_h
 
     -- verify non-overlapping frames fit into the image
     if (out.image_w % frame_w > 0) or (out.image_h % frame_h > 0) then
@@ -115,7 +117,8 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
             sx = -1
         end
 
-        local iw, ih = self.image:getDimensions()
+        local iw = self.frame_w
+        local ih = self.frame_h
 
         love.graphics.draw(self.image, self:frame(), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
     end
