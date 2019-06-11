@@ -213,10 +213,8 @@ return {
 
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
-        if self.direction == "right" then
-            love.graphics.draw(self.spr.image, self.spr:frame(), math.floor(self.x), math.floor(self.y), 0, 1, 1)
-        else
-            love.graphics.draw(self.spr.image, self.spr:frame(), math.floor(self.x), math.floor(self.y), 0, -1, 1)
-        end
+
+        self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
+
     end,
 }
