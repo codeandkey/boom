@@ -49,16 +49,21 @@ return {
         -- update velocity from inputs
         self.is_walking = false
 
+        -- assume not walking unless we override it
+        self.spr = self.idle
+
         if love.keyboard.isDown('left') then
             self.dx = self.dx - self.dx_accel * dt
             self.is_walking = true
             self.direction = 'left'
+            self.spr = self.walk
         end
 
         if love.keyboard.isDown('right') then
             self.dx = self.dx + self.dx_accel * dt
             self.is_walking = true
             self.direction = 'right'
+            self.spr = self.walk
         end
 
         -- perform jumping if we can/should
