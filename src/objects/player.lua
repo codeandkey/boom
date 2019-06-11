@@ -30,7 +30,7 @@ return {
         self.direction = 'right'
 
         -- resources
-        self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.spr = sprite.create('32x32_player-walk.png', self.w, self.h, 0.25)
         self.spr:play()
 
         -- create a camera for the player
