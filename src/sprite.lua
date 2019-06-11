@@ -7,18 +7,22 @@
     local spr = sprite.create('my_texture.png', 32, 32, 0.5)
     ( create a sprite from my_texture.png with frame size 32x32 and 0.5 second frame delay )
 
-    spr.looping [boolean] | enable/disable automatic animation looping.
-                          | this will keep the animation running once the last
-                          | frame is reached and wrap back around to the first.
+    spr.looping [boolean]   | enable/disable automatic animation looping.
+                            | this will keep the animation running once the last
+                            | frame is reached and wrap back around to the first.
 
-    spr.image [Texture]   | the spritesheet texture. should be used to render
-                          | in conjunction with the Quad from spr:frame()
+    spr.image [Texture]     | the spritesheet texture. should be used to render
+                            | in conjunction with the Quad from spr:frame()
 
-    spr:stop()            | stops the animation and returns to the first frame
-    spr:pause()           | pauses the animation
-    spr:play()            | starts the animation from wherever it left off
-    spr:update(dt)        | advances the animation state by <dt> seconds
-    spr:frame() [Quad]    | returns a Quad for the current frame
+    spr:stop()              | stops the animation and returns to the first frame
+    spr:pause()             | pauses the animation
+    spr:play()              | starts the animation from wherever it left off
+    spr:update(dt)          | advances the animation state by <dt> seconds
+    spr:frame() [Quad]      | returns a Quad for the current frame
+
+    spr:render(x, y, angle) | draws the sprite at (<x>, <y>),
+                            | rotated about the center by <angle>,
+                            | flipped if <flip> is non-nil
 --]]
 
 local assets = require 'assets'
@@ -102,6 +106,18 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     out.stop = function(self)
         self.playing = false
         self.current = 1
+    end
+
+    out.render = function(self, x, y, angle, flipped)
+        local sx = 1
+
+        if flipped ~= nil then
+            sx = -1
+        end
+
+        local iw, ih = self.image:getDimensions()
+
+        love.graphics.draw(self.image, self:frame(), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
     end
 
     return out
