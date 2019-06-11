@@ -22,7 +22,7 @@
 
     spr:render(x, y, angle) | draws the sprite at (<x>, <y>),
                             | rotated about the center by <angle>,
-                            | flipped if <flip> is non-nil
+                            | flipped if <flip> is truthy
 --]]
 
 local assets = require 'assets'
@@ -111,7 +111,7 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     out.render = function(self, x, y, angle, flipped)
         local sx = 1
 
-        if flipped ~= nil then
+        if flipped then
             sx = -1
         end
 
