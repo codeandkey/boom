@@ -205,6 +205,6 @@ return {
 
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
-        self.spr:render(math.floor(self.x), math.floor(self.y))
+        self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
     end,
 }
