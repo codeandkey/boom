@@ -15,4 +15,8 @@ end
 
 function love.draw()
     map.render()
+
+    if love.keyboard.isDown('p') then
+        map.render_phys_debug()
+    end
 end
