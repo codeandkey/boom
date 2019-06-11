@@ -33,7 +33,7 @@ return {
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.25)
 
-        self.spr = self.idle
+        self.spr = self.walk
         self.spr:play()
 
         -- create a camera for the player
@@ -187,15 +187,6 @@ return {
             end
 
             self.dy = 0
-        end
-
-        -- update animations
-        if self.is_walking and self.jump_enabled then
-            self.spr = self.walk
-        else
-            if not self.is_walking and self.jump_enabled then
-                self.spr = self.idle
-            end
         end
 
         -- update the camera with our location, speed, and direction
