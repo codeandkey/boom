@@ -27,10 +27,14 @@ return {
         self.throwing_nade = false
         self.anim_time = 0
         self.throw_time = 0
+        self.direction = 'right'
 
         -- resources
         self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.spr:play()
+
+        -- create a camera for the player
+        self.camera = obj.create(self.__layer, 'camera', { x = self.x + self.w / 2, y = self.y + self.h / 2 })
     end,
     update = function(self, dt)
         -- update the sprite
@@ -45,11 +49,13 @@ return {
         if love.keyboard.isDown('left') then
             self.dx = self.dx - self.dx_accel * dt
             self.is_walking = true
+            self.direction = 'left'
         end
 
         if love.keyboard.isDown('right') then
             self.dx = self.dx + self.dx_accel * dt
             self.is_walking = true
+            self.direction = 'right'
         end
 
         -- perform jumping if we can/should
@@ -179,6 +185,15 @@ return {
 
             self.dy = 0
         end
+
+        -- update the camera with our location, speed, and direction
+        -- also pass if we're on the ground or not
+        self.camera:set_focus(self.x,
+                              self.x + self.w,
+                              self.y,
+                              self.y + self.h,
+                              self.jump_enabled,
+                              self.dx, self.dy, self.direction)
     end,
     render = function(self)
         -- PLACEHOLDER: set color while anim_playing

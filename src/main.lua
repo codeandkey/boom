@@ -3,6 +3,7 @@
     entry point
 --]]
 
+local camera = require 'camera'
 local map = require 'map'
 
 function love.load()
@@ -19,5 +20,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    camera.apply()
     map.render()
+    camera.unapply()
 end
