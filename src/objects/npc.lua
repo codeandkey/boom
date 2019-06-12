@@ -1,6 +1,7 @@
 --[[
-    player.lua
-    basic player object
+    npc.lua
+    basic npc object
+    npcs use player logic for movement and collision.
 --]]
 
 local map = require 'map'
