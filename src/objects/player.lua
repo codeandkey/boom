@@ -27,10 +27,17 @@ return {
         self.throwing_nade = false
         self.anim_time = 0
         self.throw_time = 0
+        self.direction = 'right'
 
         -- resources
-        self.spr = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
+        self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
+
+        self.spr = self.walk
         self.spr:play()
+
+        -- create a camera for the player
+        self.camera = obj.create(self.__layer, 'camera', { x = self.x + self.w / 2, y = self.y + self.h / 2 })
     end,
     update = function(self, dt)
         -- update the sprite
@@ -42,14 +49,21 @@ return {
         -- update velocity from inputs
         self.is_walking = false
 
+        -- assume not walking unless we override it
+        self.spr = self.idle
+
         if love.keyboard.isDown('left') then
             self.dx = self.dx - self.dx_accel * dt
             self.is_walking = true
+            self.direction = 'left'
+            self.spr = self.walk
         end
 
         if love.keyboard.isDown('right') then
             self.dx = self.dx + self.dx_accel * dt
             self.is_walking = true
+            self.direction = 'right'
+            self.spr = self.walk
         end
 
         -- perform jumping if we can/should
@@ -179,6 +193,15 @@ return {
 
             self.dy = 0
         end
+
+        -- update the camera with our location, speed, and direction
+        -- also pass if we're on the ground or not
+        self.camera:set_focus(self.x,
+                              self.x + self.w,
+                              self.y,
+                              self.y + self.h,
+                              self.jump_enabled,
+                              self.dx, self.dy, self.direction)
     end,
     render = function(self)
         -- PLACEHOLDER: set color while anim_playing
@@ -190,6 +213,8 @@ return {
 
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
-        love.graphics.draw(self.spr.image, self.spr:frame(), math.floor(self.x), math.floor(self.y))
+
+        self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
+
     end,
 }
