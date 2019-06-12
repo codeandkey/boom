@@ -185,7 +185,7 @@ return {
         if collision ~= nil then
             if self.dy >= 0 then
                 -- here it's safer to assume dy==0 -> the player was moving somewhat down-ish
-                self.y = collision.y - (self.h + 1)
+                self.y = collision.y - self.h
                 self.jump_enabled = true
             else
                 self.y = collision.y + collision.h + 1
