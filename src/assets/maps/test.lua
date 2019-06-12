@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 5,
-  nextobjectid = 47,
+  nextobjectid = 50,
   properties = {},
   tilesets = {
     {
@@ -355,13 +355,60 @@ return {
           name = "Fred",
           type = "npc",
           shape = "rectangle",
-          x = 191.455,
-          y = 239.243,
+          x = 203.823,
+          y = 236.994,
           width = 32,
           height = 32,
           rotation = 0,
           visible = true,
-          properties = {}
+          properties = {
+            ["Name"] = "Fred"
+          }
+        },
+        {
+          id = 47,
+          name = "Joe",
+          type = "npc",
+          shape = "rectangle",
+          x = 240.929,
+          y = 238.68,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["Name"] = "Joe"
+          }
+        },
+        {
+          id = 48,
+          name = "Tom",
+          type = "npc",
+          shape = "rectangle",
+          x = 163.344,
+          y = 238.68,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["Name"] = "Tom"
+          }
+        },
+        {
+          id = 49,
+          name = "Bill",
+          type = "npc",
+          shape = "rectangle",
+          x = 276.911,
+          y = 236.994,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["Name"] = "Bill"
+          }
         }
       }
     },

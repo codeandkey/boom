@@ -21,6 +21,7 @@ return {
         self.nextmovetimer = 0
         self.movetimer = 1
         self.jumptimer = 1
+        self.Name = self.name or ''
 
         -- state
         self.dx = 0
@@ -181,7 +182,18 @@ return {
 
         -- clamp rendering to integers, otherwise fuzzy collisions
         -- end up making the sprite look all jittery
-        love.graphics.setColor(0, 1, 1, 1)
+        if self.Name == "Tom" then
+            love.graphics.setColor(0, 1, 0, 1)
+        end
+        if self.Name == "Fred" then
+            love.graphics.setColor(.8, .2, .8, 1)
+        end
+        if self.Name == "Joe" then
+            love.graphics.setColor(1, .2, .2, 1)
+        end
+        if self.Name == "Bill" then
+            love.graphics.setColor(0, 0.8, 0.8, 1)
+        end
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
     end,
 }
