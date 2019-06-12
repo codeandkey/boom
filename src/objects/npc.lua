@@ -171,6 +171,5 @@ return {
         -- end up making the sprite look all jittery
 
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
-        love.graphics.print("moveintent: ".. self.moveintent, 100, 200)
     end,
 }
