@@ -150,9 +150,9 @@ return {
         if collision ~= nil then
             -- resolve a horizontal collision, depending on direction of movement
             if self.dx > 0 then
-                self.x = collision.x - (self.w + 1)
+                self.x = collision.x - self.w
             elseif self.dx < 0 then
-                self.x = collision.x + collision.w + 1
+                self.x = collision.x + collision.w
             else
                 assert(false) -- if this ever happens then there are problems
             end
@@ -171,7 +171,7 @@ return {
                 self.y = collision.y - self.h
                 self.jump_enabled = true
             else
-                self.y = collision.y + collision.h + 1
+                self.y = collision.y + collision.h
             end
 
             self.dy = 0
