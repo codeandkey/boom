@@ -194,6 +194,7 @@ return {
         if self.Name == "Bill" then
             love.graphics.setColor(0, 0.8, 0.8, 1)
         end
+        love.graphics.print(self.Name, self.x+(self.w/3), self.y - (self.h/2), 0, 0.5, 0.5)
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
     end,
 }
