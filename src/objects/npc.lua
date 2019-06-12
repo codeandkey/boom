@@ -51,16 +51,22 @@ return {
 
         -- wait a little bit before deciding what to do next
         if self.nextmovetimer > 0 then
-            self.nextmovetimer = self.nextmovetimer - (1 * dt)
+            self.nextmovetimer = self.nextmovetimer - dt
         else
             self.moveintent = math.random(0, 2)
-            self.jumpintent = math.random(0, 3)
             self.nextmovetimer = 2
             self.movetimer = 1
         end
 
+        if self.jumptimer > 0 then
+            self.jumptimer = self.jumptimer - dt
+        else
+            self.jumpintent = math.random(0, 3)
+            self.jumptimer = 1
+        end
+
         if self.movetimer > 0 then
-            self.movetimer = self.movetimer - (1 * dt)
+            self.movetimer = self.movetimer - dt
         else
             self.moveintent = 2
             self.movetimer = 1
@@ -93,7 +99,7 @@ return {
         if self.jumpintent == 0 and self.jump_enabled then
             self.dy = self.jump_dy
             self.jump_enabled = false
-            self.jumpintent = 1
+            self.jumptimer = 1
         end
 
         -- slow down
