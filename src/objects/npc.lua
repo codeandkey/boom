@@ -68,8 +68,13 @@ return {
         if self.movetimer > 0 then
             self.movetimer = self.movetimer - dt
         else
-            self.moveintent = 2
-            self.movetimer = 1
+            self.keepmoving = math.random(0, 1)
+
+            if self.keepmoving == 0 then
+                self.moveintent = 2
+           end
+
+           self.movetimer = 1
         end
 
         --ensure timers always hit 0 and reset
