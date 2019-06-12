@@ -54,7 +54,7 @@ function options.export(path)
     ofile:write('return {\n')
 
     local count = 0
-    
+
     -- write option values
     for k, v in pairs(options.values) do
         if type(v) == 'string' then
