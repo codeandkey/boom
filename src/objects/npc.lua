@@ -180,7 +180,7 @@ return {
 
         -- clamp rendering to integers, otherwise fuzzy collisions
         -- end up making the sprite look all jittery
-
+        love.graphics.setColor(0, 1, 1, 1)
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
     end,
 }
