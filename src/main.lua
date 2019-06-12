@@ -32,5 +32,10 @@ end
 function love.draw()
     camera.apply()
     map.render()
+
+    if love.keyboard.isDown('p') then
+        map.render_phys_debug()
+    end
+
     camera.unapply()
 end

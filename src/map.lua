@@ -143,4 +143,27 @@ function map.get_physics_world()
     return map.current.phys_world
 end
 
+--[[
+    map.render_phys_debug()
+
+    renders physics debugging information
+--]]
+
+function map.render_phys_debug()
+    love.graphics.setColor(0, 0, 1, 1)
+
+    for _, body in ipairs(map.current.phys_world:getBodies()) do
+        for _, fixture in ipairs(body:getFixtures()) do
+            local shape = fixture:getShape()
+            local shape_type = shape:getType()
+
+            if shape_type == 'polygon' then
+                love.graphics.polygon('line', body:getWorldPoints(shape:getPoints()))
+            elseif shape_type == 'circle' then
+                love.graphics.circle('line', body:getX(), body:getY(), shape:getRadius())
+            end
+        end
+    end
+end
+
 return map

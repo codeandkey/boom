@@ -43,6 +43,7 @@ return {
 
     destroy = function(self)
         obj.create(self.__layer, 'explosion', {x = self.body:getX(), y = self.body:getY()})
+        self.body:destroy()
     end,
 
     update = function(self, dt)
