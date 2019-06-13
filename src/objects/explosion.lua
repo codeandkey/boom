@@ -3,6 +3,7 @@
     explosion object
 --]]
 
+local camera = require 'camera'
 local obj = require 'obj'
 local map = require 'map'
 
@@ -14,6 +15,9 @@ return {
         self.intensity = self.intensity or 350
         self.radius = self.radius or 300
         self.resolution = self.resolution or 100
+
+        -- shake the camera a bit
+        camera.setshake(3)
 
         -- shoot out explosion rays
         for i=0,self.resolution-1 do
