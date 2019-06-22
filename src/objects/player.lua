@@ -100,8 +100,8 @@ return {
         -- throw a grenade if we can/should
         if love.keyboard.isDown('x') and not self.anim_playing then
             -- PLACEHOLDER: start an anim for throwing the grenade --
-            self.anim_time = 50 -- set placeholder timing for animation
-            self.throw_time = 40 -- set placeholder for timing of grenade release
+            self.anim_time = 0.7 -- set placeholder timing for animation
+            self.throw_time = 0.5 -- set placeholder for timing of grenade release
             self.throwing_nade = true
             self.anim_playing = true
         end
@@ -109,7 +109,7 @@ return {
         -- decrement throw timer and create nade object when expired
         if self.throwing_nade then
             if self.throw_time > 0 then
-                self.throw_time = self.throw_time - 1
+                self.throw_time = self.throw_time - dt
             else
                 obj.create(self.__layer, 'nade', {
                     x = self.x + self.w / 2,
@@ -118,7 +118,6 @@ return {
                     dy = self.dy / self.grenade_dampening,
                 })
 
-                self.throw_time = 0
                 self.throwing_nade = false
             end
         end
@@ -131,9 +130,8 @@ return {
         -- decrement anim timer
         if self.anim_playing then
             if self.anim_time > 0 then
-                self.anim_time = self.anim_time - 1
+                self.anim_time = self.anim_time - dt
             else
-                self.anim_time = 0
                 self.anim_playing = false
             end
         end
