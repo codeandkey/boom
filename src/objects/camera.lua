@@ -47,8 +47,12 @@ return {
 
             this.target.left = left
             this.target.right = right
-            this.target.top = top
-            this.target.bottom = bottom
+
+            if grounded or not (this.target.top or this.target.bottom) then
+                this.target.top = top
+                this.target.bottom = bottom
+            end
+
             this.target.grounded = grounded
             this.target.dx = dx
             this.target.dy = dy
@@ -105,12 +109,10 @@ return {
         end
 
         -- if player is grounded, update vertical velocity to keep in focus box
-        if self.target.grounded then
-            if self.target.top > self.focus_box.top then
-                self.dy = (self.target.top - self.focus_box.top) / self.vertical_damp
-            elseif self.target.bottom < self.focus_box.bottom then
-                self.dy = (self.target.bottom - self.focus_box.bottom) / self.vertical_damp
-            end
+        if self.target.top > self.focus_box.top then
+            self.dy = (self.target.top - self.focus_box.top) / self.vertical_damp
+        elseif self.target.bottom < self.focus_box.bottom then
+            self.dy = (self.target.bottom - self.focus_box.bottom) / self.vertical_damp
         end
 
         -- update camera size and position from dt
