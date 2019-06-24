@@ -14,6 +14,7 @@ return {
         self.gravity = self.gravity or 350
         self.w = self.w or 16
         self.h = self.h or 16
+        self.angle = self.angle or 0
         self.spin = self.spin or math.random(-100, 100)
         self.in_flash = false
 
@@ -25,20 +26,25 @@ return {
         }
 
         -- state
-        self.fuse_time = 2.5
-        self.init_fuse_time = self.fuse_time -- initial fuse time, needed for flashing
+        self.fuse_time = self.fuse_time or 2.5
+        self.init_fuse_time = self.init_fuse_time or self.fuse_time -- initial fuse time, needed for flashing
         self.flash_timer = 0
         self.flash_color = { 0.3, 0.3, 0.3, 1 }
-        self.shape = love.physics.newCircleShape(self.w / 2)
-        self.body = love.physics.newBody(map.get_physics_world(), self.x, self.y, 'dynamic')
-        self.fixture = love.physics.newFixture(self.body, self.shape, 1)
+        self.thrown = false
 
         -- resources
         self.spr = sprite.create('16x16_nade.png', self.w, self.h, 0.25)
 
-        -- apply initial force
-        self.body:applyLinearImpulse(self.dx, self.dy)
-        self.body:applyAngularImpulse(self.spin)
+        -- function to throw/launch the grenade
+        self.throw = function(this, dx, dy)
+            -- don't create the phys object until thrown
+            this.shape = love.physics.newCircleShape(this.w / 2)
+            this.body = love.physics.newBody(map.get_physics_world(), this.x, this.y, 'dynamic')
+            this.fixture = love.physics.newFixture(this.body, this.shape, 1)
+            this.body:applyLinearImpulse(dx, dy)
+            this.body:applyAngularImpulse(this.spin)
+            this.thrown = true
+        end
     end,
 
     destroy = function(self)
@@ -78,9 +84,15 @@ return {
             love.graphics.setColor(1, 1, 1, 1)
         end
 
+        -- update from physics object only after thrown
+        if self.thrown then
+            self.x, self.y = self.body:getPosition()
+            self.angle = self.body:getAngle()
+        end
+
         love.graphics.draw(self.spr.image, self.spr:frame(),
-                           self.body:getX(), self.body:getY(),
-                           self.body:getAngle(),
+                           self.x, self.y,
+                           self.angle,
                            1, 1, self.w / 2, self.h / 2)
 
         love.graphics.setShader()
