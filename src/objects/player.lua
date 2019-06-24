@@ -33,6 +33,11 @@ return {
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
 
+        -- assign cbox
+        self.cbox_w = 13 -- width of the centered collision box
+        self.cbox_offset = (self.w - self.cbox_w) / 2
+        self.w = self.cbox_w
+
         self.spr = self.walk
         self.spr:play()
 
@@ -212,7 +217,7 @@ return {
         -- clamp player rendering to integers, otherwise fuzzy collisions
         -- end up making the player look all jittery
 
-        self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
+        self.spr:render(math.floor(self.x - self.cbox_offset), math.floor(self.y), 0, self.direction == 'left')
 
     end,
 }
