@@ -144,6 +144,33 @@ function map.get_physics_world()
 end
 
 --[[
+    map.call_all(funcname, ...)
+
+    call <funcname> on every object that has it, with <...> arguments
+--]]
+function map.call_all(funcname, ...)
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            obj.call_all(v.boom_layer, funcname, unpack(arg))
+        end
+    end
+end
+
+--[[
+    map.foreach_object(func)
+
+    iterates every object in every object layer and calls <func> with the object passed
+    as the first argument.
+--]]
+function map.foreach_object(func)
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            obj.foreach_object(v.boom_layer, func)
+        end
+    end
+end
+
+--[[
     map.render_phys_debug()
 
     renders physics debugging information
