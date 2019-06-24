@@ -10,9 +10,9 @@ local sprite = require 'sprite'
 return {
     init = function(self)
         self.flash_timer      = 0
-        self.flash_timer_base = 0.2
-        self.flash_threshold  = 2
-        self.clean_timer      = 5
+        self.flash_timer_base = 0.1
+        self.flash_threshold  = 0.4
+        self.clean_timer      = 5 + math.random(1, 4)
         self.angle            = 0
         self.in_flash         = false
 
