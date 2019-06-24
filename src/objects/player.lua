@@ -23,11 +23,9 @@ return {
         self.dy = 0
         self.jump_enabled = false
         self.is_walking = false
-        self.anim_playing = false
-        self.throwing_nade = false
-        self.anim_time = 0
-        self.throw_time = 0
         self.direction = 'right'
+        self.nade = nil
+        self.throw_enabled = false
 
         -- resources
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
@@ -98,47 +96,34 @@ return {
         end
 
         -- throw a grenade if we can/should
-        if love.keyboard.isDown('x') and not self.anim_playing then
-            -- PLACEHOLDER: start an anim for throwing the grenade --
-            self.anim_time = 0.7 -- set placeholder timing for animation
-            self.throw_time = 0.5 -- set placeholder for timing of grenade release
-            self.throwing_nade = true
-            self.anim_playing = true
+        if love.keyboard.isDown('x') and not self.nade and self.throw_enabled then
+            -- make a grenade object and keep track of it
+            self.nade = obj.create(self.__layer, 'nade', {
+                x = self.x + self.w / 2,
+                y = self.y + self.h / 2,
+            });
+
+            self.throw_enabled = false
         end
 
-        -- decrement throw timer and create nade object when expired
-        if self.throwing_nade then
-            if self.throw_time > 0 then
-                self.throw_time = self.throw_time - dt
-            else
-                obj.create(self.__layer, 'nade', {
-                    x = self.x + self.w / 2,
-                    y = self.y + self.h / 2,
-                    dx = self.dx / self.grenade_dampening,
-                    dy = self.dy / self.grenade_dampening,
-                })
+        if self.nade then
+            self.nade.x = self.x + self.w / 2
+            self.nade.y = self.y + self.h / 2
+            self.nade.dx = 0
+            self.nade.dy = 0
 
-                self.throwing_nade = false
+            -- drop the grenade either on release or destruction
+            if not love.keyboard.isDown('x') or self.nade.__destroy then
+                -- launch the grenade
+                self.nade:throw(self.dx / self.grenade_dampening, self.dy / self.grenade_dampening)
+
+                -- release the nade from our control
+                self.nade = nil
             end
         end
 
-        -- enforce throwing_nade if throw_time > 0
-        if self.throw_time > 0 and not self.throwing_nade then
-            self.throwing_nade = true
-        end
-
-        -- decrement anim timer
-        if self.anim_playing then
-            if self.anim_time > 0 then
-                self.anim_time = self.anim_time - dt
-            else
-                self.anim_playing = false
-            end
-        end
-
-        -- enforce anim_playing if anim_time > 0
-        if self.anim_time > 0 and not self.anim_playing then
-            self.anim_playing = true
+        if not love.keyboard.isDown('x') then
+            self.throw_enabled = true
         end
 
         -- limit maximum horizontal speed
