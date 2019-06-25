@@ -40,8 +40,10 @@ return {
     explode = function(self, _, _)
         -- turn the player into gibs
         obj.create(self.__layer, 'gib', { img = '12x9_player_head.png', x = self.x + 11, y = self.y })
-        obj.create(self.__layer, 'gib', { img = '19x13_player_body.png', x = self.x + 8, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '14x13_player_body.png', x = self.x + 8, y = self.y + 8 })
         obj.create(self.__layer, 'gib', { img = '11x10_player_legs.png', x = self.x + 13, y = self.y + 22 })
+        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 18, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 8, y = self.y + 8 })
 
         obj.destroy(self)
     end,
