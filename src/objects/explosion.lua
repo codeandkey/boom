@@ -22,7 +22,7 @@ return {
 
         --[[
             look for nearby objects to splode and tell them
-            it's important this is done before the explosion rays go out into the 
+            it's important this is done before the explosion rays go out into the
             physics world -- now we can create the gib objects inside the explosion handler,
             and the gibs will be pushed by the rays instead of requiring an explosion vector
         --]]
