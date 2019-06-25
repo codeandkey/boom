@@ -78,19 +78,9 @@ end
 --]]
 
 function obj.render_layer(layer)
-    obj.call_all(layer, 'render')
-end
-
---[[
-    obj.call_all(layer, funcname, ...)
-
-    call a <funcname> on each object that has it in the objecttype, with <...> arguments
---]]
-
-function obj.call_all(layer, funcname, ...)
     for _, v in pairs(layer) do
-        if v.__type[funcname] ~= nil then
-            v.__type[funcname](v, unpack(arg))
+        if v.__type.render ~= nil then
+            v.__type.render(v)
         end
     end
 end
