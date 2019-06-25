@@ -139,6 +139,30 @@ function map.layer_by_name(name)
     return nil
 end
 
+--[[
+    map.object_by_name(name)
+
+    Searches all object layers for an object by <name>
+    If no object matches <name> then nil is returned.
+
+    Returns the first object found -- if there is more than one object
+    with the same name it is undefined behavior.
+--]]
+
+function map.object_by_name(name)
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            for _, k in pairs(v.boom_layer) do
+                if k.name == name then
+                    return k
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
 function map.get_physics_world()
     return map.current.phys_world
 end
