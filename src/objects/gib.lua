@@ -55,7 +55,10 @@ return {
     render = function(self)
         if not self.in_flash then
             love.graphics.setColor(self.color)
-            love.graphics.draw(self.spr.image, self.spr:frame(), self.x, self.y, self.angle, 1, 1, self.w / 2, self.h / 2)
+
+            love.graphics.draw(self.spr.image, self.spr:frame(),
+                               self.x, self.y, self.angle, 1, 1,
+                               self.w / 2, self.h / 2)
         end
     end,
 }
