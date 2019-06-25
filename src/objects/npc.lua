@@ -55,9 +55,23 @@ return {
 
     explode = function(self, _, _)
         -- explode into colorful gibs
-        obj.create(self.__layer, 'gib', { img = '12x9_player_head.png', x = self.x + 11, y = self.y, color = self.color })
-        obj.create(self.__layer, 'gib', { img = '19x13_player_body.png', x = self.x + 8, y = self.y + 8, color = self.color })
-        obj.create(self.__layer, 'gib', { img = '11x10_player_legs.png', x = self.x + 13, y = self.y + 22, color = self.color })
+        obj.create(self.__layer, 'gib', {
+            img = '12x9_player_head.png',
+            x = self.x + 11, y = self.y,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '19x13_player_body.png',
+            x = self.x + 8, y = self.y + 8,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '11x10_player_legs.png',
+            x = self.x + 13, y = self.y + 22,
+            color = self.color
+        })
 
         obj.destroy(self)
     end,
