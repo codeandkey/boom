@@ -68,8 +68,14 @@ return {
         })
 
         obj.create(self.__layer, 'gib', {
-            img = '11x10_player_legs.png',
-            x = self.x + 13, y = self.y + 22,
+            img = '5x9_player_leg.png',
+            x = self.x + 14, y = self.y + 23,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '5x9_player_leg.png',
+            x = self.x + 18, y = self.y + 23,
             color = self.color
         })
 
