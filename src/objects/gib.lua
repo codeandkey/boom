@@ -23,7 +23,7 @@ return {
         self.h = self.spr.frame_h
 
         -- make a physics body that covers the sprite
-        self.shape = love.physics.newCircleShape(math.min(self.w, self.h) / 2)
+        self.shape = love.physics.newRectangleShape(self.w, self.h)
         self.body = love.physics.newBody(map.get_physics_world(), self.x + self.w / 2, self.y + self.h / 2, 'dynamic')
         self.fixture = love.physics.newFixture(self.body, self.shape)
     end,
