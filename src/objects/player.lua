@@ -37,6 +37,17 @@ return {
         -- create a camera for the player
         self.camera = obj.create(self.__layer, 'camera', { x = self.x + self.w / 2, y = self.y + self.h / 2 })
     end,
+    explode = function(self, _, _)
+        -- turn the player into gibs
+        obj.create(self.__layer, 'gib', { img = '12x9_player_head.png', x = self.x + 11, y = self.y })
+        obj.create(self.__layer, 'gib', { img = '14x13_player_body.png', x = self.x + 8, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 14, y = self.y + 23 })
+        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 18, y = self.y + 23 })
+        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 18, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 8, y = self.y + 8 })
+
+        obj.destroy(self)
+    end,
     update = function(self, dt)
         -- update the sprite
         self.spr:update(dt)

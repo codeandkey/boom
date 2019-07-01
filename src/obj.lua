@@ -86,6 +86,18 @@ function obj.render_layer(layer)
 end
 
 --[[
+    obj.foreach_object(layer, func)
+
+    call a <func> with each object in a layer
+--]]
+
+function obj.foreach_object(layer, func)
+    for _, v in pairs(layer) do
+        func(v)
+    end
+end
+
+--[[
     obj.get_collisions(handle, layer, first)
 
     Performs a collision test between <handle> and all solid objects within <layer>.

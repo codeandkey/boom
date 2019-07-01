@@ -30,6 +30,20 @@ return {
         self.is_walking = false
         self.direction = 'right'
 
+        self.colors = {
+            Tom  = { 0.0, 1.0, 0.0, 1.0 },
+            Fred = { 0.8, 0.2, 0.8, 1.0 },
+            Joe  = { 1.0, 0.2, 0.2, 1.0 },
+            Bill = { 0.0, 0.8, 0.8, 1.0 },
+        }
+
+        -- default white color
+        self.color = { 1, 1, 1, 1 }
+
+        if self.colors[self.Name] ~= nil then
+            self.color = self.colors[self.Name]
+        end
+
         -- resources
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
@@ -38,6 +52,48 @@ return {
         self.spr:play()
 
     end,
+
+    explode = function(self, _, _)
+        -- explode into colorful gibs
+        obj.create(self.__layer, 'gib', {
+            img = '12x9_player_head.png',
+            x = self.x + 11, y = self.y,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '14x13_player_body.png',
+            x = self.x + 8, y = self.y + 8,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '5x9_player_leg.png',
+            x = self.x + 14, y = self.y + 23,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '5x9_player_leg.png',
+            x = self.x + 18, y = self.y + 23,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '6x13_player_arm.png',
+            x = self.x + 13, y = self.y + 22,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '6x13_player_arm.png',
+            x = self.x + 13, y = self.y + 22,
+            color = self.color
+        })
+
+        obj.destroy(self)
+    end,
+
     update = function(self, dt)
         -- update the sprite
         self.spr:update(dt)
@@ -182,18 +238,7 @@ return {
 
         -- clamp rendering to integers, otherwise fuzzy collisions
         -- end up making the sprite look all jittery
-        if self.Name == "Tom" then
-            love.graphics.setColor(0, 1, 0, 1)
-        end
-        if self.Name == "Fred" then
-            love.graphics.setColor(.8, .2, .8, 1)
-        end
-        if self.Name == "Joe" then
-            love.graphics.setColor(1, .2, .2, 1)
-        end
-        if self.Name == "Bill" then
-            love.graphics.setColor(0, 0.8, 0.8, 1)
-        end
+        love.graphics.setColor(self.color)
         love.graphics.print(self.Name, self.x+(self.w/3), self.y - (self.h/2), 0, 0.5, 0.5)
         self.spr:render(math.floor(self.x), math.floor(self.y), 0, self.direction == 'left')
     end,
