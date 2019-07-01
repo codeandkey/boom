@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="50">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="51">
  <tileset firstgid="1" source="../tiled/tileset_placeholder.json"/>
  <layer id="1" name="Tile Layer 1" width="256" height="256">
   <data encoding="csv">
@@ -282,6 +282,13 @@
   <object id="49" name="Bill" type="npc" x="276.911" y="236.994" width="32" height="32">
    <properties>
     <property name="Name" value="Bill"/>
+   </properties>
+  </object>
+  <object id="50" name="enemy" type="enemy_bomber" x="704" y="192" width="32" height="32">
+   <properties>
+    <property name="b" type="float" value="1"/>
+    <property name="g" type="float" value="0.5"/>
+    <property name="r" type="float" value="1"/>
    </properties>
   </object>
  </objectgroup>

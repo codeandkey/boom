@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 5,
-  nextobjectid = 50,
+  nextobjectid = 51,
   properties = {},
   tilesets = {
     {
@@ -408,6 +408,23 @@ return {
           visible = true,
           properties = {
             ["Name"] = "Bill"
+          }
+        },
+        {
+          id = 50,
+          name = "enemy",
+          type = "enemy_bomber",
+          shape = "rectangle",
+          x = 704,
+          y = 192,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["b"] = 1,
+            ["g"] = 0.5,
+            ["r"] = 1
           }
         }
       }
