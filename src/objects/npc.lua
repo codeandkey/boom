@@ -31,10 +31,10 @@ return {
         self.direction = 'right'
 
         self.colors = {
-            Tom  = { 0.0, 1.0, 0.0, 1.0 },
-            Fred = { 0.8, 0.2, 0.8, 1.0 },
-            Joe  = { 1.0, 0.2, 0.2, 1.0 },
-            Bill = { 0.0, 0.8, 0.8, 1.0 },
+            green  = { 0.0, 1.0, 0.0, 1.0 },
+            purple = { 0.8, 0.2, 0.8, 1.0 },
+            red  = { 1.0, 0.2, 0.2, 1.0 },
+            blue = { 0.0, 0.8, 0.8, 1.0 },
         }
 
         -- default white color
@@ -47,6 +47,10 @@ return {
         -- resources
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
+        self.jump = sprite.create('32x32_player-jump.png', self.w, self.h, 0.05)
+
+        self.spr = self.jump
+        self.spr:play()
 
         self.spr = self.walk
         self.spr:play()
@@ -177,6 +181,7 @@ return {
         -- if moving suspiciously vertically then disable jumping
         if math.abs(self.dy) > 20 then
             self.jump_enabled = false
+            self.spr = self.jump
         end
 
         -- resolve new velocity
