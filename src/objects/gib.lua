@@ -5,6 +5,7 @@
 
 local obj = require 'obj'
 local map = require 'map'
+local physics_groups = require 'physics_groups'
 local sprite = require 'sprite'
 
 return {
@@ -23,9 +24,15 @@ return {
         self.h = self.spr.frame_h
 
         -- make a physics body that covers the sprite
-        self.shape = love.physics.newCircleShape(math.min(self.w, self.h) / 2)
+        self.shape = love.physics.newRectangleShape(self.w, self.h)
         self.body = love.physics.newBody(map.get_physics_world(), self.x + self.w / 2, self.y + self.h / 2, 'dynamic')
         self.fixture = love.physics.newFixture(self.body, self.shape)
+
+        -- set the physics group
+        self.fixture:setCategory(physics_groups.GIB)
+
+        -- set the physics mask
+        self.fixture:setMask(physics_groups.GIB, physics_groups.PHYSBOX)
     end,
 
     destroy = function(self)

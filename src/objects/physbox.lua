@@ -10,6 +10,7 @@
 
 local map = require 'map'
 local util = require 'util'
+local physics_groups = require 'physics_groups'
 
 return {
     init = function(self)
@@ -25,6 +26,10 @@ return {
         if self.image then
             self.image = love.graphics.newImage('assets/sprites/' .. util.basename(self.image))
         end
+
+        -- apply physics group
+        self.fixture:setCategory(physics_groups.PHYSBOX)
+        self.fixture:setMask(physics_groups.GIB)
     end,
     render = function(self)
         love.graphics.setColor(self.r or 1, self.g or 1, self.b or 1, self.a or 1)
