@@ -15,7 +15,7 @@ local camera = require 'camera'
 return {
     init = function(self)
         -- constants
-        self.target_size = self.target_size or 400 -- default target size
+        self.target_size = self.target_size or 600 -- default target size
 
         -- focus box dimensions. all values are ratios of the screen size
         self.focus_hbox_size = 0.15
