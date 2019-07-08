@@ -13,7 +13,7 @@ return {
         self.gravity = self.gravity or 350
         self.crouch_decel = self.crouch_decel or 600
         self.passive_decel = self.passive_decel or 400
-        self.jump_dy = self.jump_dy or -180
+        self.jump_dy = self.jump_dy or -250
         self.dx_accel = self.dx_accel or 1600
         self.dx_max = self.dx_max or 150
         self.grenade_dampening = 3
