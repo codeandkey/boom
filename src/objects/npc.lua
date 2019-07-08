@@ -68,13 +68,31 @@ return {
         })
 
         obj.create(self.__layer, 'gib', {
-            img = '19x13_player_body.png',
+            img = '14x13_player_body.png',
             x = self.x + 8, y = self.y + 8,
             color = self.color
         })
 
         obj.create(self.__layer, 'gib', {
-            img = '11x10_player_legs.png',
+            img = '5x9_player_leg.png',
+            x = self.x + 14, y = self.y + 23,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '5x9_player_leg.png',
+            x = self.x + 18, y = self.y + 23,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '6x13_player_arm.png',
+            x = self.x + 13, y = self.y + 22,
+            color = self.color
+        })
+
+        obj.create(self.__layer, 'gib', {
+            img = '6x13_player_arm.png',
             x = self.x + 13, y = self.y + 22,
             color = self.color
         })
@@ -198,9 +216,9 @@ return {
         if collision ~= nil then
             -- resolve a horizontal collision, depending on direction of movement
             if self.dx > 0 then
-                self.x = collision.x - (self.w + 1)
+                self.x = collision.x - self.w
             elseif self.dx < 0 then
-                self.x = collision.x + collision.w + 1
+                self.x = collision.x + collision.w
             else
                 assert(false) -- if this ever happens then there are problems
             end
@@ -219,7 +237,7 @@ return {
                 self.y = collision.y - self.h
                 self.jump_enabled = true
             else
-                self.y = collision.y + collision.h + 1
+                self.y = collision.y + collision.h
             end
 
             self.dy = 0
