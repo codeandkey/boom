@@ -30,6 +30,9 @@ return {
         -- resources
         self.idle = sprite.create('32x32_player.png', self.w, self.h, 0.25)
         self.walk = sprite.create('32x32_player-walk.png', self.w, self.h, 0.1)
+        self.jump = sprite.create('32x32_player-jump.png', self.w, self.h, 0.05)
+
+        self.jump.looping = false
 
         self.spr = self.walk
         self.spr:play()
@@ -41,10 +44,10 @@ return {
         -- turn the player into gibs
         obj.create(self.__layer, 'gib', { img = '12x9_player_head.png', x = self.x + 11, y = self.y })
         obj.create(self.__layer, 'gib', { img = '14x13_player_body.png', x = self.x + 8, y = self.y + 8 })
-        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 14, y = self.y + 23 })
-        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 18, y = self.y + 23 })
-        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 18, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 14, y = self.y + 22 })
+        obj.create(self.__layer, 'gib', { img = '5x9_player_leg.png', x = self.x + 18, y = self.y + 22 })
         obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 8, y = self.y + 8 })
+        obj.create(self.__layer, 'gib', { img = '6x13_player_arm.png', x = self.x + 18, y = self.y + 8 })
 
         obj.destroy(self)
     end,
@@ -79,6 +82,14 @@ return {
         if love.keyboard.isDown('up') and self.jump_enabled then
             self.dy = self.jump_dy
             self.jump_enabled = false
+
+            self.spr = self.jump
+            self.spr:play()
+        end
+
+        -- set the jumping animation if we're moving upward
+        if not self.jump_enabled then
+            self.spr = self.jump
         end
 
         -- slow the player down when 'down' is pressed

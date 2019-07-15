@@ -109,6 +109,10 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     out.play = function(self)
         self.playing = true
         self.time_accumulator = 0
+
+        if self.current >= self.num_frames then
+            self.current = 1
+        end
     end
 
     out.pause = function(self)
