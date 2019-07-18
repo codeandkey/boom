@@ -1,31 +1,8 @@
---[[
-    sprite.lua
-    sprite helper interface
+--- Sprite API.
 
-    each sprite object has the following properties and methods:
+local fs = require 'fs'
+local log = require 'log'
 
-    local spr = sprite.create('my_texture.png', 32, 32, 0.5)
-    ( create a sprite from my_texture.png with frame size 32x32 and 0.5 second frame delay )
-
-    spr.looping [boolean]   | enable/disable automatic animation looping.
-                            | this will keep the animation running once the last
-                            | frame is reached and wrap back around to the first.
-
-    spr.image [Texture]     | the spritesheet texture. should be used to render
-                            | in conjunction with the Quad from spr:frame()
-
-    spr:stop()              | stops the animation and returns to the first frame
-    spr:pause()             | pauses the animation
-    spr:play()              | starts the animation from wherever it left off
-    spr:update(dt)          | advances the animation state by <dt> seconds
-    spr:frame() [Quad]      | returns a Quad for the current frame
-
-    spr:render(x, y, angle) | draws the sprite at (<x>, <y>),
-                            | rotated about the center by <angle>,
-                            | flipped if <flip> is truthy
---]]
-
-local assets = require 'assets'
 local sprite = {}
 
 --[[
@@ -36,11 +13,17 @@ local sprite = {}
     returns the sprite object.
 --]]
 
+--- Create a new sprite.
+-- @param tex_path Texture name. Passed to @{fs.read_texture}.
+-- @param frame_w Width of a single frame.
+-- @param frame_h Height of a single frame.
+-- @param duration Delay between frames (seconds).
+-- @return The sprite object.
 function sprite.create(tex_path, frame_w, frame_h, duration)
     local out = { frames = {} }
 
     -- load the spritesheet texture
-    out.image = assets.image(tex_path)
+    out.image = fs.read_texture(tex_path)
     out.image_w, out.image_h = out.image:getDimensions()
 
     -- fill the sprite if no frame width
@@ -57,9 +40,8 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
 
     -- verify non-overlapping frames fit into the image
     if (out.image_w % frame_w > 0) or (out.image_h % frame_h > 0) then
-        local tmpl = 'error: %s: frame (%d, %d) does not divide image (%d, %d)!'
-        print(string.format(tmpl, tex_path, frame_w, frame_h, out.image_w, out.image_h))
-        assert(false)
+        log.error('%s: frame (%d, %d) does not divide image (%d, %d)!', tex_path, frame_w, frame_h, out.image_w, out.image_h)
+        return
     end
 
     -- create the quads for each frame
@@ -79,65 +61,87 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
     -- set up sprite state
     out.duration = duration
     out.current = 1
-    out.playing = false
+    out.playing = true
     out.looping = true
+    out.time_accumulator = 0
 
-    out.frame = function(self)
-        return self.frames[self.current]
-    end
+    return out
+end
 
-    out.update = function(self, dt)
-        if self.playing then
-            self.time_accumulator = self.time_accumulator + dt
+--- Get the current sprite frame texture.
+-- @param spr Sprite to query.
+-- @return The current texture.
+function sprite.frame(spr)
+    return spr.frames[spr.current]
+end
 
-            while self.time_accumulator > self.duration do
-                self.time_accumulator = self.time_accumulator - self.duration
-                self.current = self.current + 1
+--- Update a sprite by _dt_ seconds.
+-- @param self Sprite to update.
+-- @param dt Seconds to update by.
+function sprite.update(self, dt)
+    if self.playing then
+        self.time_accumulator = self.time_accumulator + dt
 
-                if self.current > self.num_frames then
-                    if self.looping then
-                        self.current = 1
-                    else
-                        self.current = self.num_frames
-                        self.playing = false
-                    end
+        while self.time_accumulator > self.duration do
+            self.time_accumulator = self.time_accumulator - self.duration
+            self.current = self.current + 1
+
+            if self.current > self.num_frames then
+                if self.looping then
+                    self.current = 1
+                else
+                    self.current = self.num_frames
+                    self.playing = false
                 end
             end
         end
     end
+end
 
-    out.play = function(self)
-        self.playing = true
-        self.time_accumulator = 0
+--- Play or resume a sprite.
+-- Will start the sprite from the beginning if it is already at the end.
+-- @param self Sprite to play.
+function sprite.play(self)
+    self.playing = true
+    self.time_accumulator = 0
 
-        if self.current >= self.num_frames then
-            self.current = 1
-        end
-    end
-
-    out.pause = function(self)
-        self.playing = false
-    end
-
-    out.stop = function(self)
-        self.playing = false
+    if self.current >= self.num_frames then
         self.current = 1
     end
+end
 
-    out.render = function(self, x, y, angle, flipped)
-        local sx = 1
+--- Pause a sprite.
+-- @param self Sprite to pause.
+function sprite.pause(self)
+    self.playing = false
+end
 
-        if flipped then
-            sx = -1
-        end
+--- Stop a sprite.
+-- Pauses the sprite and moves the frame to the start.
+-- @param self Sprite to stop.
+function sprite.stop(self)
+    self.playing = false
+    self.current = 1
+end
 
-        local iw = self.frame_w
-        local ih = self.frame_h
+--- Render a sprite.
+-- @param self Sprite to render.
+-- @param x X coord for the top-left corner.
+-- @param y Y coord for the top-left corner.
+-- @param angle Rotation about the center.
+-- @param flipped If `true`, horizontally flip the sprite.
 
-        love.graphics.draw(self.image, self:frame(), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
+function sprite.render(self, x, y, angle, flipped)
+    local sx = 1
+
+    if flipped then
+        sx = -1
     end
 
-    return out
+    local iw = self.frame_w
+    local ih = self.frame_h
+
+    love.graphics.draw(self.image, sprite.frame(self), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
 end
 
 return sprite

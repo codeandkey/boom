@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Boom</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/input.html">input</a></li>
+  <li><strong>log</strong></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><a href="../modules/object_group.html">object_group</a></li>
+  <li><a href="../modules/sprite.html">sprite</a></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/Events.md.html">Events</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example_object_type.lua.html">example_object_type.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>log</code></h1>
+<p>Logging API.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#level">level (level, ...)</a></td>
+	<td class="summary">Generic level logger.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#debug">debug (...)</a></td>
+	<td class="summary">Debug level log message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#warn">warn (...)</a></td>
+	<td class="summary">Warning level log message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#info">info (...)</a></td>
+	<td class="summary">Info level log message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#error">error (...)</a></td>
+	<td class="summary">Error level log message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#level_color">level_color (level)</a></td>
+	<td class="summary">Get the log color for a level.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_backlog">get_backlog ()</a></td>
+	<td class="summary">Get the ordered backlog.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "level"></a>
+    <strong>level (level, ...)</strong>
+    </dt>
+    <dd>
+    Generic level logger.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">level</span>
+         Log level. Defaults to <code>log.LEVEL_ERROR</code> if nil.
+        </li>
+        <li><span class="parameter">...</span>
+         Format arguments. Passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-string.format">string.format</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "debug"></a>
+    <strong>debug (...)</strong>
+    </dt>
+    <dd>
+    Debug level log message.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         Format arguments. Passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-string.format">string.format</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "warn"></a>
+    <strong>warn (...)</strong>
+    </dt>
+    <dd>
+    Warning level log message.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         Format arguments. Passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-string.format">string.format</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "info"></a>
+    <strong>info (...)</strong>
+    </dt>
+    <dd>
+    Info level log message.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         Format arguments. Passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-string.format">string.format</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "error"></a>
+    <strong>error (...)</strong>
+    </dt>
+    <dd>
+    Error level log message.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">...</span>
+         Format arguments. Passed to <a href="https://www.lua.org/manual/5.3/manual.html#pdf-string.format">string.format</a>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "level_color"></a>
+    <strong>level_color (level)</strong>
+    </dt>
+    <dd>
+    Get the log color for a level.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">level</span>
+         Level to query.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The appropriate color as a numeric array with 4 elements. (RGBA 0.0-1.0)
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_backlog"></a>
+    <strong>get_backlog ()</strong>
+    </dt>
+    <dd>
+    Get the ordered backlog.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The backlog array. Each entry will have the fields <em>level</em> and <em>content</em>.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-18 13:45:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

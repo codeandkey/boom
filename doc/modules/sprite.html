@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Boom</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/input.html">input</a></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><a href="../modules/object_group.html">object_group</a></li>
+  <li><strong>sprite</strong></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/Events.md.html">Events</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example_object_type.lua.html">example_object_type.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>sprite</code></h1>
+<p>Sprite API.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#create">create (tex_path, frame_w, frame_h, duration)</a></td>
+	<td class="summary">Create a new sprite.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#frame">frame (spr)</a></td>
+	<td class="summary">Get the current sprite frame texture.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#update">update (self, dt)</a></td>
+	<td class="summary">Update a sprite by <em>dt</em> seconds.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#play">play (self)</a></td>
+	<td class="summary">Play or resume a sprite.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#pause">pause (self)</a></td>
+	<td class="summary">Pause a sprite.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#stop">stop (self)</a></td>
+	<td class="summary">Stop a sprite.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#render">render (self, x, y, angle, flipped)</a></td>
+	<td class="summary">Render a sprite.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "create"></a>
+    <strong>create (tex_path, frame_w, frame_h, duration)</strong>
+    </dt>
+    <dd>
+    Create a new sprite.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tex_path</span>
+         Texture name. Passed to <a href="../modules/fs.html#read_texture">fs.read_texture</a>.
+        </li>
+        <li><span class="parameter">frame_w</span>
+         Width of a single frame.
+        </li>
+        <li><span class="parameter">frame_h</span>
+         Height of a single frame.
+        </li>
+        <li><span class="parameter">duration</span>
+         Delay between frames (seconds).
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The sprite object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "frame"></a>
+    <strong>frame (spr)</strong>
+    </dt>
+    <dd>
+    Get the current sprite frame texture.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">spr</span>
+         Sprite to query.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The current texture.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "update"></a>
+    <strong>update (self, dt)</strong>
+    </dt>
+    <dd>
+    Update a sprite by <em>dt</em> seconds.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Sprite to update.
+        </li>
+        <li><span class="parameter">dt</span>
+         Seconds to update by.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "play"></a>
+    <strong>play (self)</strong>
+    </dt>
+    <dd>
+    Play or resume a sprite.
+ Will start the sprite from the beginning if it is already at the end.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Sprite to play.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "pause"></a>
+    <strong>pause (self)</strong>
+    </dt>
+    <dd>
+    Pause a sprite.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Sprite to pause.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "stop"></a>
+    <strong>stop (self)</strong>
+    </dt>
+    <dd>
+    Stop a sprite.
+ Pauses the sprite and moves the frame to the start.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Sprite to stop.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "render"></a>
+    <strong>render (self, x, y, angle, flipped)</strong>
+    </dt>
+    <dd>
+    Render a sprite.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+         Sprite to render.
+        </li>
+        <li><span class="parameter">x</span>
+         X coord for the top-left corner.
+        </li>
+        <li><span class="parameter">y</span>
+         Y coord for the top-left corner.
+        </li>
+        <li><span class="parameter">angle</span>
+         Rotation about the center.
+        </li>
+        <li><span class="parameter">flipped</span>
+         If <code>true</code>, horizontally flip the sprite.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-18 13:45:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

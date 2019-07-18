@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Boom</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/input.html">input</a></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><strong>object_group</strong></li>
+  <li><a href="../modules/sprite.html">sprite</a></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/Events.md.html">Events</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example_object_type.lua.html">example_object_type.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>object_group</code></h1>
+<p>Object group class.</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#init">init (tiled_obj)</a></td>
+	<td class="summary">Initialize an object group from a Tiled map.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#remove_dead">remove_dead (group)</a></td>
+	<td class="summary">Remove dead objects from a group.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unload">unload (group)</a></td>
+	<td class="summary">Unload and release all resources from a group.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#call">call (group, func, ...)</a></td>
+	<td class="summary">Call a handler on each object (if present)</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#find">find (group, name)</a></td>
+	<td class="summary">Search for an object by name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#find_type">find_type (group, type_name)</a></td>
+	<td class="summary">Collect all objects of a certain type.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#create_object">create_object (group, type_name, initial)</a></td>
+	<td class="summary">Create a new object and add it to the group.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "init"></a>
+    <strong>init (tiled_obj)</strong>
+    </dt>
+    <dd>
+    Initialize an object group from a Tiled map.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tiled_obj</span>
+         Lua object parsed from map file.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The object group interface.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "remove_dead"></a>
+    <strong>remove_dead (group)</strong>
+    </dt>
+    <dd>
+    Remove dead objects from a group.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Object group to clean
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "unload"></a>
+    <strong>unload (group)</strong>
+    </dt>
+    <dd>
+    Unload and release all resources from a group.
+ This will destroy every object in the group.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Group to unload
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "call"></a>
+    <strong>call (group, func, ...)</strong>
+    </dt>
+    <dd>
+    Call a handler on each object (if present)
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Group to operate on
+        </li>
+        <li><span class="parameter">func</span>
+         Handler name to call
+        </li>
+        <li><span class="parameter">...</span>
+         Arguments to pass to handler.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "find"></a>
+    <strong>find (group, name)</strong>
+    </dt>
+    <dd>
+    Search for an object by name.
+ Returns nil if the object is not found.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Group to search in
+        </li>
+        <li><span class="parameter">name</span>
+         Object name to search for
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The object if found, otherwise nil
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "find_type"></a>
+    <strong>find_type (group, type_name)</strong>
+    </dt>
+    <dd>
+    Collect all objects of a certain type.
+ Returns an array of all matching objects in this layer.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Group to search in
+        </li>
+        <li><span class="parameter">type_name</span>
+         Type name to search for
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        An array of objects of type <em>type_name</em>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "create_object"></a>
+    <strong>create_object (group, type_name, initial)</strong>
+    </dt>
+    <dd>
+    Create a new object and add it to the group.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">group</span>
+         Object group to add to.
+        </li>
+        <li><span class="parameter">type_name</span>
+         Type name of new object.
+        </li>
+        <li><span class="parameter">initial</span>
+         Initial state of new object.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The newly created object, or nil if an error occurs
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-18 13:45:22 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
