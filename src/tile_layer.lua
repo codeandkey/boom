@@ -6,6 +6,7 @@ local tile_layer = {}
 -- Prepares a tile layer for rendering and collisions.
 -- @param tiled_obj Tile layer table from map file.
 -- @param tilesets_obj Tilesets table from map file.
+-- @param physics_world Physics world to use for solid layers.
 -- @return The initialized tile layer.
 function tile_layer.init(tiled_obj, tilesets_obj, physics_world)
     -- Initialize render batch.
