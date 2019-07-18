@@ -16,9 +16,9 @@ function object_group.init(tiled_obj)
     -- Pass through some of the values from tiled.
     new_group.name = tiled_obj.name
     new_group.type = tiled_obj.type
-    
+
     -- Initialize each real object from every preloaded object.
-    for k, v in ipairs(preloaded_objects) do
+    for _, v in ipairs(preloaded_objects) do
         local initial = v.properties
 
         initial.x = v.x
@@ -69,7 +69,7 @@ end
 --- Search for an object by name.
 -- Returns nil if the object is not found.
 --
--- @param group Group to search in 
+-- @param group Group to search in
 -- @param name Object name to search for
 -- @return The object if found, otherwise nil
 function object_group.find(group, name)
@@ -105,7 +105,7 @@ end
 -- @return The newly created object, or nil if an error occurs
 function object_group.create_object(group, type_name, initial)
     -- Check the typename.
-    obj_type = object_types[type_name]
+    local obj_type = object_types[type_name]
 
     if obj_type == nil then
         return

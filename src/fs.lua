@@ -1,6 +1,6 @@
 --- Interface for reading and writing to the local disk.
 
-local log = require 'log'
+local log  = require 'log'
 local util = require 'util'
 
 local fs = {
@@ -16,10 +16,10 @@ local fs = {
 -- @param name Map name to load.
 -- @return The map table, or nil if an error occurs.
 function fs.read_map(name)
-    path = fs.prefixes.maps .. name .. '.lua'
+    local path = fs.prefixes.maps .. name .. '.lua'
     log.debug('Loading map %s from %s.', name, path)
 
-    status, result = pcall(function() return dofile(path) end)
+    local status, result = pcall(function() return dofile(path) end)
 
     if status then
         return result
@@ -34,8 +34,8 @@ end
 -- @param name Texture name to load.
 -- @return The loaded texture, or nil if an error occurs.
 function fs.read_texture(name)
-    path = fs.prefixes.sprites .. util.basename(name)
-    status, result = pcall(love.graphics.newImage, path)
+    local path = fs.prefixes.sprites .. util.basename(name)
+    local status, result = pcall(love.graphics.newImage, path)
 
     if status then
         return result

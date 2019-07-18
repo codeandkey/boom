@@ -31,9 +31,9 @@ function event.subscribe(event_name, callback, userdata)
         event.subscriptions[event_name] = {}
     end
 
-    sublist = event.subscriptions[event_name]
+    local sublist = event.subscriptions[event_name]
 
-    sub_object = {
+    local sub_object = {
         event_name = event_name,
         callback = callback,
         valid = true,
@@ -55,7 +55,7 @@ end
 -- @param event_name Type of event to push.
 -- @param ... Arguments to pass to subscriber callbacks.
 function event.push(event_name, ...)
-    event_obj = {
+    local event_obj = {
         event_name = event_name,
         args = util.pack(...),
     }
@@ -72,7 +72,7 @@ end
 --- Evalute the next event on the queue.
 -- @return The event processed, or nil if no more events.
 function event.next()
-    current = event.head
+    local current = event.head
 
     -- check there is an event
     if current == nil then
@@ -80,7 +80,7 @@ function event.next()
     end
 
     -- call any subscriptions
-    sublist = event.subscriptions[current.event_name]
+    local sublist = event.subscriptions[current.event_name]
 
     if sublist then
         for k, v in ipairs(sublist) do

@@ -41,7 +41,7 @@ function util.pcall(func, ...)
         return true -- Don't consider nil calls errors.
     end
 
-    status, result = pcall(func, ...)
+    local status, result = pcall(func, ...)
 
     if not status then
         log.debug('pcall() failed: %s', result)

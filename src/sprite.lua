@@ -40,7 +40,8 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
 
     -- verify non-overlapping frames fit into the image
     if (out.image_w % frame_w > 0) or (out.image_h % frame_h > 0) then
-        log.error('%s: frame (%d, %d) does not divide image (%d, %d)!', tex_path, frame_w, frame_h, out.image_w, out.image_h)
+        local templ = '%s: frame (%d, %d) does not divide image (%d, %d)!'
+        log.error(templ, tex_path, frame_w, frame_h, out.image_w, out.image_h)
         return
     end
 

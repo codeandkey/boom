@@ -78,7 +78,7 @@ function map.get_physics_world()
     if map.current == nil then
         return nil
     end
-    
+
     return map.current.physics_world
 end
 
@@ -159,7 +159,7 @@ end
 function map.aabb_tile(rect)
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' and v.properties.solid then
-            status, collision = tile_layer.aabb(v, rect)
+            local status, collision = tile_layer.aabb(v, rect)
 
             if status then
                 return status, collision

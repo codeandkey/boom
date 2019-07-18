@@ -2,7 +2,9 @@
 -- Each map should have exactly one tileset -- this structure initializes in-place of the 'tilesets' field
 -- initially present in the map file.
 
-local fs = require 'fs'
+local fs  = require 'fs'
+local log = require 'log'
+
 local tilesets = {}
 
 --- Initialize a tileset resource from a Tiled tileset.

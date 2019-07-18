@@ -1,6 +1,5 @@
 --- Nade object type.
 
-local log          = require 'log'
 local map          = require 'map'
 local object       = require 'object'
 local object_group = require 'object_group'

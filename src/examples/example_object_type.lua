@@ -1,5 +1,6 @@
 --- Example object type.
 
+local log    = require 'log'
 local object = require 'object'
 
 return {
@@ -10,7 +11,7 @@ return {
         this.my_message = this.my_message or 'Default message!'
 
         -- Print the message to the console.
-        print('Constructing example object. My message is: ' .. this.my_message)
+        log.debug('Constructing example object. My message is: %s', this.my_message)
 
         -- Subscribe to all key presses.
         object.subscribe(this, 'keydown')
@@ -20,7 +21,7 @@ return {
     -- @param this Object being destroyed.
     destroy = function(this)
         -- Print a message to the console.
-        print('Destroying example object!')
+        log.debug('Destroying example object! %s', this)
 
         -- We don't actually have any destroy logic needed here.
         -- All events are optional. This function can be safely removed.
@@ -30,16 +31,17 @@ return {
     -- @param this Object to update.
     -- @param dt Delta time (seconds).
     update = function(this, dt)
+        log.debug('Updating example object by %f seconds! %s', dt, this)
     end,
 
     --- Object render handler. Called on every render.
     -- @param this Object to render.
-    render = function(this, dt)
+    render = function(this)
         -- Draw a white rectangle covering the object.
         -- Every object has the fields 'x', 'y', 'w', 'h'.
         -- (this.x, this.y) designates the location of the top left corner of the object,
         -- and (this.w, this.h) designates the dimensions of the rectangle as defined in the map file.
-        
+
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.rectangle('fill', this.x, this.y, this.w, this.h)
     end,
@@ -50,6 +52,6 @@ return {
     -- (information on the 'keydown' event can be found in /event.lua )
     keydown = function(this, key)
         -- Just write the key to stdout.
-        print('Example object received key down: ' .. key .. '!')
+        log.debug('Example object received key down: %s! (%s)', key, this)
     end,
 }

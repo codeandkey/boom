@@ -106,7 +106,7 @@ function log.get_backlog()
 
     for i=log.backlog_head,log.backlog_size do
         local entry = log.backlog[i]
-        
+
         if entry ~= nil then
             table.insert(backlog, entry)
         end
@@ -114,7 +114,7 @@ function log.get_backlog()
 
     for i=1,log.backlog_head-1 do
         local entry = log.backlog[i]
-        
+
         if entry ~= nil then
             table.insert(backlog, entry)
         end

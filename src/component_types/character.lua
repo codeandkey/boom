@@ -2,7 +2,6 @@
 
 local log          = require 'log'
 local map          = require 'map'
-local object       = require 'object'
 local object_group = require 'object_group'
 local sprite       = require 'sprite'
 
@@ -164,8 +163,11 @@ return {
                 this.x = collision_rect.x + collision_rect.w
             else
                 log.debug('Player is in a bad place. Colliding horizontally without moving?')
-                log.debug('Player rect: %d %d %d %d (right %d, bottom %d)', this.x, this.y, this.w, this.h, this.x + this.w, this.y + this.h)
-                log.debug('Collision rect: %d %d %d %d (right %d, bottom %d)', collision_rect.x, collision_rect.y, collision_rect.w, collision_rect.h, collision_rect.x + collision_rect.w, collision_rect.y + collision_rect.h)
+                log.debug('Player rect: %d %d %d %d (right %d, bottom %d)',
+                          this.x, this.y, this.w, this.h, this.x + this.w, this.y + this.h)
+                log.debug('Collision rect: %d %d %d %d (right %d, bottom %d)',
+                          collision_rect.x, collision_rect.y, collision_rect.w, collision_rect.h,
+                          collision_rect.x + collision_rect.w, collision_rect.y + collision_rect.h)
             end
 
             this.dx = 0
@@ -205,7 +207,7 @@ return {
         sprite.render(this.spr, this.x + this.spr_offsetx, this.y, 0, this.direction == 'left')
     end,
 
-    destroy = function(this)
+    destroy = function(_)
         log.debug('Destroying character component!')
     end
 }

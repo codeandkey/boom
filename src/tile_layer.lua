@@ -81,7 +81,7 @@ end
 -- @return[1] False if _rect_ does not intersect with any nonzero tiles in _layer_.
 function tile_layer.aabb(layer, rect)
     -- Compute the bounds of the tile rect we need to test.
-    
+
     local left = math.floor((rect.x - layer.offsetx) / layer.tilewidth)
     local right = math.ceil((rect.x + rect.w - layer.offsetx) / layer.tilewidth) - 1
     local top = math.floor((rect.y - layer.offsety) / layer.tileheight)

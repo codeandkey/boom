@@ -2,7 +2,7 @@
 -- Each object has the following fields:
 -- | Field           | Description |
 -- | -----           | ----------- |
--- | __layer         | Internal field pointing to the `object_group` containing the object. Will not be set until added to an object group. |
+-- | __layer         | Internal field pointing to the `object_group` containing the object. |
 -- | __type          | Internal field pointing to the object's type table. |
 -- | __typename      | Object's type name. Used in logging messages. |
 -- | __subscriptions | Table of active object event subscriptions. |
@@ -17,11 +17,10 @@
 -- Objects can add these common bits in the form of components. Any events sent to an object
 -- will be relayed to all of its components.
 
-local log = require 'log'
-local event = require 'event'
-local object_types = require 'object_types'
 local component_types = require 'component_types'
-local util = require 'util'
+local event           = require 'event'
+local log             = require 'log'
+local util            = require 'util'
 
 local object = {}
 
@@ -51,11 +50,11 @@ end
 -- @param event_name Event name to subscribe to.
 function object.subscribe(obj, event_name)
     if obj.__subscriptions[event_name] == nil then
-        obj.__subscriptions[event_name] = event.subscribe(event_name, function (obj, ...)
-            object.call(obj, event_name, ...)
+        obj.__subscriptions[event_name] = event.subscribe(event_name, function (_obj, ...)
+            object.call(_obj, event_name, ...)
         end, obj)
     else
-        print('warning: Ignoring multiple subscription to ' .. event_name .. ' from object of type ' .. obj.__typename .. '!')
+        log.warn('Ignoring multiple subscription to %s from object of type %s!', event_name, obj.__typename)
     end
 end
 
@@ -100,8 +99,8 @@ function object.call(obj, name, ...)
         util.pcall(v.__type[name], v, ...)
     end
 
-    status, ret = util.pcall(obj.__type[name], obj, ...)
-    
+    local status, ret = util.pcall(obj.__type[name], obj, ...)
+
     if status then
         return ret
     end
