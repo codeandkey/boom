@@ -1,9 +1,10 @@
 --- Character component.
 
-local log    = require 'log'
-local map    = require 'map'
-local object = require 'object'
-local sprite = require 'sprite'
+local log          = require 'log'
+local map          = require 'map'
+local object       = require 'object'
+local object_group = require 'object_group'
+local sprite       = require 'sprite'
 
 --[[
     Simulates a player-like object.
@@ -73,7 +74,14 @@ return {
                 -- It will be switched to in render().
                 sprite.play(this.spr_jump)
             end
-        elseif key == 'x' then
+        elseif key == 'throw' then
+            -- Start to throw a nade if we can.
+            if this.nade == nil then
+                this.nade = object_group.create_object(this.__layer, 'nade', {
+                    x = this.x + this.w / 2,
+                    y = this.y + this.h / 2,
+                })
+            end
         end
     end,
 
@@ -82,8 +90,12 @@ return {
             this.wants_left = false
         elseif key == 'right' then
             this.wants_right = false
-        elseif key == 'x' then
-            this:input_up('throw')
+        elseif key == 'throw' then
+            -- Throw a grenade if we're holding one.
+            if this.nade ~= nil then
+                this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
+                this.nade = nil
+            end
         end
     end,
 

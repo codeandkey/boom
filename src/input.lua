@@ -7,6 +7,7 @@ local input = {
         down = 'crouch',
         z = 'jump',
         x = 'throw',
+        up = 'jump',
     }
 }
 

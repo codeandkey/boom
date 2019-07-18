@@ -129,6 +129,7 @@ function object.add_component(obj, type_name, initial)
 
     initial = initial or {}
     initial.__typename = type_name
+    initial.__layer = obj.__layer -- Pass through layer if there is one
 
     obj.components[type_name] = object.construct(c_type, initial)
 

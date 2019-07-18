@@ -1,7 +1,8 @@
 --- Object group class.
 
+local log          = require 'log'
 local object_types = require 'object_types'
-local object = require 'object'
+local object       = require 'object'
 
 local object_group = {}
 
@@ -113,6 +114,10 @@ function object_group.create_object(group, type_name, initial)
     -- Assign the internal layer and typename.
     initial.__layer = group
     initial.__typename = type_name
+
+    if group == nil then
+        log.error('object_group.create_object: group is nil, type_name=%s, initial=%s', type_name, initial)
+    end
 
     -- Initialize the object and push it to the layer.
     table.insert(group.objects, object.construct(obj_type, initial))

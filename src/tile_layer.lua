@@ -7,9 +7,19 @@ local tile_layer = {}
 -- @param tiled_obj Tile layer table from map file.
 -- @param tilesets_obj Tilesets table from map file.
 -- @return The initialized tile layer.
-function tile_layer.init(tiled_obj, tilesets_obj)
+function tile_layer.init(tiled_obj, tilesets_obj, physics_world)
     -- Initialize render batch.
     tiled_obj.batch = love.graphics.newSpriteBatch(tilesets_obj.texture, tiled_obj.width * tiled_obj.height, 'static')
+
+    if tiled_obj.properties.solid then
+        tiled_obj.solid = true
+        tiled_obj.bodies = {}
+        tiled_obj.fixtures = {}
+    end
+
+    local tw = tilesets_obj.tilewidth
+    local th = tilesets_obj.tileheight
+    local tileshape = love.physics.newRectangleShape(tw, th)
 
     for y=0,tiled_obj.height-1 do
         for x=0,tiled_obj.width-1 do
@@ -17,8 +27,18 @@ function tile_layer.init(tiled_obj, tilesets_obj)
 
             if tid ~= 0 then
                 tiled_obj.batch:add(tilesets_obj.tiles[tid],
-                                    tiled_obj.offsetx + x * tilesets_obj.tilewidth,
-                                    tiled_obj.offsety + y * tilesets_obj.tileheight)
+                                    tiled_obj.offsetx + x * tw,
+                                    tiled_obj.offsety + y * th)
+
+                if tiled_obj.solid then
+                    local body = love.physics.newBody(physics_world,
+                                                      x * tw + (tw / 2),
+                                                      y * th + (th / 2), 'static')
+                    local fixture = love.physics.newFixture(body, tileshape)
+
+                    table.insert(tiled_obj.bodies, body)
+                    table.insert(tiled_obj.fixtures, fixture)
+                end
             end
         end
     end
@@ -28,6 +48,21 @@ function tile_layer.init(tiled_obj, tilesets_obj)
     tiled_obj.tileheight = tilesets_obj.tileheight
 
     return tiled_obj
+end
+
+--- Unloads a tile layer.
+-- Destroys any physics objects in solid layers.
+-- @param layer Layer to unload.
+function tile_layer.unload(layer)
+    if layer.solid then
+        for _, v in ipairs(layer.fixtures) do
+            v:destroy()
+        end
+
+        for _, v in ipairs(layer.bodies) do
+            v:destroy()
+        end
+    end
 end
 
 --- Render a tile layer.

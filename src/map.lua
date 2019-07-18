@@ -40,7 +40,7 @@ function map.load(name)
     for k, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
             log.debug('Loading tile layer from index %d', k)
-            map.current.layers[k] = tile_layer.init(v, map.current.tilesets)
+            map.current.layers[k] = tile_layer.init(v, map.current.tilesets, map.current.physics_world)
         elseif v.type == 'objectgroup' then
             log.debug('Loading object group from index %d', k)
             map.current.layers[k] = object_group.init(v)
@@ -66,8 +66,20 @@ function map.unload()
     for _, v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
             object_group.unload(v)
+        elseif v.type == 'tilelayer' then
+            tile_layer.unload(v)
         end
     end
+end
+
+--- Get the map physics world.
+-- @return The active physics world or nil if no map.
+function map.get_physics_world()
+    if map.current == nil then
+        return nil
+    end
+    
+    return map.current.physics_world
 end
 
 --- Update all objects in the map y _dt_ seconds.
@@ -82,6 +94,7 @@ function map.update(dt)
     for _, v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
             object_group.call(v, 'update', dt)
+            object_group.remove_dead(v)
         end
     end
 
@@ -145,7 +158,7 @@ end
 -- @return[1] False if _rect_ does not intersect with any nonzero tiles in _layer_.
 function map.aabb_tile(rect)
     for _, v in ipairs(map.current.layers) do
-        if v.type == 'tilelayer' then
+        if v.type == 'tilelayer' and v.properties.solid then
             status, collision = tile_layer.aabb(v, rect)
 
             if status then
