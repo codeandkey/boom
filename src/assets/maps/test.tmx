@@ -269,22 +269,22 @@
   <object id="43" name="kill_trigger" type="noclip" x="-159.105" y="449.767" width="2420.87" height="30.3593"/>
   <object id="45" name="Fred" type="npc" x="203.823" y="236.994" width="32" height="32">
    <properties>
-    <property name="Name" value="Fred"/>
+    <property name="name" value="Fred"/>
    </properties>
   </object>
   <object id="47" name="Joe" type="npc" x="240.929" y="238.68" width="32" height="32">
    <properties>
-    <property name="Name" value="Joe"/>
+    <property name="name" value="Joe"/>
    </properties>
   </object>
   <object id="48" name="Tom" type="npc" x="163.344" y="238.68" width="32" height="32">
    <properties>
-    <property name="Name" value="Tom"/>
+    <property name="name" value="Tom"/>
    </properties>
   </object>
   <object id="49" name="Bill" type="npc" x="276.911" y="236.994" width="32" height="32">
    <properties>
-    <property name="Name" value="Bill"/>
+    <property name="name" value="Bill"/>
    </properties>
   </object>
   <object id="50" name="enemy" type="enemy_bomber" x="704" y="192" width="32" height="32">

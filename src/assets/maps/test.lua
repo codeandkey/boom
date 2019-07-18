@@ -364,7 +364,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Fred"
+            ["name"] = "Fred"
           }
         },
         {
@@ -379,7 +379,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Joe"
+            ["name"] = "Joe"
           }
         },
         {
@@ -394,7 +394,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Tom"
+            ["name"] = "Tom"
           }
         },
         {
@@ -409,7 +409,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Bill"
+            ["name"] = "Bill"
           }
         },
         {
