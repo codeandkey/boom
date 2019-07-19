@@ -39,6 +39,8 @@ return {
     end,
 
     update = function(this, dt)
+        local char = this.components.character
+
         this.thought_timer = this.thought_timer - dt
 
         if this.thought_timer < 0 then
@@ -48,17 +50,17 @@ return {
                 -- Move somewhere. What direction?
                 if math.random(0, 1) == 0 then
                     -- Go left!
-                    object.call(this.components.character, 'inputdown', 'left')
-                    object.call(this.components.character, 'inputup', 'right')
+                    object.call(char, 'inputdown', 'left')
+                    object.call(char, 'inputup', 'right')
                 else
                     -- Go other left!
-                    object.call(this.components.character, 'inputdown', 'right')
-                    object.call(this.components.character, 'inputup', 'left')
+                    object.call(char, 'inputdown', 'right')
+                    object.call(char, 'inputup', 'left')
                 end
             else
                 -- Stop moving and wait. Release all keys.
-                object.call(this.components.character, 'inputup', 'left')
-                object.call(this.components.character, 'inputup', 'right')
+                object.call(char, 'inputup', 'left')
+                object.call(char, 'inputup', 'right')
             end
             
             -- Wait a semirandom time before thinking again.
@@ -66,19 +68,28 @@ return {
         end
 
         -- Check if we've run into a wall.
-        if this.components.character.is_walking and math.abs(this.components.character.dx) < 10 then
+        if char.is_walking and math.abs(char.dx) < 10 then
             -- Will we try and vault it?
             if math.random(0, 2) > 0 then
                 -- Send a jump keypress!
-                object.call(this.components.character, 'inputdown', 'jump')
+                object.call(char, 'inputdown', 'jump')
 
                 -- Normally we'd send an 'inputup' to release the jump, but the
                 -- character component doesn't actually listen for it.
             else
                 -- Give up and stop walking.
-                object.call(this.components.character, 'inputup', 'left')
-                object.call(this.components.character, 'inputup', 'right')
+                object.call(char, 'inputup', 'left')
+                object.call(char, 'inputup', 'right')
             end
         end
+
+        -- Kill the object if the character dies.
+        if char.dead then
+            object.destroy(this)
+        end
+
+        -- Mark our object position (for collision calculation)
+        this.x = char.x + char.w / 2
+        this.y = char.y + char.h / 2
     end
 }

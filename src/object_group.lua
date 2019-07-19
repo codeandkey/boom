@@ -98,6 +98,16 @@ function object_group.find_type(group, type_name)
     return output
 end
 
+--- Call a function with every object in the layer.
+-- @param group Object group to iterate.
+-- @param func Function to call.
+-- @param ... Extra arguments to pass.
+function object_group.foreach(group, func, ...)
+    for _, v in pairs(group.objects) do
+        func(v, ...)
+    end
+end
+
 --- Create a new object and add it to the group.
 -- @param group Object group to add to.
 -- @param type_name Type name of new object.

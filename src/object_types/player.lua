@@ -19,9 +19,18 @@ return {
         -- Point the camera in the right direction.
         camera.set_focus_flip(char.direction == 'left')
 
-
         if char.jump_enabled then
             camera.set_focus_y(char.y + char.h / 2)
         end
+
+        -- Destroy the player if the character dies.
+        if char.dead then
+            object.destroy(this)
+        end
+
+        -- Our location is the character's location.
+        -- We'll center for convienence.
+        this.x = char.x + char.w / 2
+        this.y = char.y + char.h / 2
     end,
 }

@@ -170,4 +170,15 @@ function map.aabb_tile(rect)
     return false
 end
 
+-- Execute a function on every object in the map.
+-- @param func Function to call.
+-- @param ... Extra arguments for function.
+function map.foreach_object(func, ...)
+    for _ ,v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            object_group.foreach(v, func, ...)
+        end
+    end
+end
+
 return map

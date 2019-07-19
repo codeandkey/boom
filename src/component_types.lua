@@ -8,7 +8,7 @@ setmetatable(component_types, {
         local status, type_table = pcall(function() return require('component_types/' .. index) end)
 
         if not status then
-            log.error('Unknown component type %s!', index)
+            log.error('Unknown component type %s! (%s)', index, type_table)
         else
             return type_table
         end

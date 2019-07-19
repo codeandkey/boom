@@ -76,6 +76,14 @@ function sprite.frame(spr)
     return spr.frames[spr.current]
 end
 
+--- Get the frame size.
+-- @param sprite Sprite to query.
+-- @return Frame width.
+-- @return Frame height.
+function sprite.frame_size(sprite)
+    return sprite.frame_w, sprite.frame_h
+end
+
 --- Update a sprite by _dt_ seconds.
 -- @param self Sprite to update.
 -- @param dt Seconds to update by.
