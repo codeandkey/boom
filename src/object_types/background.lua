@@ -48,16 +48,16 @@ return {
             -- Move the parallax point until it is within the camera bounds.
             -- Then render the background once to the left and once to the right.
             while cx < bounds.x do
-                cx = cx + bounds.w
+                cx = cx + this.spr_w
             end
 
             while cx > bounds.x + bounds.w do
-                cx = cx - bounds.w
+                cx = cx - this.spr_w
             end
 
             sprite.render(this.spr, cx - this.spr_w / 2, cy - this.spr_h / 2)
-            sprite.render(this.spr, cx + this.spr_w / 2, cy - this.spr_h / 2)
             sprite.render(this.spr, cx - 3 * this.spr_w / 2, cy - this.spr_h / 2)
+            sprite.render(this.spr, cx + this.spr_w / 2, cy - this.spr_h / 2)
         else
             -- Render the sprite, centered on the camera (+ parallax)
             sprite.render(this.spr, cx - this.spr_w / 2, cy - this.spr_h / 2)
