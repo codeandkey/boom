@@ -91,13 +91,17 @@ function tile_layer.aabb(layer, rect)
     -- Check the tile data within the integer bounds for any nonzero TIDs
     for x=left,right do
         for y=top,bottom do
-            if layer.data[1 + x + y * layer.width] > 0 then
-                return true, {
-                    x = x * layer.tilewidth + layer.offsetx,
-                    y = y * layer.tileheight + layer.offsety,
-                    w = layer.tilewidth,
-                    h = layer.tileheight,
-                }
+            local idx = 1 + x + y * layer.width
+
+            if idx > 0 and idx <= #layer.data then
+                if layer.data[1 + x + y * layer.width] > 0 then
+                    return true, {
+                        x = x * layer.tilewidth + layer.offsetx,
+                        y = y * layer.tileheight + layer.offsety,
+                        w = layer.tilewidth,
+                        h = layer.tileheight,
+                    }
+                end
             end
         end
     end
