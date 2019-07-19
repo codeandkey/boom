@@ -27,6 +27,9 @@ local camera = {
 
     anim_xspeed = 1, -- Higher is slower.
     anim_yspeed = 1.25,
+
+    shake_factor = 15,
+    shake_time = 0,
 }
 
 --- Center the game camera on a point.
@@ -35,6 +38,12 @@ local camera = {
 function camera.center(x, y)
     camera.x = x
     camera.y = y
+end
+
+--- Set the camera shake time.
+-- @param Time to shake for (seconds).
+function camera.setshake(shake)
+    camera.shake_time = shake
 end
 
 --- Set the size (in display pixels) for 1 game pixel.
@@ -53,6 +62,12 @@ function camera.apply()
     love.graphics.translate(sw / 2, sh / 2)
     love.graphics.scale(camera.scale)
     love.graphics.translate(-camera.x, -camera.y)
+    
+    -- Apply extra translate if shaking.
+    if camera.shake_time > 0 then
+        love.graphics.translate(((math.random() * 2) - 1) * camera.shake_time * camera.shake_factor,
+                                ((math.random() * 2) - 1) * camera.shake_time * camera.shake_factor)
+    end
 end
 
 --- Unapply the camera settings in the graphics context.
@@ -153,9 +168,12 @@ function camera.update(dt)
     -- Finally update the camera position.
     camera.x = camera.x + (vx or 0)
     camera.y = camera.y + (vy or 0)
+
+    -- Update the shake timer.
+    camera.shake_time = camera.shake_time - dt
 end
 
---- Render camera deubg information.
+--- Render camera debug information.
 function camera.render_debug()
     local sw, sh = love.graphics.getDimensions()
 

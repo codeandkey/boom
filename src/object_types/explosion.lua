@@ -1,6 +1,6 @@
 --- Explosion object type.
 
-local log    = require 'log'
+local camera = require 'camera'
 local map    = require 'map'
 local object = require 'object'
 
@@ -46,6 +46,9 @@ return {
                 end
             )
         end
+
+        -- Shake the camera a little.
+        camera.setshake(0.2)
     end,
 
     render = function(this)
