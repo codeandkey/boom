@@ -27,6 +27,7 @@ function object_group.init(tiled_obj)
         initial.h = v.height
         initial.visible = v.visible
         initial.angle = v.rotation
+        initial.name = v.name
 
         object_group.create_object(new_group, v.type, initial)
     end

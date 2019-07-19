@@ -490,19 +490,6 @@ return {
           properties = {}
         },
         {
-          id = 43,
-          name = "kill_trigger",
-          type = "noclip",
-          shape = "rectangle",
-          x = -159.105,
-          y = 449.767,
-          width = 2420.87,
-          height = 30.3593,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 45,
           name = "Fred",
           type = "npc",
@@ -561,23 +548,6 @@ return {
           properties = {
             ["name"] = "Bill"
           }
-        },
-        {
-          id = 50,
-          name = "enemy",
-          type = "enemy_bomber",
-          shape = "rectangle",
-          x = 704,
-          y = 192,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["b"] = 1,
-            ["g"] = 0.5,
-            ["r"] = 1
-          }
         }
       }
     },
@@ -591,38 +561,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 39,
-          name = "box1",
-          type = "physbox",
-          shape = "rectangle",
-          x = 60.7189,
-          y = 265.362,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "dynamic"
-          }
-        },
-        {
-          id = 44,
-          name = "box2",
-          type = "physbox",
-          shape = "rectangle",
-          x = 80.958,
-          y = 249.621,
-          width = 16,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "dynamic"
-          }
-        }
-      }
+      objects = {}
     }
   }
 }
