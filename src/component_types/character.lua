@@ -23,8 +23,6 @@ local sprite       = require 'sprite'
 
 return {
     init = function(this)
-        log.debug('Initializing character component!')
-
         -- Configuration.
         this.gravity           = this.gravity or 350
         this.crouch_decel      = this.crouch_decel or 600
@@ -259,8 +257,4 @@ return {
         -- Render the current sprite.
         sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
     end,
-
-    destroy = function(_)
-        log.debug('Destroying character component!')
-    end
 }

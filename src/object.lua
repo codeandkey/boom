@@ -60,8 +60,6 @@ end
 -- This should NEVER be called from within an object. This is handled by object groups.
 -- Please see 'object.destroy(obj)' for requesting an object be destroyed.
 function object.destruct(obj)
-    log.debug('Destructing object of type ' .. obj.__typename)
-
     -- Call defined destructor first
     -- It's important that we call this directly -- otherwise it will be relayed to components too early.
     util.pcall(obj.__type.destroy, obj)
@@ -108,8 +106,6 @@ end
 -- @param type_name Component type name.
 -- @param initial Initial state for component.
 function object.add_component(obj, type_name, initial)
-    log.debug('Requested component add: %s', type_name)
-
     if obj.components[type_name] ~= nil then
         log.warn('Ignoring multiple init of component %s on object type %s!', type_name, obj.__typename)
         return

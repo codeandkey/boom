@@ -16,12 +16,7 @@ return {
         map.foreach_object(function (other_obj)
             local dist = math.sqrt(math.pow(other_obj.x - this.x, 2) + math.pow(other_obj.y - this.y, 2))
 
-            log.debug('Explosion location: %f, %f', this.x, this.y)
-            log.debug('Other location: %f, %f', other_obj.x, other_obj.y)
-            log.debug('Computed dist to %s: %f', other_obj.__typename, dist)
-
             if dist < this.object_range then
-                log.debug('Exploding object %s (%s) with dist %f', other_obj, other_obj.__typename, dist)
                 object.call(other_obj, 'explode', dist, (other_obj.x - this.x) / dist, (other_obj.y - this.y) / dist)
             end
         end)
