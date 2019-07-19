@@ -30,10 +30,6 @@
   <li><a href="../index.html">Index</a></li>
 </ul>
 
-<h2>Contents</h2>
-<ul>
-<li><a href="#Functions">Functions</a></li>
-</ul>
 
 
 <h2>Modules</h2>
@@ -46,11 +42,11 @@
   <li><a href="../modules/map.html">map</a></li>
   <li><a href="../modules/object.html">object</a></li>
   <li><a href="../modules/object_group.html">object_group</a></li>
-  <li><a href="../modules/physics_groups.html">physics_groups</a></li>
+  <li><strong>physics_groups</strong></li>
   <li><a href="../modules/shaders.html">shaders</a></li>
   <li><a href="../modules/sprite.html">sprite</a></li>
   <li><a href="../modules/tile_layer.html">tile_layer</a></li>
-  <li><strong>tilesets</strong></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
   <li><a href="../modules/util.html">util</a></li>
 </ul>
 <h2>Topics</h2>
@@ -66,78 +62,17 @@
 
 <div id="content">
 
-<h1>Module <code>tilesets</code></h1>
-<p>Tilesets structure.</p>
-<p> Each map should have exactly one tileset &mdash; this structure initializes in-place of the &lsquo;tilesets&rsquo; field
- initially present in the map file.</p>
+<h1>Module <code>physics_groups</code></h1>
+<p>Collection of physics groups.</p>
+<p>
+</p>
 
 
-<h2><a href="#Functions">Functions</a></h2>
-<table class="function_list">
-	<tr>
-	<td class="name" nowrap><a href="#init">init (tiled_obj)</a></td>
-	<td class="summary">Initialize a tileset resource from a Tiled tileset.</td>
-	</tr>
-	<tr>
-	<td class="name" nowrap><a href="#unload">unload (ts)</a></td>
-	<td class="summary">Unload a tileset list.</td>
-	</tr>
-</table>
 
 <br/>
 <br/>
 
 
-    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
-
-    <dl class="function">
-    <dt>
-    <a name = "init"></a>
-    <strong>init (tiled_obj)</strong>
-    </dt>
-    <dd>
-    Initialize a tileset resource from a Tiled tileset.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">tiled_obj</span>
-         Tilesets array from map file.
-        </li>
-    </ul>
-
-    <h3>Returns:</h3>
-    <ol>
-
-        The initialized tilesets table.
-    </ol>
-
-
-
-
-</dd>
-    <dt>
-    <a name = "unload"></a>
-    <strong>unload (ts)</strong>
-    </dt>
-    <dd>
-    Unload a tileset list.
- Destroys any images and quads allocated.
-
-
-    <h3>Parameters:</h3>
-    <ul>
-        <li><span class="parameter">ts</span>
-         Tileset to unload.
-        </li>
-    </ul>
-
-
-
-
-
-</dd>
-</dl>
 
 
 </div> <!-- id="content" -->
