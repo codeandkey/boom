@@ -154,6 +154,7 @@ return {
             ["duration"] = 0.08,
             ["frame_w"] = 800,
             ["image"] = "3200x600_background_tower.png",
+            ["offset_x"] = 300,
             ["parallax_x"] = 1.1
           }
         }

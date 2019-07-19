@@ -33,6 +33,7 @@
     <property name="duration" type="float" value="0.08"/>
     <property name="frame_w" type="int" value="800"/>
     <property name="image" value="3200x600_background_tower.png"/>
+    <property name="offset_x" type="float" value="300"/>
     <property name="parallax_x" type="float" value="1.1"/>
    </properties>
   </object>

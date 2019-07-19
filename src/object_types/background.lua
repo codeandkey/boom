@@ -44,6 +44,14 @@ return {
 
         love.graphics.setColor(1, 1, 1, 1)
 
+        if this.offset_x then
+            cx = cx + this.offset_x
+        end
+
+        if this.offset_y then
+            cy = cy + this.offset_y
+        end
+
         if this.repeat_x then
             -- Move the parallax point until it is within the camera bounds.
             -- Then render the background once to the left and once to the right.
