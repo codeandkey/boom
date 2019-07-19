@@ -8,8 +8,8 @@ return {
   height = 256,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 5,
-  nextobjectid = 51,
+  nextlayerid = 10,
+  nextobjectid = 57,
   properties = {},
   tilesets = {
     {
@@ -40,6 +40,155 @@ return {
     }
   },
   layers = {
+    {
+      type = "objectgroup",
+      id = 7,
+      name = "background_sky",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 52,
+          name = "background_sky",
+          type = "background",
+          shape = "rectangle",
+          x = 16,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_sky_red.png"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 8,
+      name = "background_sun",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {
+        ["parallax_x"] = 0.1
+      },
+      objects = {
+        {
+          id = 53,
+          name = "background_sun",
+          type = "background",
+          shape = "rectangle",
+          x = 64,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["parallax_x"] = 1
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 6,
+      name = "background_ground",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 55,
+          name = "background_ground_silhouette",
+          type = "background",
+          shape = "rectangle",
+          x = 112,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_ground_silhouette.png",
+            ["parallax_x"] = 1.6,
+            ["repeat_x"] = true
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 9,
+      name = "background_tower",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 56,
+          name = "backgrorund_tower",
+          type = "background",
+          shape = "rectangle",
+          x = 208,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["duration"] = 0.08,
+            ["frame_w"] = 800,
+            ["image"] = "3200x600_background_tower.png",
+            ["parallax_x"] = 1.1
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 5,
+      name = "background_silhouettes",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 54,
+          name = "background_silhouettes",
+          type = "background",
+          shape = "rectangle",
+          x = 160,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_silhouettes.png",
+            ["parallax_x"] = 1.3,
+            ["repeat_x"] = true
+          }
+        }
+      }
+    },
     {
       type = "tilelayer",
       id = 1,

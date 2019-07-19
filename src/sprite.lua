@@ -88,6 +88,10 @@ end
 -- @param self Sprite to update.
 -- @param dt Seconds to update by.
 function sprite.update(self, dt)
+    if not self.duration then
+        return
+    end
+
     if self.playing then
         self.time_accumulator = self.time_accumulator + dt
 

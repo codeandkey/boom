@@ -49,6 +49,5 @@ function love.draw()
     -- Render the current map with the camera applied.
     camera.apply()
     map.render()
-    camera.render_debug()
     camera.unapply()
 end

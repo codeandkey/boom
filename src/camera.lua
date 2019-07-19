@@ -26,7 +26,7 @@ local camera = {
     },
 
     anim_xspeed = 1, -- Higher is slower.
-    anim_yspeed = 1.25,
+    anim_yspeed = 0.5,
 
     shake_factor = 15,
     shake_time = 0,
@@ -50,6 +50,27 @@ end
 -- @param scale Display scale.
 function camera.setscale(scale)
     camera.scale = scale
+end
+
+--- Get the camera bounding rectangle.
+-- @return Table with _x_, _y_, _w_, _h_ in world space.
+function camera.get_bounds()
+    local sw, sh = love.graphics.getDimensions()
+    local cw, ch = (sw / camera.scale), (sh / camera.scale)
+    
+    return {
+        x = camera.x - cw / 2,
+        y = camera.y - ch / 2,
+        w = cw,
+        h = ch
+    }
+end
+
+--- Get the camera center.
+-- @return X coordinate.
+-- @return Y coordinate.
+function camera.get_center()
+    return camera.x, camera.y
 end
 
 --- Apply the camera settings to the graphics context.

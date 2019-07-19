@@ -1,6 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="51">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="57">
  <tileset firstgid="1" source="../tiled/tileset_placeholder.json"/>
+ <objectgroup id="7" name="background_sky">
+  <object id="52" name="background_sky" type="background" x="16" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_sky_red.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="background_sun">
+  <properties>
+   <property name="parallax_x" type="float" value="0.1"/>
+  </properties>
+  <object id="53" name="background_sun" type="background" x="64" y="16" width="32" height="32">
+   <properties>
+    <property name="parallax_x" type="float" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="background_ground">
+  <object id="55" name="background_ground_silhouette" type="background" x="112" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_ground_silhouette.png"/>
+    <property name="parallax_x" type="float" value="1.6"/>
+    <property name="repeat_x" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="background_tower">
+  <object id="56" name="backgrorund_tower" type="background" x="208" y="16" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="0.08"/>
+    <property name="frame_w" type="int" value="800"/>
+    <property name="image" value="3200x600_background_tower.png"/>
+    <property name="parallax_x" type="float" value="1.1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="background_silhouettes">
+  <object id="54" name="background_silhouettes" type="background" x="160" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_silhouettes.png"/>
+    <property name="parallax_x" type="float" value="1.3"/>
+    <property name="repeat_x" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer id="1" name="Tile Layer 1" width="256" height="256">
   <properties>
    <property name="solid" type="bool" value="true"/>
