@@ -209,7 +209,7 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, this.x + this.spr_offsetx, this.y, 0, this.direction == 'left')
+        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
     end,
 
     destroy = function(_)

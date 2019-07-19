@@ -131,7 +131,6 @@ end
 -- @param y Y coord for the top-left corner.
 -- @param angle Rotation about the center.
 -- @param flipped If `true`, horizontally flip the sprite.
-
 function sprite.render(self, x, y, angle, flipped)
     local sx = 1
 
@@ -143,6 +142,18 @@ function sprite.render(self, x, y, angle, flipped)
     local ih = self.frame_h
 
     love.graphics.draw(self.image, sprite.frame(self), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
+end
+
+--- Reverse the order of a sprite's frames.
+-- @param self Sprite to reverse.
+function sprite.reverse(self)
+    local new_frames = {}
+
+    for _, v in ipairs(self.frames) do
+        table.insert(new_frames, v)
+    end
+
+    self.frames = new_frames
 end
 
 return sprite

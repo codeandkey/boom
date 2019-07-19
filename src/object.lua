@@ -31,8 +31,6 @@ local object = {}
 -- @param initial_state Object table to initialize in.
 -- @return The initialized object table. Will not be active in any layer until added.
 function object.construct(type_table, initial_state)
-    log.debug('In object.construct..')
-
     initial_state.__type = type_table
     initial_state.__subscriptions = {}
     initial_state.__dead = false
@@ -70,7 +68,6 @@ function object.destruct(obj)
 
     -- Clean up any subscriptions
     for _, v in pairs(obj.__subscriptions) do
-        log.debug('Destroying subscription')
         v:destroy()
     end
 

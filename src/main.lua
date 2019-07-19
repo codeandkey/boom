@@ -3,12 +3,15 @@
     entry point and mainloop
 ]]--
 
-local event = require 'event'
-local input = require 'input'
-local log = require 'log'
-local map = require 'map'
+local camera = require 'camera'
+local event  = require 'event'
+local input  = require 'input'
+local log    = require 'log'
+local map    = require 'map'
 
 function love.load()
+    love.graphics.setDefaultFilter('nearest', 'nearest')
+
     map.load('test')
     log.info('Finished loading.')
 end
@@ -39,8 +42,13 @@ function love.update(dt)
     event.run()
 
     map.update(dt)
+    camera.update(dt)
 end
 
 function love.draw()
+    -- Render the current map with the camera applied.
+    camera.apply()
     map.render()
+    camera.render_debug()
+    camera.unapply()
 end
