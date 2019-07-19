@@ -8,7 +8,7 @@ setmetatable(object_types, {
         local status, type_table = pcall(function() return require('object_types/' .. index) end)
 
         if not status then
-            log.error('Unknown object type %s!', index)
+            log.error('Unknown object type %s! (%s)', index, type_table)
         else
             return type_table
         end

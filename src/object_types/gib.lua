@@ -22,6 +22,9 @@ return {
 
         this.fixture:setCategory(physics_groups.GIB)
         this.fixture:setMask(physics_groups.GIB)
+        this.fixture:setRestitution(0.1)
+
+        this.body:applyAngularImpulse(math.random(-10, 10))
     end,
 
     destroy = function(this)
