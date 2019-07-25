@@ -1,5 +1,4 @@
 local camera = require 'camera'
-local log    = require 'log'
 local object = require 'object'
 
 return {
