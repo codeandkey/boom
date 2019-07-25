@@ -8,8 +8,8 @@ return {
   height = 256,
   tilewidth = 16,
   tileheight = 16,
-  nextlayerid = 5,
-  nextobjectid = 51,
+  nextlayerid = 10,
+  nextobjectid = 57,
   properties = {},
   tilesets = {
     {
@@ -41,6 +41,156 @@ return {
   },
   layers = {
     {
+      type = "objectgroup",
+      id = 7,
+      name = "background_sky",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 52,
+          name = "background_sky",
+          type = "background",
+          shape = "rectangle",
+          x = 16,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_sky_red.png"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 8,
+      name = "background_sun",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {
+        ["parallax_x"] = 0.1
+      },
+      objects = {
+        {
+          id = 53,
+          name = "background_sun",
+          type = "background",
+          shape = "rectangle",
+          x = 64,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["parallax_x"] = 1
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 6,
+      name = "background_ground",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 55,
+          name = "background_ground_silhouette",
+          type = "background",
+          shape = "rectangle",
+          x = 112,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_ground_silhouette.png",
+            ["parallax_x"] = 1.6,
+            ["repeat_x"] = true
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 9,
+      name = "background_tower",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 56,
+          name = "backgrorund_tower",
+          type = "background",
+          shape = "rectangle",
+          x = 208,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["duration"] = 0.08,
+            ["frame_w"] = 800,
+            ["image"] = "3200x600_background_tower.png",
+            ["offset_x"] = 300,
+            ["parallax_x"] = 1.1
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 5,
+      name = "background_silhouettes",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 54,
+          name = "background_silhouettes",
+          type = "background",
+          shape = "rectangle",
+          x = 160,
+          y = 16,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["image"] = "800x600_background_silhouettes.png",
+            ["parallax_x"] = 1.3,
+            ["repeat_x"] = true
+          }
+        }
+      }
+    },
+    {
       type = "tilelayer",
       id = 1,
       name = "Tile Layer 1",
@@ -52,7 +202,9 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {},
+      properties = {
+        ["solid"] = true
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -338,19 +490,6 @@ return {
           properties = {}
         },
         {
-          id = 43,
-          name = "kill_trigger",
-          type = "noclip",
-          shape = "rectangle",
-          x = -159.105,
-          y = 449.767,
-          width = 2420.87,
-          height = 30.3593,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 45,
           name = "Fred",
           type = "npc",
@@ -362,7 +501,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Fred"
+            ["name"] = "Fred"
           }
         },
         {
@@ -377,7 +516,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Joe"
+            ["name"] = "Joe"
           }
         },
         {
@@ -392,7 +531,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Tom"
+            ["name"] = "Tom"
           }
         },
         {
@@ -407,24 +546,7 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["Name"] = "Bill"
-          }
-        },
-        {
-          id = 50,
-          name = "enemy",
-          type = "enemy_bomber",
-          shape = "rectangle",
-          x = 704,
-          y = 192,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["b"] = 1,
-            ["g"] = 0.5,
-            ["r"] = 1
+            ["name"] = "Bill"
           }
         }
       }
@@ -439,220 +561,7 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {
-        {
-          id = 39,
-          name = "box1",
-          type = "physbox",
-          shape = "rectangle",
-          x = 60.7189,
-          y = 265.362,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "dynamic"
-          }
-        },
-        {
-          id = 44,
-          name = "box2",
-          type = "physbox",
-          shape = "rectangle",
-          x = 80.958,
-          y = 249.621,
-          width = 16,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["type"] = "dynamic"
-          }
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      id = 3,
-      name = "geometry",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 26,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 0,
-          y = 288,
-          width = 336,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 27,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 0,
-          y = 128,
-          width = 48,
-          height = 160,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 31,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 527.351,
-          y = 255.805,
-          width = 47.7877,
-          height = 48.3499,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 33,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 383.426,
-          y = 304,
-          width = 193.962,
-          height = 31.9197,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 34,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 384,
-          y = 272,
-          width = 48,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 35,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 720.47,
-          y = 256.367,
-          width = 47.53,
-          height = 47.633,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 36,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 720,
-          y = 304,
-          width = 176,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 37,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 0,
-          y = 336,
-          width = 896,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 38,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 528,
-          y = 240,
-          width = 240.93,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 40,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 1024,
-          y = 304,
-          width = 176,
-          height = 32.2007,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 41,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 1024,
-          y = 336,
-          width = 896,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 42,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 768,
-          y = 272,
-          width = 48,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 46,
-          name = "",
-          type = "noclip",
-          shape = "rectangle",
-          x = 336,
-          y = 320,
-          width = 48,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        }
-      }
+      objects = {}
     }
   }
 }

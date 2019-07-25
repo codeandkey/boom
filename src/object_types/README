@@ -1,0 +1,32 @@
+object_types
+
+This directory contains all of the game object types. Each object in the map
+will load their types from their respective type file.
+
+Object types are Lua tables. Each type file should return the object type table.
+Invalid type files will raise errors at runtime if they are used by any objects.
+
+Objects have 4 built-in events which are called automatically:
+    init (this) : Object constructor. This function is called once an object is added to a group.
+                  Note that the constructor will be called before other objects have been loaded;
+                  If this object needs to get a reference to another object (EG. by name), that
+                  is better handled within the 'ready' event which is only called after every
+                  object has been initialized.
+
+                  <this> is the initial state of the object. Any properties specified in Tiled
+                  will be present in this table.
+
+    destroy (this) : Object destructor. Called when the object is destroyed.
+                     No other events will be called after 'destroy'.
+
+    update (this, dt) : Object update event. Called on every update with the delta time.
+
+    render (this) : Object draw event. Any graphics operations should be here.
+
+Objects can subscribe to additonal events by calling 'object.subscribe(this, evt_name)'.
+This should only be performed in the 'init' event. The subscription is automatically destroyed.
+
+Many elements of game objects can be reused. This is the basis of the object component system.
+To add a component to an object, an object can call 'object.component(this, component_name, component_params)' in the 'init' event.
+
+To see an example obbject demonstrating the usage of components and custom events, see './example_type.lua'.

@@ -1,205 +1,182 @@
---[[
-    map.lua
-    functions for loading/managing tile-based maps
---]]
+--- Subsystem for managing Tiled-based worlds.
 
-local assets = require 'assets'
-local obj = require 'obj'
-local map = {}
+local log = require 'log'
+local event = require 'event'
+local fs = require 'fs'
+local tilesets = require 'tilesets'
+local object_group = require 'object_group'
+local tile_layer = require 'tile_layer'
 
---[[
-    map.load(name)
+local map = {
+    default_gravity = 9.8 * 16,
+}
 
-    Loads a Lua map from assets/maps/<name>.lua
-    The map should be exported from Tiled. (File -> Export Map)
-
-    Initializes tileset textures, objects, and all other resources in the map
---]]
-
+--- Immediately load and initialize a map.
+-- Loads map from the disk, and unloads any current map.
+-- @param name Map to load.
 function map.load(name)
-    map.current = assets.map(name)
-    map.current.tiles = {}
+    if map.current then
+        map.unload()
+    end
 
-    -- initialize the physics world for the map
-    map.current.phys_world = love.physics.newWorld(0, map.current.properties.gravity or 9.8 * 16)
+    log.info('Loading map %s.', name)
+    map.current = fs.read_map(name)
 
-    -- for now, only allow one tileset
-    -- this is because batches can only go through one image and dividing
-    -- that will be very painful when loading
-    assert(#map.current.tilesets <= 1)
+    -- Something went wrong loading the map. Stop here and leave the map unloaded.
+    if map.current == nil then
+        return
+    end
 
-    -- initialize tilesets
-    for _, v in ipairs(map.current.tilesets) do
-        v.texture = assets.image(v.image)
+    -- Assign map name.
+    map.current.name = name
 
-        -- create quads for each tile in the set
-        local cur_tile = v.firstgid
-        local tw, th = v.tilewidth, v.tileheight
+    -- Initialize physics world.
+    map.current.physics_world = love.physics.newWorld(0, map.current.properties.gravity or map.default_gravity)
 
-        for y=0,(v.imageheight/v.tileheight)-1 do
-            for x=0,(v.imagewidth/v.tilewidth)-1 do
-                map.current.tiles[cur_tile] = love.graphics.newQuad(x * tw, y * th, tw, th, v.imagewidth, v.imageheight)
-                cur_tile = cur_tile + 1
-            end
+    -- Initialize tilesets.
+    map.current.tilesets = tilesets.init(map.current.tilesets)
+
+    -- Initialize layers.
+    for k, v in ipairs(map.current.layers) do
+        if v.type == 'tilelayer' then
+            log.debug('Loading tile layer from index %d', k)
+            map.current.layers[k] = tile_layer.init(v, map.current.tilesets, map.current.physics_world)
+        elseif v.type == 'objectgroup' then
+            log.debug('Loading object group from index %d', k)
+            map.current.layers[k] = object_group.init(v)
         end
     end
 
-    -- initialize layers
+    log.debug('Posting map ready event.')
+    event.push('ready')
+end
+
+--- Unload the current map, if there is one loaded.
+-- Destroys all resources and content loaded in the current map.
+function map.unload()
+    -- Silently ignore if no map is loaded.
+    if map.current == nil then
+        return
+    end
+
+    log.info('Unloading map %s.', map.current.name)
+
+    tilesets.unload(map.current.tilesets)
+
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            object_group.unload(v)
+        elseif v.type == 'tilelayer' then
+            tile_layer.unload(v)
+        end
+    end
+end
+
+--- Get the map physics world.
+-- @return The active physics world or nil if no map.
+function map.get_physics_world()
+    if map.current == nil then
+        return nil
+    end
+
+    return map.current.physics_world
+end
+
+--- Update all objects in the map y _dt_ seconds.
+-- Also updates the map's physics world.
+-- Any objects marked for destruction are destroyed afterward.
+function map.update(dt)
+    -- Ignore if no map loaded.
+    if map.current == nil then
+        return
+    end
+
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'objectgroup' then
+            object_group.call(v, 'update', dt)
+            object_group.remove_dead(v)
+        end
+    end
+
+    map.current.physics_world:update(dt)
+end
+
+--- Render all objects in the map.
+function map.render()
+    -- Ignore if no map loaded.
+    if map.current == nil then
+        return
+    end
+
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
-            -- create render batch alongside data
-            v.batch = love.graphics.newSpriteBatch(map.current.tilesets[1].texture, 1000, 'static')
-
-            for y=0,v.height-1 do
-                for x=0,v.width-1 do
-                    local tid = v.data[1 + x + y * v.width]
-
-                    if tid ~= 0 then
-                        v.batch:add(map.current.tiles[tid],
-                                    v.offsetx + x * map.current.tilewidth,
-                                    v.offsety + y * map.current.tileheight)
-                    end
-                end
-            end
+            tile_layer.render(v)
         elseif v.type == 'objectgroup' then
-            -- object init is pretty quick. we pass the map properties as the template
-            -- the object structure doesn't mesh well with the obj system so we embed
-            -- a new object list (boom_layer).
-            v.boom_layer = {}
-
-            for _, object in ipairs(v.objects) do
-                local initial = object.properties
-                initial.x = object.x
-                initial.y = object.y
-                initial.w = object.width
-                initial.h = object.height
-                initial.name = object.name
-                initial.angle = object.rotation
-                initial.__layer = v.boom_layer
-
-                obj.create(v.boom_layer, object.type, initial)
-            end
+            object_group.call(v, 'render')
         end
     end
 end
 
---[[
-    map.update(dt)
-
-    Updates the state of all objects in the map by <dt> seconds.
---]]
-
-function map.update(dt)
-    map.current.phys_world:update(dt)
-
-    for _, v in ipairs(map.current.layers) do
-        -- for now, we only need to update object layers
-        if v.type == 'objectgroup' then
-            obj.update_layer(v.boom_layer, dt)
-        end
+--- Find a layer by name.
+-- @param name Layer name to search for.
+-- @return First matching layer with name or nil if not found.
+function map.find_layer(name)
+    if map.current == nil then
+        return nil
     end
-end
 
---[[
-    map.render()
-
-    Renders all of the map content, including all tiles and all objects.
-    Layers which have 'visible' unset will be ignored.
-    Layer order is respected.
---]]
-
-function map.render()
-    for _, v in ipairs(map.current.layers) do
-        if v.visible then
-            love.graphics.setColor(1, 1, 1, 1)
-
-            if v.type == 'tilelayer' then
-                love.graphics.draw(v.batch)
-            elseif v.type == 'objectgroup' then
-                obj.render_layer(v.boom_layer)
-            end
-        end
-    end
-end
-
---[[
-    map.layer_by_name(name)
-
-    Locates an OBJECT LAYER by it's name and returns it.
-    If no layer matches <name> then nil is returned.
---]]
-
-function map.layer_by_name(name)
     for _, v in ipairs(map.current.layers) do
         if v.name == name then
-            return v.boom_layer
+            return v
         end
     end
-
-    return nil
 end
 
---[[
-    map.object_by_name(name)
+--- Find an object by name.
+-- Searches each object group for an object named <name>.
+-- Returns the first valid result.
+function map.find_object(name)
+    if map.current == nil then
+        return nil
+    end
 
-    Searches all object layers for an object by <name>
-    If no object matches <name> then nil is returned.
-
-    Returns the first object found -- if there is more than one object
-    with the same name it is undefined behavior.
---]]
-
-function map.object_by_name(name)
     for _, v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
-            for _, k in pairs(v.boom_layer) do
-                if k.name == name then
-                    return k
-                end
+            local res = v:find(name)
+
+            if res then
+                return res
+            end
+        end
+    end
+end
+
+--- Check for AABB collisions on all solid tile layers.
+-- @param rect Rectangle to test. Should have numeric fields _x_, _y_, _w_, _h_.
+-- @return[0] True if _rect_ intersects with a non-zero tile ID in _layer_.
+-- @return[0] Rectangle of the collided tile. Will have numeric fields _x_, _y_, _w_, _h_.
+-- @return[1] False if _rect_ does not intersect with any nonzero tiles in _layer_.
+function map.aabb_tile(rect)
+    for _, v in ipairs(map.current.layers) do
+        if v.type == 'tilelayer' and v.properties.solid then
+            local status, collision = tile_layer.aabb(v, rect)
+
+            if status then
+                return status, collision
             end
         end
     end
 
-    return nil
+    return false
 end
 
-function map.get_physics_world()
-    return map.current.phys_world
-end
-
---[[
-    map.foreach_object(func)
-
-    iterates every object in every object layer and calls <func> with the object passed
-    as the first argument.
---]]
-function map.foreach_object(func)
-    for _, v in ipairs(map.current.layers) do
+-- Execute a function on every object in the map.
+-- @param func Function to call.
+-- @param ... Extra arguments for function.
+function map.foreach_object(func, ...)
+    for _ ,v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
-            obj.foreach_object(v.boom_layer, func)
-        end
-    end
-end
-
---[[
-    map.render_phys_debug()
-
-    renders physics debugging information
---]]
-
-function map.render_phys_debug()
-    love.graphics.setColor(0, 0, 1, 1)
-
-    for _, body in ipairs(map.current.phys_world:getBodies()) do
-        for _, fixture in ipairs(body:getFixtures()) do
-            local shape = fixture:getShape()
-            local shape_type = shape:getType()
-
-            if shape_type == 'polygon' then
-                love.graphics.polygon('line', body:getWorldPoints(shape:getPoints()))
-            elseif shape_type == 'circle' then
-                love.graphics.circle('line', body:getX(), body:getY(), shape:getRadius())
-            end
+            object_group.foreach(v, func, ...)
         end
     end
 end

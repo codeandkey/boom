@@ -1,0 +1,4 @@
+#!/bin/sh
+# build docs
+
+ldoc -vc ldoc_config.ld $(dirname $0)

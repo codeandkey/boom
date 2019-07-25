@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Boom</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/camera.html">camera</a></li>
+  <li><strong>event</strong></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/input.html">input</a></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><a href="../modules/object_group.html">object_group</a></li>
+  <li><a href="../modules/physics_groups.html">physics_groups</a></li>
+  <li><a href="../modules/shaders.html">shaders</a></li>
+  <li><a href="../modules/sprite.html">sprite</a></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/Events.md.html">Events</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example_object_type.lua.html">example_object_type.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>event</code></h1>
+<p>Subsystem for manging game events and subscriptions.</p>
+<p> Event types are documented here.</p>
+
+<p> |    SIGNATURE    |                       DESCRIPTION                          |
+ | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&ndash; | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; |
+ | <code>ready ()</code>      | Called by the map after all objects have been initialized. |
+ | <code>keydown (key)</code> | Called by the display manager when <em>key</em> is pressed.       |
+ | <code>keyup (key)</code>   | Called by the display manager when <em>key</em> is released.      |</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#subscribe">subscribe (event_name, callback, userdata)</a></td>
+	<td class="summary">Subscribe to an event.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#push">push (event_name, ...)</a></td>
+	<td class="summary">Push a new event to the queue.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#next">next ()</a></td>
+	<td class="summary">Evalute the next event on the queue.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#run">run ()</a></td>
+	<td class="summary">Process the event queue until no events remain.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "subscribe"></a>
+    <strong>subscribe (event_name, callback, userdata)</strong>
+    </dt>
+    <dd>
+    Subscribe to an event.
+ Makes a new subscription to &lsquo;event_name&rsquo; events.
+ &lsquo;callback&rsquo; is called on event evaluation, with <userdata> as the first arguments
+ More arguments may be passed to the callback depending on the event.
+ The returned object is the subscription. Call :destroy() on the subscription object to unsubscribe from the event.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+         Event name to subscribe to.
+        </li>
+        <li><span class="parameter">callback</span>
+         Callback function for subscription.
+        </li>
+        <li><span class="parameter">userdata</span>
+         First arguments for callback (optional)
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The subscription object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "push"></a>
+    <strong>push (event_name, ...)</strong>
+    </dt>
+    <dd>
+    Push a new event to the queue.
+ Events are not evaluated immediately &mdash; they are queued and then processed in the
+ order they are received.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">event_name</span>
+         Type of event to push.
+        </li>
+        <li><span class="parameter">...</span>
+         Arguments to pass to subscriber callbacks.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "next"></a>
+    <strong>next ()</strong>
+    </dt>
+    <dd>
+    Evalute the next event on the queue.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The event processed, or nil if no more events.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "run"></a>
+    <strong>run ()</strong>
+    </dt>
+    <dd>
+    Process the event queue until no events remain.
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-19 17:54:37 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
