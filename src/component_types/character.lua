@@ -155,6 +155,8 @@ return {
         this.is_walking = false
 
         -- Update movement velocities.
+        -- if both movement keys are held don't move,
+        -- use air/crouch decel to stop quicker
         if this.wants_right and this.wants_left then
             decel_amt = this.midair_decel
             this.is_walking = false
