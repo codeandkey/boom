@@ -154,6 +154,9 @@ return {
 
         this.is_walking = false
 
+        -- Compute deceleration amount.
+        local decel_amt = this.passive_decel
+
         -- Update movement velocities.
         -- if both movement keys are held don't move,
         -- use air/crouch decel to stop quicker
@@ -175,9 +178,6 @@ return {
                 this.is_walking = true
             end
         end
-
-        -- Compute deceleration amount.
-        local decel_amt = this.passive_decel
 
         if this.wants_crouch then
             decel_amt = this.crouch_decel
