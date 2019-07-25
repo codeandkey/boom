@@ -234,7 +234,7 @@ return {
 
             this.dy = 0
         end
-        
+
         -- Disable jumping if moving vertically.
         if math.abs(this.dy) > 20 then
             this.jump_enabled = false
