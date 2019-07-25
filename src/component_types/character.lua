@@ -28,7 +28,7 @@ return {
         this.crouch_decel      = this.crouch_decel or 600
         this.passive_decel     = this.passive_decel or 400
         this.midair_decel      = this.midair_decel or 200
-        this.jump_dy           = this.jump_dy or -180
+        this.jump_dy           = this.jump_dy or -280
         this.dx_accel          = this.dx_accel or 1600
         this.dx_max            = this.dx_max or 150
         this.grenade_dampening = this.grenade_dampening or 3
@@ -140,6 +140,10 @@ return {
             if this.nade ~= nil then
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
                 this.nade = nil
+            end
+        elseif key == 'jump' then
+            if this.dy < 0 then
+                this.dy = this.dy / 2
             end
         end
     end,
