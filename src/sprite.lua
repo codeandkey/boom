@@ -80,8 +80,8 @@ end
 -- @param sprite Sprite to query.
 -- @return Frame width.
 -- @return Frame height.
-function sprite.frame_size(sprite)
-    return sprite.frame_w, sprite.frame_h
+function sprite.frame_size(spr)
+    return spr.frame_w, spr.frame_h
 end
 
 --- Update a sprite by _dt_ seconds.

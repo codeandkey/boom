@@ -1,6 +1,5 @@
 --- NPC object type.
 
-local log    = require 'log'
 local object = require 'object'
 
 -- Type-wide constants can go here
@@ -62,7 +61,7 @@ return {
                 object.call(char, 'inputup', 'left')
                 object.call(char, 'inputup', 'right')
             end
-            
+
             -- Wait a semirandom time before thinking again.
             this.thought_timer = math.random(0, this.thought_timer_variation) + this.thought_timer_min
         end
