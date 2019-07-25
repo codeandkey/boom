@@ -155,7 +155,10 @@ return {
         this.is_walking = false
 
         -- Update movement velocities.
-        if this.wants_left then
+        if this.wants_right and this.wants_left then
+            decel_amt = this.midair_decel
+            this.is_walking = false
+        elseif this.wants_left then
             this.dx = this.dx - this.dx_accel * dt
             this.direction = 'left'
 
