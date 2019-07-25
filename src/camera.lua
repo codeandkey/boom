@@ -2,8 +2,6 @@
 -- The game will look "crispest" if we scale pixels properly (no half-pixels ever rendered).
 -- So, we apply the camera using only a scale and a translate to center on the screen.
 
-local log = require 'log'
-
 local camera = {
     x = 0, -- center coordinates
     y = 0,
@@ -57,7 +55,7 @@ end
 function camera.get_bounds()
     local sw, sh = love.graphics.getDimensions()
     local cw, ch = (sw / camera.scale), (sh / camera.scale)
-    
+
     return {
         x = camera.x - cw / 2,
         y = camera.y - ch / 2,
@@ -83,7 +81,7 @@ function camera.apply()
     love.graphics.translate(sw / 2, sh / 2)
     love.graphics.scale(camera.scale)
     love.graphics.translate(-camera.x, -camera.y)
-    
+
     -- Apply extra translate if shaking.
     if camera.shake_time > 0 then
         love.graphics.translate(((math.random() * 2) - 1) * camera.shake_time * camera.shake_factor,
