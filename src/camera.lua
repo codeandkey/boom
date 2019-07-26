@@ -8,6 +8,7 @@ local camera = {
     scale = 2, -- pixel scale (effective viewport size)
     focus_x = 0,
     focus_y = 0,
+    max_game_width = 640, -- maximum camera width in game coordinates
 
     focus_box = {
         left = 0.3,
@@ -86,6 +87,17 @@ function camera.apply()
     if camera.shake_time > 0 then
         love.graphics.translate(((math.random() * 2) - 1) * camera.shake_time * camera.shake_factor,
                                 ((math.random() * 2) - 1) * camera.shake_time * camera.shake_factor)
+    end
+end
+
+--- Update the camera's scale from a display size.
+-- Should be called whenever the framebuffer is resized.
+-- @param w Framebuffer width.
+function camera.rescale(w)
+    camera.scale = 1
+
+    while w / camera.scale > camera.max_game_width do
+        camera.scale = camera.scale + 1
     end
 end
 

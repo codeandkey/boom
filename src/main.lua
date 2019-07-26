@@ -10,10 +10,16 @@ local log    = require 'log'
 local map    = require 'map'
 
 function love.load()
+    love.window.setFullscreen(true)
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     map.load('test')
     log.info('Finished loading.')
+end
+
+function love.resize(w, h)
+    log.debug('Display resized to %d by %d', w, h)
+    camera.rescale(w)
 end
 
 function love.keypressed(key)
