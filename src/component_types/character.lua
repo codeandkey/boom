@@ -28,7 +28,7 @@ return {
         this.crouch_decel      = this.crouch_decel or 600
         this.passive_decel     = this.passive_decel or 400
         this.midair_decel      = this.midair_decel or 200
-        this.jump_dy           = this.jump_dy or -180
+        this.jump_dy           = this.jump_dy or -280
         this.dx_accel          = this.dx_accel or 1600
         this.dx_max            = this.dx_max or 150
         this.grenade_dampening = this.grenade_dampening or 3
@@ -141,6 +141,10 @@ return {
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
                 this.nade = nil
             end
+        elseif key == 'jump' then
+            if this.dy < 0 then
+                this.dy = this.dy / 2
+            end
         end
     end,
 
@@ -150,8 +154,16 @@ return {
 
         this.is_walking = false
 
+        -- Compute deceleration amount.
+        local decel_amt = this.passive_decel
+
         -- Update movement velocities.
-        if this.wants_left then
+        -- if both movement keys are held don't move,
+        -- use air/crouch decel to stop quicker
+        if this.wants_right and this.wants_left then
+            decel_amt = this.midair_decel
+            this.is_walking = false
+        elseif this.wants_left then
             this.dx = this.dx - this.dx_accel * dt
             this.direction = 'left'
 
@@ -166,9 +178,6 @@ return {
                 this.is_walking = true
             end
         end
-
-        -- Compute deceleration amount.
-        local decel_amt = this.passive_decel
 
         if this.wants_crouch then
             decel_amt = this.crouch_decel
