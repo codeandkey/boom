@@ -1,12 +1,6 @@
---[[
-    physics groups
-
-    this file defines groups of physics bodies for enabling/disabling
-    collisions.
---]]
+--- Collection of physics groups.
 
 return {
-    WORLD   = 1,
-    GIB     = 2,
-    PHYSBOX = 3,
+    WORLD = 1,
+    GIB   = 2,
 }
