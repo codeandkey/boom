@@ -36,14 +36,15 @@ which can be imported into the map editor.
 
 Some useful object types:
 - `player` is the player spawn point.
-- `noclip` is solid ground that players can move and jump on.
 - `physbox` is a physics object. Requires `type` string parameter.
 	- setting `type` to `dynamic` allows interaction with other objects.
 	- setting `type` to `static` forces a static object.
 
+- 'npc' is a non-player-character, they can be given Names that will be displayed in-game.
+- 'background' denotes an image to be used in parallax for backgrounds
 ## Boom. Physics.
 
-Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/). 
+Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/).
 
 ## Boom. Devs.
 
