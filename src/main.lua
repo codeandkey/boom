@@ -13,7 +13,7 @@ function love.load()
     love.window.setFullscreen(true)
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
-    map.load('test')
+    map.load('main_menu')
     log.info('Finished loading.')
 end
 
