@@ -8,11 +8,15 @@ return {
         object.subscribe(this, 'inputdown')
         object.subscribe(this, 'inputup')
 
-        this.spr_idle = sprite.create('32x32_player.png', 32, 32, 0.5)
+        this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
 
-        object.add_component(this, 'character', { x = this.x, y = this.y }, this.spr_idle, this.spr_walk, this.spr_jump)
+        object.add_component(this, 'character', { x = this.x,
+                                                  y = this.y,
+                                                  spr_idle = this.spr_idle,
+                                                  spr_walk = this.spr_walk,
+                                                  spr_jump = this.spr_jump })
     end,
 
     update = function(this)
