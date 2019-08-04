@@ -8,7 +8,7 @@ return {
         object.subscribe(this, 'inputdown')
         object.subscribe(this, 'inputup')
 
-        this.spr_idle = sprite.create('32x32_player.png', 32, 32, 0.25)
+        this.spr_idle = sprite.create('32x32_player.png', 32, 32, 0.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
 
