@@ -40,10 +40,10 @@ return {
         this.spr_offsetx = this.spr_offsetx or -10
 
         -- Sprites.
-        this.spr_idle = sprite.create('32x32_player.png', 32, 32, 0.25)
-        this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
-        this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
 
+        this.spr_idle = this.spr_idle or sprite.create('32x32_player.png', 32, 32, 0.25)
+        this.spr_walk = this.spr_walk or sprite.create('32x32_player-walk.png', 32, 32, 0.1)
+        this.spr_jump = this.spr_jump or sprite.create('32x32_player-jump.png', 32, 32, 0.05)
         this.spr_jump.looping = false
         this.spr = this.spr_idle
 

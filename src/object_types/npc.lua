@@ -1,7 +1,7 @@
 --- NPC object type.
 
 local object = require 'object'
-
+local sprite = require 'sprite'
 -- Type-wide constants can go here
 local npc = {
     Tom = {
@@ -32,9 +32,13 @@ return {
         this.thought_timer_min       = 3
         this.thought_timer           = 0
 
+        this.spr_idle = sprite.create('32x32_hero.png', 32, 32, 0.1)
+        this.spr_walk = sprite.create('32x32_hero_run.png', 32, 32, 0.2)
+        this.spr_jump = sprite.create('32x32_hero_run.png', 32, 32, 0.05)
+
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
-        object.add_component(this, 'character', { x = this.x, y = this.y, color = this.mode.color })
+        object.add_component(this, 'character', { x = this.x, y = this.y, spr_idle = this.spr_idle, spr_walk = this.spr_walk, spr_jump = this.spr_jump } )
     end,
 
     update = function(this, dt)
