@@ -33,7 +33,7 @@ return {
         this.thought_timer           = 0
 
         this.spr_idle = sprite.create('32x32_hero.png', 32, 32, 0.1)
-        this.spr_walk = sprite.create('32x32_hero-run.png', 32, 32, 0.2)
+        this.spr_walk = sprite.create('32x32_hero-walk.png', 32, 32, 0.2)
         this.spr_jump = sprite.create('32x32_hero-jump.png', 32, 32, 0.05)
 
         -- Create a character component, but don't subsbcribe to input events.
