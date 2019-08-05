@@ -1,0 +1,12 @@
+--- English game strings.
+
+return {
+    MAIN_MENU_TITLE = 'BOOM',
+    MAIN_MENU_OPTIONS = 'OPTIONS',
+    MAIN_MENU_NEW = 'NEW GAME',
+    MAIN_MENU_LOAD = 'CONTINUE',
+    MAIN_MENU_QUIT = 'QUIT',
+    OPTIONS_MENU_FULLSCREEN = 'FULLSCREEN: ',
+    CONFIRM = 'OK',
+    CANCEL = 'CANCEL',
+}
