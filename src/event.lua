@@ -83,10 +83,9 @@ function event.next()
     local sublist = event.subscriptions[current.event_name]
 
     if sublist then
-        for k, v in ipairs(sublist) do
+        for k, v in pairs(sublist) do
             if v.valid then
                 -- valid subscription, make the call
-
                 if v.userdata then
                     pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
                 else
