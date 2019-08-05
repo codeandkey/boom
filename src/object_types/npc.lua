@@ -27,13 +27,17 @@ return {
         this.name = this.name or 'noname'
         this.mode = npc[this.name]
 
+        -- Static movement properties
+        this.dx_max =50
+
         -- Random movement state.
         this.thought_timer_variation = 5
         this.thought_timer_min       = 3
         this.thought_timer           = 0
 
+        -- Set the sprites to be used
         this.spr_idle = sprite.create('32x32_hero.png', 32, 32, 0.1)
-        this.spr_walk = sprite.create('32x32_hero-walk.png', 32, 32, 0.2)
+        this.spr_walk = sprite.create('32x32_hero-walk.png', 32, 32, 0.15)
         this.spr_jump = sprite.create('32x32_hero-jump.png', 32, 32, 0.05)
 
         -- Create a character component, but don't subsbcribe to input events.
@@ -41,6 +45,7 @@ return {
         object.add_component(this, 'character',
                                     { x = this.x,
                                       y = this.y,
+                                      dx_max = this.dx_max,
                                       spr_idle = this.spr_idle,
                                       spr_walk = this.spr_walk,
                                       spr_jump = this.spr_jump } )
