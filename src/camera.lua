@@ -2,6 +2,9 @@
 -- The game will look "crispest" if we scale pixels properly (no half-pixels ever rendered).
 -- So, we apply the camera using only a scale and a translate to center on the screen.
 
+local event = require 'event'
+local log   = require 'log'
+
 local camera = {
     x = 0, -- center coordinates
     y = 0,
@@ -93,7 +96,8 @@ end
 --- Update the camera's scale from a display size.
 -- Should be called whenever the framebuffer is resized.
 -- @param w Framebuffer width.
-function camera.rescale(w)
+function camera.rescale(w, h)
+    log.debug('Rescaling camera for framebuffer size %d, %d', w, h)
     camera.scale = 1
 
     while w / camera.scale > camera.max_game_width do
@@ -261,5 +265,8 @@ function camera.render_debug()
     love.graphics.line(pbox_world.left, cam_bounds.top, pbox_world.left, cam_bounds.bottom)
     love.graphics.line(pbox_world.right, cam_bounds.top, pbox_world.right, cam_bounds.bottom)
 end
+
+-- Global event handler for camera resizing.
+event.subscribe('fbsize', camera.rescale)
 
 return camera
