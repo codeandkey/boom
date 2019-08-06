@@ -3,34 +3,33 @@
 
 local log = require 'log'
 
-local default_opts = {
-    fullscreen = true,
-    fullscreen_type = 'desktop',
-    msaa = 0,
-    vsync = false,
-}
-
 local opts = {
     values = {},
     path = 'assets/opts',
 }
 
---- Merges option values from a table.
--- Does not apply the options.
--- @param tbl Table of options to set.
-function opts.load_table(tbl)
-    for k, v in pairs(tbl) do
-        opts.values[k] = v
-    end
+--- Set an option, but do not save it.
+-- @param key Option index.
+-- @param val Value to assign.
+function opts.set(key, val)
+    opts.values[key] = val
 end
 
---- Import options from the disk.
--- Does not apply the options.
+--- Get an option value.
+-- @param key Option index.
+function opts.get(key)
+    return opts.values[key]
+end
+
+--- Import option values from the disk.
 function opts.load()
     status, result = pcall(function() return require(opts.path) end)
 
     if status then
-        opts.load_table(result)
+        for k, v in pairs(result) do
+            opts.values[k] = v
+        end
+
         log.info('Loaded options from src/%s.lua', opts.path)
     else
         log.error("Couldn't import options from src/%s.lua: %s", opts.path, result)
@@ -47,28 +46,27 @@ function opts.save()
 
     ofile:write('-- Boom options file. Do not edit while game is running!\n')
     ofile:write('-- Your changes may be lost.\n\n')
-    ofile:write('return {\n')
-
-    -- Write non-default keys.
-    for k, v in pairs(opts.values) do
-        if v ~= default_opts[k] then
-            -- Non-default. Export me!
-            log.debug('Exporting non-default option key %s', k)
-
-            if type(v) == 'string' then
-                ofile:write('    %s = "%s"\n', k, v)
-            elseif type(v) == 'number' or type(v) == 'boolean' then
-                ofile:write('    %s = %s\n', k, tostring(v))
-            else
-                log.error('Ignoring invalid value type %s for key %s!', type(v), k)
-            end
-        end
-    end
-
-    ofile:write('}\n')
+    ofile:write('return ' .. opts.serialize(opts.values))
     ofile:close()
 
     log.info('Wrote options to %s', 'src/' .. opts.path .. '.lua')
+end
+
+--- Serialize a Lua value for writing configs.
+-- @param Value to serialize.
+-- @return String with serialized data.
+function opts.serialize(v)
+    if type(v) == 'table' then
+        local out = '{ '
+        for k, nv in pairs(v) do
+            out = out .. '["' .. k .. '"] = ' .. opts.serialize(nv) .. ','
+        end
+        return out .. ' }'
+    elseif type(v) == 'string' then
+        return '"' .. v .. '"'
+    elseif type(v) == 'number' or type(v) == 'boolean' then
+        return tostring(v)
+    end
 end
 
 --- Applies game options.
@@ -109,7 +107,5 @@ function opts.set_fullscreen(set)
     opts.values.fullscreen = set or not opts.values.fullscreen
 end
 
--- Set default options initially.
-opts.load_table(default_opts)
-
+opts.load()
 return opts
