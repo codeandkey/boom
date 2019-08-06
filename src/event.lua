@@ -89,8 +89,6 @@ function event.next()
     if sublist then
         for k, v in pairs(sublist) do
             if v.valid then
-                log.debug('Calling valid subscription %s on event %s', v, current.event_name)
-
                 -- valid subscription, make the call
                 if v.userdata then
                     util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
