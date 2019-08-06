@@ -8,17 +8,36 @@ local event  = require 'event'
 local input  = require 'input'
 local log    = require 'log'
 local map    = require 'map'
+local opts   = require 'opts'
 
 function love.load()
-    love.window.setFullscreen(true)
+    -- Load game. Check first: is there a saved mode? If so, apply it.
+    local mode = opts.get('mode')
+
+    if mode then
+        log.debug('Applying saved video mode..')
+        love.window.setMode(mode.width, mode.height, mode.flags)
+    else
+        -- Choose the nicest looking default mode.
+        log.debug('No video mode saved. Choosing a sane default..')
+
+        love.window.setFullscreen(true)
+    end
+
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     map.load('main_menu')
     log.info('Finished loading.')
 end
 
-function love.resize(w, h)
-    log.debug('Display resized to %d by %d', w, h)
+function love.resize()
+    local w, h, flags = love.window.getMode()
+
+    log.debug('Using new video mode: %d by %d, fullscreen %s (%s), vsync %s, msaa %s',
+              w, h, flags.fullscreen, flags.fullscreentype, tostring(flags.vsync), flags.msaa)
+
+    opts.
+
     camera.rescale(w)
 end
 
