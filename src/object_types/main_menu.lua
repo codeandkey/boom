@@ -12,6 +12,7 @@
 -- - Cancel button, disregards changes and returns to main menu.
 
 local camera  = require 'camera'
+local event   = require 'event'
 local fs      = require 'fs'
 local log     = require 'log'
 local map     = require 'map'
@@ -40,7 +41,7 @@ return {
         this.confirm_timer = 0
 
         -- Subscribe to input events.
-        object.subscribe(this, 'inputup')
+        object.subscribe(this, 'inputdown')
 
         this.load_current_mode = function(self)
             log.info('Detecting current mode..')
@@ -81,6 +82,8 @@ return {
 
             log.debug('main_menu object set mode: %d by %d, fullscreen %s, vsync %s, msaa %d',
                       w, h, tostring(flags.fullscreen), tostring(flags.vsync), flags.msaa)
+
+            event.push('fbsize', w, h)
         end
 
         -- Helper member function to draw an element with an optional selector.
@@ -107,7 +110,7 @@ return {
         end
     end,
 
-    inputup = function(this, key)
+    inputdown = function(this, key)
         log.debug('Handling inputdown: %s', key)
 
         if key == 'crouch' then
@@ -183,7 +186,7 @@ return {
                     this.state = this.STATE_MAIN
                     this.option = 1
                 end
-            elseif this.state == this.STATE_OPTIONS_CONFIRM then
+            elseif this.state == this.STATE_OPTIONS_CONFIRM and this.confirm_timer < this.CONFIRM_TIMER_LEN - 1 then
                 -- Handle confirm menu options.
                 if this.confirm_menu_option == 1 then
                     -- Revert settings and return to options menu.
