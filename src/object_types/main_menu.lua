@@ -1,9 +1,10 @@
 --- Main menu object type.
 
-local camera = require 'camera'
-local fs     = require 'fs'
-local map    = require 'map'
-local object = require 'object'
+local camera  = require 'camera'
+local fs      = require 'fs'
+local map     = require 'map'
+local object  = require 'object'
+local strings = require 'strings'
 
 return {
     init = function(this)
@@ -12,20 +13,13 @@ return {
         this.subfont = fs.read_font('pixeled.ttf', 16)
 
         -- Constants.
-        this.STATE_MAIN    = 0
-        this.STATE_OPTIONS = 1
-        this.WRAP_LIMIT    = 256
-
-        this.strings = {
-            TITLE_TEXT     = 'BOOM',
-            NEW_GAME_TEXT  = 'NEW GAME',
-            LOAD_GAME_TEXT = 'LOAD GAME',
-            OPTIONS_TEXT   = 'OPTIONS',
-            QUIT_TEXT   = 'QUIT GAME',
-        }
+        this.STATE_MAIN            = 0
+        this.STATE_OPTIONS         = 1
+        this.STATE_OPTIONS_CONFIRM = 2
 
         -- State.
         this.state = this.STATE_MAIN
+        this.option = 1
         this.main_menu_option = 1
 
         -- Subscribe to input events.
@@ -57,15 +51,11 @@ return {
 
     inputdown = function(this, key)
         if key == 'crouch' then
-            if this.state == this.STATE_MAIN then
-                this.main_menu_option = this.main_menu_option + 1
-            end
+            this.option = this.option + 1
         end
 
         if key == 'jump' then
-            if this.state == this.STATE_MAIN then
-                this.main_menu_option = this.main_menu_option - 1
-            end
+            this.option = this.option - 1
         end
 
         if key == 'ok' then
@@ -82,7 +72,7 @@ return {
         end
 
         -- Keep selections in bounds by wrapping
-        this.main_menu_option = ((this.main_menu_option - 1) % 3) + 1
+        this.main_menu_option = ((this.option - 1) % 3) + 1
     end,
 
     update = function(this, dt)
@@ -98,12 +88,12 @@ return {
 
         if this.state == this.STATE_MAIN then
             -- Draw the title.
-            this:draw_element(this.strings.TITLE_TEXT, cb.x + cb.w / 2, cb.y + cb.h / 4, this.font, false)
+            this:draw_element(strings.get('MAIN_MENU_TITLE'), cb.x + cb.w / 2, cb.y + cb.h / 4, this.font, false)
             
             -- Draw main options.
-            this:draw_element(this.strings.NEW_GAME_TEXT, cb.x + cb.w / 2, cb.y + cb.h / 2, this.subfont, this.main_menu_option == 1)
-            this:draw_element(this.strings.OPTIONS_TEXT, cb.x + cb.w / 2, cb.y + cb.h / 2 + this.subfont:getHeight(), this.subfont, this.main_menu_option == 2)
-            this:draw_element(this.strings.QUIT_TEXT, cb.x + cb.w / 2, cb.y + cb.h / 2 + 2 * this.subfont:getHeight(), this.subfont, this.main_menu_option == 3)
+            this:draw_element(strings.get('MAIN_MENU_NEW'), cb.x + cb.w / 2, cb.y + cb.h / 2, this.subfont, this.main_menu_option == 1)
+            this:draw_element(strings.get('MAIN_MENU_OPTIONS'), cb.x + cb.w / 2, cb.y + cb.h / 2 + this.subfont:getHeight(), this.subfont, this.main_menu_option == 2)
+            this:draw_element(strings.get('MAIN_MENU_QUIT'), cb.x + cb.w / 2, cb.y + cb.h / 2 + 2 * this.subfont:getHeight(), this.subfont, this.main_menu_option == 3)
         end
     end,
 }
