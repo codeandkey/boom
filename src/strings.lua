@@ -1,5 +1,7 @@
 --- Game string table manager.
 
+local log = require 'log'
+
 local strings = {
     vals = {},
 }
@@ -7,7 +9,7 @@ local strings = {
 --- Load a language into the string table.
 -- @param lang Language to load, from strings/<name>.lua
 function strings.load(lang)
-    status, result = pcall(function() return require ('strings/' .. lang) end)
+    local status, result = pcall(function() return require ('strings/' .. lang) end)
 
     if status then
         strings.vals = result
