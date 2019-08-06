@@ -69,43 +69,5 @@ function opts.serialize(v)
     end
 end
 
---- Applies game options.
-function opts.apply()
-    -- First, construct and set the video mode.
-    -- If no resolution is specified the monitor size is used.
-    
-    -- Construct the mode.
-    local new_mode = {
-        fullscreen = opts.values.fullscreen,
-        fullscreentype = opts.values.fullscreen_type,
-        msaa = opts.values.msaa,
-        vsync = opts.values.vsync,
-    }
-
-    -- Try and apply it.
-    result = love.window.setMode(opts.values.width or 0,
-                                 opts.values.height or 0,
-                                 new_mode)
-
-    if result then
-        local ww, wh = love.graphics.getDimensions()
-
-        log.info('Applied game video mode.')
-        log.info('%d by %d, fullscreen %s, vsync %s, msaa %d', ww, wh, tostring(opts.values.fullscreen), tostring(opts.values.vsync), opts.values.msaa)
-        log.info('Fullscreen method is %s', opts.values.fullscreen_type)
-    else
-        log.error('Error applying video mode!')
-    end
-end
-
---- Sets game fullscreen state and option.
--- Does not write options to disk or apply.
--- If _set_ is a boolean then the fullscreen option is changed to _set_.
--- Otherwise, the option is toggled.
--- @param set Optional boolean value.
-function opts.set_fullscreen(set)
-    opts.values.fullscreen = set or not opts.values.fullscreen
-end
-
 opts.load()
 return opts
