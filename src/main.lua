@@ -22,6 +22,12 @@ function love.load()
         love.window.setFullscreen(true)
     end
 
+
+    -- Send a resize event to set up anything dependent on fb size.
+    local w, h, _ = love.window.getMode()
+    log.debug('Pushing fbsize event: %d, %d', w, h)
+    event.push('fbsize', w, h)
+
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     map.load('main_menu')
