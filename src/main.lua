@@ -19,8 +19,6 @@ function love.load()
         love.window.setMode(mode.width, mode.height, mode.flags)
     else
         -- Choose the nicest looking default mode.
-        log.debug('No video mode saved. Choosing a sane default..')
-
         love.window.setFullscreen(true)
     end
 
@@ -35,8 +33,6 @@ function love.resize()
 
     log.debug('Using new video mode: %d by %d, fullscreen %s (%s), vsync %s, msaa %s',
               w, h, flags.fullscreen, flags.fullscreentype, tostring(flags.vsync), flags.msaa)
-
-    opts.
 
     camera.rescale(w)
 end
