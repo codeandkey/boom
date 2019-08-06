@@ -31,17 +31,17 @@ from the root directory.
 ## Boom. Maps.
 
 To design maps for Boom you will need to get the [Tiled](https://www.mapeditor.org/) map editor.
-In the `src/assets` directory you will find Boom's object types and tilesets
-which can be imported into the map editor.
+In the `src/object_types` directory you will find Boom's object types that can be used in the editor.
 
 Some useful object types:
 - `player` is the player spawn point.
-- `physbox` is a physics object. Requires `type` string parameter.
-	- setting `type` to `dynamic` allows interaction with other objects.
-	- setting `type` to `static` forces a static object.
+- `background` draws a background with optional parallax movement.
+    - `parallax_x` denotes the horizontal parallax factor. Higher values will make motion slower. `1` will lock the background to the camera.
+    - `parallax_y` denotes the vertical parllax factor.
+- `npc` is a passive non-player-character.
+    - `name` changes the color and behavior of the npc. Defined names are "Tom", "Fred", "Joe", and "Bill".
+- `nade`, `explosion`, and `gib` are types used at runtime and should not be placed in the map.
 
-- 'npc' is a non-player-character, they can be given Names that will be displayed in-game.
-- 'background' denotes an image to be used in parallax for backgrounds
 ## Boom. Physics.
 
 Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/).
