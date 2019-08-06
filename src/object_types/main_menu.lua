@@ -40,7 +40,7 @@ return {
         this.confirm_timer = 0
 
         -- Subscribe to input events.
-        object.subscribe(this, 'inputdown')
+        object.subscribe(this, 'inputup')
 
         this.load_current_mode = function(self)
             log.info('Detecting current mode..')
@@ -63,6 +63,24 @@ return {
             self.option_vsync = flags.vsync
             self.option_msaa = flags.msaa
             self.option_fullscreen = flags.fullscreen
+
+            if self.option_vsync == 0 then
+                self.option_vsync = false
+            end
+
+            log.debug('detected mode %d by %d, fullscreen %s, vsync %s, msaa %d',
+                      w, h, flags.fullscreen, flags.vsync, flags.msaa)
+        end
+
+        -- Helper functions for manipulating modes.
+        this.set_mode = function(_, w, h, flags)
+            love.window.setMode(w, h, flags)
+            love.window.restore()
+
+            w, h, flags = love.window.getMode()
+
+            log.debug('main_menu object set mode: %d by %d, fullscreen %s, vsync %s, msaa %d',
+                      w, h, tostring(flags.fullscreen), tostring(flags.vsync), flags.msaa)
         end
 
         -- Helper member function to draw an element with an optional selector.
@@ -89,7 +107,9 @@ return {
         end
     end,
 
-    inputdown = function(this, key)
+    inputup = function(this, key)
+        log.debug('Handling inputdown: %s', key)
+
         if key == 'crouch' then
             this.option = this.option + 1
         end
@@ -143,19 +163,16 @@ return {
 
                 if this.options_menu_option == 4 then
                     -- Confirm button. Apply video settings and move to confirm menu.
-                    
-                    -- Grab the current mode and save it.
-                    local w, h, flags = love.window.getMode()
-                    this.last_w, this.last_h, this.last_flags = w, h, flags
 
-                    -- Apply the new mode.
-                    local cur_mode = this.modes[this.current_mode]
+                    -- Grab the current mode and save it.
+                    this.last_w, this.last_h, this.last_flags = love.window.getMode()
+                    local w, h, flags = love.window.getMode()
 
                     flags.msaa = this.option_msaa
                     flags.vsync = this.option_vsync
                     flags.fullscreen = this.option_fullscreen
 
-                    love.window.setMode(w, h, flags)
+                    this:set_mode(w, h, flags)
 
                     -- Switch state and set the confirm timer.
                     this.state = this.STATE_OPTIONS_CONFIRM
@@ -171,7 +188,7 @@ return {
                 if this.confirm_menu_option == 1 then
                     -- Revert settings and return to options menu.
                     log.info('Reverting settings.')
-                    love.window.setMode(this.last_w, this.last_h, this.last_flags)
+                    this:set_mode(this.last_w, this.last_h, this.last_flags)
                     this.state = this.STATE_OPTIONS
                     this.option = 1
                     this:load_current_mode()
@@ -208,7 +225,7 @@ return {
             if this.confirm_timer < 0 then
                 -- Timer expired. Restore the last OK video mode and return to the options menu.
                 log.info('Confirm timer expired. Restoring last mode.')
-                love.window.setMode(this.last_w, this.last_h, this.last_flags)
+                this:set_mode(this.last_w, this.last_h, this.last_flags)
                 this.state = this.STATE_OPTIONS
                 this.option = 1
                 this:load_current_mode()
@@ -219,19 +236,26 @@ return {
     render = function(this)
         -- Grab camera rect so we can print stuff in worldspace.
         local cb = camera.get_bounds()
-        local fh = this.font:getHeight()
 
         love.graphics.setColor(1, 1, 1, 1)
-        love.graphics.setFont(this.font)
 
         if this.state == this.STATE_MAIN then
             -- Draw the title.
             this:draw_element(strings.get('MAIN_MENU_TITLE'), cb.x + cb.w / 2, cb.y + cb.h / 4, this.font, false)
-            
+
             -- Draw main options.
-            this:draw_element(strings.get('MAIN_MENU_NEW'), cb.x + cb.w / 2, cb.y + cb.h / 2, this.subfont, this.main_menu_option == 1)
-            this:draw_element(strings.get('MAIN_MENU_OPTIONS'), cb.x + cb.w / 2, cb.y + cb.h / 2 + this.subfont:getHeight(), this.subfont, this.main_menu_option == 2)
-            this:draw_element(strings.get('MAIN_MENU_QUIT'), cb.x + cb.w / 2, cb.y + cb.h / 2 + 2 * this.subfont:getHeight(), this.subfont, this.main_menu_option == 3)
+            this:draw_element(strings.get('MAIN_MENU_NEW'),
+                              cb.x + cb.w / 2, cb.y + cb.h / 2,
+                              this.subfont, this.main_menu_option == 1)
+
+            this:draw_element(strings.get('MAIN_MENU_OPTIONS'),
+                              cb.x + cb.w / 2, cb.y + cb.h / 2 + this.subfont:getHeight(),
+                              this.subfont, this.main_menu_option == 2)
+
+            this:draw_element(strings.get('MAIN_MENU_QUIT'),
+                              cb.x + cb.w / 2, cb.y + cb.h / 2 + 2 * this.subfont:getHeight(),
+                              this.subfont, this.main_menu_option == 3)
+
         elseif this.state == this.STATE_OPTIONS then
             -- Render video mode option.
             local video_mode_text = strings.get('OPTIONS_MENU_MODE')
@@ -242,7 +266,9 @@ return {
                 video_mode_text = video_mode_text .. 'WINDOW'
             end
 
-            this:draw_element(video_mode_text, cb.x + cb.w / 2, cb.y + cb.h / 6, this.subfont, this.options_menu_option == 1)
+            this:draw_element(video_mode_text,
+                              cb.x + cb.w / 2, cb.y + cb.h / 6,
+                              this.subfont, this.options_menu_option == 1)
 
             -- Render vertical sync option.
             local vsync_text = strings.get('OPTIONS_MENU_VSYNC')
@@ -253,7 +279,9 @@ return {
                 vsync_text = vsync_text .. 'OFF'
             end
 
-            this:draw_element(vsync_text, cb.x + cb.w / 2, cb.y + 2 * (cb.h / 6), this.subfont, this.options_menu_option == 2)
+            this:draw_element(vsync_text,
+                              cb.x + cb.w / 2, cb.y + 2 * (cb.h / 6),
+                              this.subfont, this.options_menu_option == 2)
 
             -- Render MSAA option.
             local msaa_text = strings.get('OPTIONS_MENU_MSAA') .. tostring(this.option_msaa)
@@ -262,18 +290,36 @@ return {
                 msaa_text = msaa_text .. ' (OFF)'
             end
 
-            this:draw_element(msaa_text, cb.x + cb.w / 2, cb.y + 3 * (cb.h / 6), this.subfont, this.options_menu_option == 3)
+            this:draw_element(msaa_text,
+                              cb.x + cb.w / 2, cb.y + 3 * (cb.h / 6),
+                              this.subfont, this.options_menu_option == 3)
 
             -- Render OK and cancel buttons.
-            this:draw_element(strings.get('OPTIONS_MENU_OK'), cb.x + cb.w / 2, cb.y + 4 * (cb.h / 6), this.subfont, this.options_menu_option == 4)
-            this:draw_element(strings.get('OPTIONS_MENU_CANCEL'), cb.x + cb.w / 2, cb.y + 5 * (cb.h / 6), this.subfont, this.options_menu_option == 5)
+            --
+            this:draw_element(strings.get('OPTIONS_MENU_OK'),
+                              cb.x + cb.w / 2, cb.y + 4 * (cb.h / 6),
+                              this.subfont, this.options_menu_option == 4)
+
+            this:draw_element(strings.get('OPTIONS_MENU_CANCEL'),
+                              cb.x + cb.w / 2, cb.y + 5 * (cb.h / 6),
+                              this.subfont, this.options_menu_option == 5)
+
         elseif this.state == this.STATE_OPTIONS_CONFIRM then
             -- Render confirm message.
-            this:draw_element(strings.get('CONFIRM_MENU_TITLE'), cb.x + cb.w / 2, cb.y + cb.h / 4, this.subfont, false)
+
+            this:draw_element(strings.get('CONFIRM_MENU_TITLE'),
+                              cb.x + cb.w / 2, cb.y + cb.h / 4,
+                              this.subfont, false)
 
             -- Render confirm options.
-            this:draw_element(strings.get('CONFIRM_MENU_CANCEL'), cb.x + cb.w / 2, cb.y + 2 * (cb.h / 4), this.subfont, this.confirm_menu_option == 1)
-            this:draw_element(strings.get('CONFIRM_MENU_OK'), cb.x + cb.w / 2, cb.y + 3 * (cb.h / 4), this.subfont, this.confirm_menu_option == 2)
+
+            this:draw_element(strings.get('CONFIRM_MENU_CANCEL'),
+                              cb.x + cb.w / 2, cb.y + 2 * (cb.h / 4),
+                              this.subfont, this.confirm_menu_option == 1)
+
+            this:draw_element(strings.get('CONFIRM_MENU_OK'),
+                              cb.x + cb.w / 2, cb.y + 3 * (cb.h / 4),
+                              this.subfont, this.confirm_menu_option == 2)
         end
     end,
 }
