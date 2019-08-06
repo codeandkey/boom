@@ -23,7 +23,7 @@ end
 
 --- Import option values from the disk.
 function opts.load()
-    status, result = pcall(function() return require(opts.path) end)
+    local status, result = pcall(function() return require(opts.path) end)
 
     if status then
         for k, v in pairs(result) do
@@ -38,7 +38,7 @@ end
 
 --- Exports non-default options to the disk.
 function opts.save()
-    status, ofile = pcall(io.open, 'src/' .. opts.path .. '.lua', 'w')
+    local status, ofile = pcall(io.open, 'src/' .. opts.path .. '.lua', 'w')
 
     if not status then
         return log.error("Failed to save options to %s.lua: %s", opts.path, ofile)
