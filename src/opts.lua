@@ -32,7 +32,7 @@ function opts.load()
 
         log.info('Loaded options from src/%s.lua', opts.path)
     else
-        log.error("Couldn't import options from src/%s.lua: %s", opts.path, result)
+        log.error("Couldn't import options from src/%s.lua!", opts.path)
     end
 end
 
