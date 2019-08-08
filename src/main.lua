@@ -40,7 +40,7 @@ function love.resize()
     log.debug('Using new video mode: %d by %d, fullscreen %s (%s), vsync %s, msaa %s',
               w, h, flags.fullscreen, flags.fullscreentype, tostring(flags.vsync), flags.msaa)
 
-    camera.rescale(w)
+    camera.rescale(w, h)
 end
 
 function love.keypressed(key)

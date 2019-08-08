@@ -97,7 +97,7 @@ end
 -- Should be called whenever the framebuffer is resized.
 -- @param w Framebuffer width.
 function camera.rescale(w, h)
-    log.debug('Rescaling camera for framebuffer size %d, %d', w, h)
+    log.debug('Rescaling camera for framebuffer size %d, %d', w or -1, h or -1)
     camera.scale = 1
 
     while w / camera.scale > camera.max_game_width do
