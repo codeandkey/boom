@@ -30,7 +30,7 @@ return {
         this.STATE_MAIN            = 0
         this.STATE_OPTIONS         = 1
         this.STATE_OPTIONS_CONFIRM = 2
-        this.CONFIRM_TIMER_LEN     = 5
+        this.CONFIRM_TIMER_LEN     = 10
 
         -- State.
         this.state = this.STATE_MAIN
