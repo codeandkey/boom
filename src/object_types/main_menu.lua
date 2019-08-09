@@ -310,7 +310,7 @@ return {
         elseif this.state == this.STATE_OPTIONS_CONFIRM then
             -- Render confirm message.
 
-            this:draw_element(strings.get('CONFIRM_MENU_TITLE'),
+            this:draw_element(strings.get('CONFIRM_MENU_TITLE') .. ' (' .. math.ceil(this.confirm_timer) .. ')',
                               cb.x + cb.w / 2, cb.y + cb.h / 4,
                               this.subfont, false)
 
