@@ -3,6 +3,6 @@
 
 return {
     init = function(this)
-        destination = this.destination
+        this.destination = this.destination
     end,
 }
