@@ -1077,6 +1077,22 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 58,
+          name = "first_zone_0",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 240,
+          y = 288,
+          width = 64,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "intro",
+            ["entry_point"] = "intro_0"
+          }
         }
       }
     },

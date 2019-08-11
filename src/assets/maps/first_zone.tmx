@@ -843,6 +843,12 @@
    </properties>
   </object>
   <object id="57" name="player" type="player" x="256" y="304" width="32" height="32"/>
+  <object id="58" name="first_zone_0" type="load_trigger" x="240" y="288" width="64" height="48">
+   <properties>
+    <property name="destination" value="intro"/>
+    <property name="entry_point" value="intro_0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="4" name="phys_objects"/>
 </map>
