@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 12,
-  nextobjectid = 73,
+  nextobjectid = 75,
   properties = {},
   tilesets = {
     {
@@ -589,6 +589,21 @@ return {
           rotation = 0,
           visible = true,
           properties = {}
+        },
+        {
+          id = 74,
+          name = "intro_0",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 1152,
+          y = 800,
+          width = 64,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "first_zone"
+          }
         }
       }
     }
