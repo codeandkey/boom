@@ -127,6 +127,13 @@ return {
                     y = this.y + this.h / 2,
                 })
             end
+        elseif key == 'interact' then
+            -- check collisions
+            -- if something's overlapping us, attempt to interact with it
+            -- get params and execute interaction
+            -- player can transition rooms, talk tp npcs, etc.
+            -- can also be used to have NPC's talk to one another, walk between maps, etc.
+            -- camera should only follow the player between rooms, though.
         end
     end,
 
