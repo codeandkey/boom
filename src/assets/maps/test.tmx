@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="51">
+<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="57">
  <tileset firstgid="1" source="../tiled/tileset_placeholder.json"/>
+ <objectgroup id="7" name="background_sky">
+  <object id="52" name="background_sky" type="background" x="16" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_sky_red.png"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="8" name="background_sun">
+  <properties>
+   <property name="parallax_x" type="float" value="0.1"/>
+  </properties>
+  <object id="53" name="background_sun" type="background" x="64" y="16" width="32" height="32">
+   <properties>
+    <property name="parallax_x" type="float" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="background_ground">
+  <object id="55" name="background_ground_silhouette" type="background" x="112" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_ground_silhouette.png"/>
+    <property name="parallax_x" type="float" value="1.6"/>
+    <property name="repeat_x" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="background_tower">
+  <object id="56" name="backgrorund_tower" type="background" x="208" y="16" width="32" height="32">
+   <properties>
+    <property name="duration" type="float" value="0.08"/>
+    <property name="frame_w" type="int" value="800"/>
+    <property name="image" value="3200x600_background_tower.png"/>
+    <property name="offset_x" type="float" value="300"/>
+    <property name="parallax_x" type="float" value="1.1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="background_silhouettes">
+  <object id="54" name="background_silhouettes" type="background" x="160" y="16" width="32" height="32">
+   <properties>
+    <property name="image" value="800x600_background_silhouettes.png"/>
+    <property name="parallax_x" type="float" value="1.3"/>
+    <property name="repeat_x" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer id="1" name="Tile Layer 1" width="256" height="256">
+  <properties>
+   <property name="solid" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -263,60 +312,26 @@
  </layer>
  <objectgroup id="2" name="game_objects">
   <object id="17" name="player" type="player" x="115.115" y="240.562" width="32" height="32"/>
-  <object id="43" name="kill_trigger" type="noclip" x="-159.105" y="449.767" width="2420.87" height="30.3593"/>
   <object id="45" name="Fred" type="npc" x="203.823" y="236.994" width="32" height="32">
    <properties>
-    <property name="Name" value="Fred"/>
+    <property name="name" value="Fred"/>
    </properties>
   </object>
   <object id="47" name="Joe" type="npc" x="240.929" y="238.68" width="32" height="32">
    <properties>
-    <property name="Name" value="Joe"/>
+    <property name="name" value="Joe"/>
    </properties>
   </object>
   <object id="48" name="Tom" type="npc" x="163.344" y="238.68" width="32" height="32">
    <properties>
-    <property name="Name" value="Tom"/>
+    <property name="name" value="Tom"/>
    </properties>
   </object>
   <object id="49" name="Bill" type="npc" x="276.911" y="236.994" width="32" height="32">
    <properties>
-    <property name="Name" value="Bill"/>
-   </properties>
-  </object>
-  <object id="50" name="enemy" type="enemy_bomber" x="704" y="192" width="32" height="32">
-   <properties>
-    <property name="b" type="float" value="1"/>
-    <property name="g" type="float" value="0.5"/>
-    <property name="r" type="float" value="1"/>
+    <property name="name" value="Bill"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="phys_objects">
-  <object id="39" name="box1" type="physbox" x="60.7189" y="265.362" width="16" height="16">
-   <properties>
-    <property name="type" value="dynamic"/>
-   </properties>
-  </object>
-  <object id="44" name="box2" type="physbox" x="80.958" y="249.621" width="16" height="32">
-   <properties>
-    <property name="type" value="dynamic"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup id="3" name="geometry">
-  <object id="26" type="noclip" x="0" y="288" width="336" height="48"/>
-  <object id="27" type="noclip" x="0" y="128" width="48" height="160"/>
-  <object id="31" type="noclip" x="527.351" y="255.805" width="47.7877" height="48.3499"/>
-  <object id="33" type="noclip" x="383.426" y="304" width="193.962" height="31.9197"/>
-  <object id="34" type="noclip" x="384" y="272" width="48" height="32"/>
-  <object id="35" type="noclip" x="720.47" y="256.367" width="47.53" height="47.633"/>
-  <object id="36" type="noclip" x="720" y="304" width="176" height="32"/>
-  <object id="37" type="noclip" x="0" y="336" width="896" height="48"/>
-  <object id="38" type="noclip" x="528" y="240" width="240.93" height="16"/>
-  <object id="40" type="noclip" x="1024" y="304" width="176" height="32.2007"/>
-  <object id="41" type="noclip" x="1024" y="336" width="896" height="48"/>
-  <object id="42" type="noclip" x="768" y="272" width="48" height="32"/>
-  <object id="46" type="noclip" x="336" y="320" width="48" height="16"/>
- </objectgroup>
+ <objectgroup id="4" name="phys_objects"/>
 </map>

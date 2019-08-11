@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Boom</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>camera</strong></li>
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/input.html">input</a></li>
+  <li><a href="../modules/log.html">log</a></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><a href="../modules/object_group.html">object_group</a></li>
+  <li><a href="../modules/physics_groups.html">physics_groups</a></li>
+  <li><a href="../modules/shaders.html">shaders</a></li>
+  <li><a href="../modules/sprite.html">sprite</a></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/Events.md.html">Events</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/example_object_type.lua.html">example_object_type.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>camera</code></h1>
+<p>Camera subsystem.</p>
+<p> The game will look &ldquo;crispest&rdquo; if we scale pixels properly (no half-pixels ever rendered).
+ So, we apply the camera using only a scale and a translate to center on the screen.</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#center">center (x, y)</a></td>
+	<td class="summary">Center the game camera on a point.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setshake">setshake (Time)</a></td>
+	<td class="summary">Set the camera shake time.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#setscale">setscale (scale)</a></td>
+	<td class="summary">Set the size (in display pixels) for 1 game pixel.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_bounds">get_bounds ()</a></td>
+	<td class="summary">Get the camera bounding rectangle.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_center">get_center ()</a></td>
+	<td class="summary">Get the camera center.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#apply">apply ()</a></td>
+	<td class="summary">Apply the camera settings to the graphics context.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#unapply">unapply ()</a></td>
+	<td class="summary">Unapply the camera settings in the graphics context.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_focus_x">set_focus_x (x)</a></td>
+	<td class="summary">Set the camera focus X.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_focus_flip">set_focus_flip (enabled)</a></td>
+	<td class="summary">Enable or disable mirroring of the focus box.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_focus_y">set_focus_y (y)</a></td>
+	<td class="summary">Set the camera focus Y.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#render_debug">render_debug ()</a></td>
+	<td class="summary">Render camera debug information.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "center"></a>
+    <strong>center (x, y)</strong>
+    </dt>
+    <dd>
+    Center the game camera on a point.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         X coordinate.
+        </li>
+        <li><span class="parameter">y</span>
+         Y coordinate.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setshake"></a>
+    <strong>setshake (Time)</strong>
+    </dt>
+    <dd>
+    Set the camera shake time.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">Time</span>
+         to shake for (seconds).
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "setscale"></a>
+    <strong>setscale (scale)</strong>
+    </dt>
+    <dd>
+    Set the size (in display pixels) for 1 game pixel.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">scale</span>
+         Display scale.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_bounds"></a>
+    <strong>get_bounds ()</strong>
+    </dt>
+    <dd>
+    Get the camera bounding rectangle.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Table with <em>x</em>, <em>y</em>, <em>w</em>, <em>h</em> in world space.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_center"></a>
+    <strong>get_center ()</strong>
+    </dt>
+    <dd>
+    Get the camera center.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        X coordinate.</li>
+        <li>
+        Y coordinate.</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "apply"></a>
+    <strong>apply ()</strong>
+    </dt>
+    <dd>
+    Apply the camera settings to the graphics context.
+ Every call to <a href="../modules/camera.html#apply">camera.apply</a> should be matched with a call to <a href="../modules/camera.html#unapply">camera.unapply</a>.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "unapply"></a>
+    <strong>unapply ()</strong>
+    </dt>
+    <dd>
+    Unapply the camera settings in the graphics context.
+
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_focus_x"></a>
+    <strong>set_focus_x (x)</strong>
+    </dt>
+    <dd>
+    Set the camera focus X.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">x</span>
+         X coordinate.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_focus_flip"></a>
+    <strong>set_focus_flip (enabled)</strong>
+    </dt>
+    <dd>
+    Enable or disable mirroring of the focus box.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">enabled</span>
+         Flipping enabled if true.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_focus_y"></a>
+    <strong>set_focus_y (y)</strong>
+    </dt>
+    <dd>
+    Set the camera focus Y.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">y</span>
+         Y coordinate.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "render_debug"></a>
+    <strong>render_debug ()</strong>
+    </dt>
+    <dd>
+    Render camera debug information.
+
+
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-19 17:54:37 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

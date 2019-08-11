@@ -1,7 +1,4 @@
---[[
-    shaders.lua
-    collection of game shaders
---]]
+--- Collection of game shaders.
 
 local shaders = {}
 

@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Boom</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+
+
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><strong>example_type.lua</strong></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/component_types.html">component_types</a></li>
+  <li><a href="../modules/component_types.character.html">component_types.character</a></li>
+  <li><a href="../modules/event.html">event</a></li>
+  <li><a href="../modules/fs.html">fs</a></li>
+  <li><a href="../modules/map.html">map</a></li>
+  <li><a href="../modules/object.html">object</a></li>
+  <li><a href="../modules/object_group.html">object_group</a></li>
+  <li><a href="../modules/object_types.html">object_types</a></li>
+  <li><a href="../modules/tile_layer.html">tile_layer</a></li>
+  <li><a href="../modules/tilesets.html">tilesets</a></li>
+  <li><a href="../modules/util.html">util</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+    <h2>example_type.lua</h2>
+<pre>
+<span class="comment">--- Example object type.
+</span>
+<span class="keyword">local</span> object = <span class="global">require</span> <span class="string">'object'</span>
+
+<span class="keyword">return</span> {
+    <span class="comment">--- Object constructor. Called when added to a layer (during loading or runtime).
+</span>    <span class="comment">-- @param this Initial object state.
+</span>    init = <span class="keyword">function</span>(this)
+        <span class="comment">-- if 'my_message' is set then it will be used, otherwise use a default message.
+</span>        this.my_message = this.my_message <span class="keyword">or</span> <span class="string">'Default message!'</span>
+
+        <span class="comment">-- Print the message to the console.
+</span>        <span class="global">print</span>(<span class="string">'Constructing example object. My message is: '</span> .. this.my_message)
+
+        <span class="comment">-- Subscribe to all key presses.
+</span>        object.subscribe(this, <span class="string">'keydown'</span>)
+    <span class="keyword">end</span>,
+
+    <span class="comment">--- Object destructor. Called when the object is destroyed.
+</span>    <span class="comment">-- @param this Object being destroyed.
+</span>    destroy = <span class="keyword">function</span>(this)
+        <span class="comment">-- Print a message to the console.
+</span>        <span class="global">print</span>(<span class="string">'Destroying example object!'</span>)
+
+        <span class="comment">-- We don't actually have any destroy logic needed here.
+</span>        <span class="comment">-- All events are optional. This function can be safely removed.
+</span>    <span class="keyword">end</span>,
+
+    <span class="comment">--- Object update handler. Called on every update.
+</span>    <span class="comment">-- @param this Object to update.
+</span>    <span class="comment">-- @param dt Delta time (seconds).
+</span>    update = <span class="keyword">function</span>(this, dt)
+    <span class="keyword">end</span>,
+
+    <span class="comment">--- Object render handler. Called on every render.
+</span>    <span class="comment">-- @param this Object to render.
+</span>    render = <span class="keyword">function</span>(this, dt)
+        <span class="comment">-- Draw a white rectangle covering the object.
+</span>        <span class="comment">-- Every object has the fields 'x', 'y', 'w', 'h'.
+</span>        <span class="comment">-- (this.x, this.y) designates the location of the top left corner of the object,
+</span>        <span class="comment">-- and (this.w, this.h) designates the dimensions of the rectangle as defined in the map file.
+</span>
+        love.graphics.setColor(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)
+        love.graphics.rectangle(<span class="string">'fill'</span>, this.x, this.y, this.w, this.h)
+    <span class="keyword">end</span>,
+
+    <span class="comment">--- Custom event handler (keydown)
+</span>    <span class="comment">-- In the 'init' event, we subscribed to the 'keydown' event.
+</span>    <span class="comment">-- So, whenever a key is pressed we will receive a call to 'keydown' with the key passed as the first arg.
+</span>    <span class="comment">-- (information on the 'keydown' event can be found in /event.lua )
+</span>    keydown = <span class="keyword">function</span>(this, key)
+        <span class="comment">-- Just write the key to stdout.
+</span>        <span class="global">print</span>(<span class="string">'Example object received key down: '</span> .. key .. <span class="string">'!'</span>)
+    <span class="keyword">end</span>,
+}</pre>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2019-07-17 03:28:20 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
