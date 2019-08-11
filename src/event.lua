@@ -7,6 +7,7 @@
 -- | `ready ()`      | Called by the map after all objects have been initialized. |
 -- | `keydown (key)` | Called by the display manager when _key_ is pressed.       |
 -- | `keyup (key)`   | Called by the display manager when _key_ is released.      |
+-- | `fbsize (w, h)` | Called when the framebuffer is resized.
 
 local log  = require 'log'
 local util = require 'util'
@@ -37,11 +38,14 @@ function event.subscribe(event_name, callback, userdata)
         event_name = event_name,
         callback = callback,
         valid = true,
-        userdata = util.pack(userdata),
         destroy = function(this)
             this.valid = false
         end,
     }
+
+    if userdata then
+        sub_object.userdata = util.pack(userdata)
+    end
 
     log.debug('Subscribed handler object %s to event type %s', sub_object, event_name)
 
@@ -83,14 +87,13 @@ function event.next()
     local sublist = event.subscriptions[current.event_name]
 
     if sublist then
-        for k, v in ipairs(sublist) do
+        for k, v in pairs(sublist) do
             if v.valid then
                 -- valid subscription, make the call
-
                 if v.userdata then
-                    pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
+                    util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
                 else
-                    pcall(v.callback, unpack(current.args, current.args.n))
+                    util.pcall(v.callback, unpack(current.args))
                 end
             else
                 -- subscription no longer valid, destroy it
