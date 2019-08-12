@@ -28,7 +28,7 @@ return {
 
     explode = function(this, _, _, _)
         -- Break the crate into crate gibs.
-    
+
         -- 4 perimeter frame pieces
         object_group.create_object(this.__layer, 'gib', {
             spr_name = '32x4_crate_frame.png',
