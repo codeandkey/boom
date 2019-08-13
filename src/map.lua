@@ -1,5 +1,6 @@
 --- Subsystem for managing Tiled-based worlds.
 
+local camera = require 'camera'
 local log = require 'log'
 local event = require 'event'
 local fs = require 'fs'
@@ -9,6 +10,11 @@ local tile_layer = require 'tile_layer'
 
 local map = {
     default_gravity = 9.8 * 16,
+    fade_out_speed = 4,
+    fade_in_speed  = 2,
+    fade_alpha = 1,
+    delay_time = 0.2,
+    delay_time_current = 0,
 }
 
 --- Immediately load and initialize a map.
@@ -82,6 +88,13 @@ function map.get_physics_world()
     return map.current.physics_world
 end
 
+--- Request a transition to a new map.
+-- This should be used for switching maps instead of `map.load`.
+-- @param name Map to switch to.
+function map.request(name)
+    map.requested = name
+end
+
 --- Update all objects in the map y _dt_ seconds.
 -- Also updates the map's physics world.
 -- Any objects marked for destruction are destroyed afterward.
@@ -89,6 +102,33 @@ function map.update(dt)
     -- Ignore if no map loaded.
     if map.current == nil then
         return
+    end
+
+    -- Perform transition logic if a transition is happening.
+    if map.requested ~= nil then
+        if map.fade_alpha < 1 then
+            -- Move towards a fade out.
+            map.fade_alpha = map.fade_alpha + dt * map.fade_out_speed
+
+            if map.fade_alpha > 1 then
+                -- Start the in-between timer.
+                map.delay_time_current = map.delay_time
+            end
+        else
+            map.delay_time = map.delay_time - dt
+
+            if map.delay_time < 0 then
+                -- Load the next map now.
+                map.load(map.requested)
+                -- Unset the request.
+                map.requested = nil
+            end
+        end
+    else
+        -- No transition requested. Fade in if we need to.
+        if map.fade_alpha > 0 then
+            map.fade_alpha = map.fade_alpha - dt * map.fade_in_speed
+        end
     end
 
     for _, v in ipairs(map.current.layers) do
@@ -115,6 +155,12 @@ function map.render()
             object_group.call(v, 'render')
         end
     end
+
+    -- Render transition fade overlay.
+    local cb = camera.get_bounds()
+
+    love.graphics.setColor(0, 0, 0, map.fade_alpha)
+    love.graphics.rectangle('fill', cb.x, cb.y, cb.w, cb.h)
 end
 
 --- Find a layer by name.
