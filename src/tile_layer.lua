@@ -68,8 +68,8 @@ end
 
 --- Render a tile layer.
 -- @param layer Tile layer to render.
-function tile_layer.render(layer)
-    love.graphics.setColor(1, 1, 1, 1)
+function tile_layer.render(layer, color)
+    love.graphics.setColor(color or {1, 1, 1, 1})
     love.graphics.draw(layer.batch)
 end
 
