@@ -8,8 +8,8 @@ return {
     init = function(this)
         -- Configuration.
         this.resolution   = this.resolution or 100
-        this.radius       = this.radius or 300
-        this.object_range = this.object_range or 100
+        this.radius       = this.radius or 150
+        this.object_range = this.object_range or 50
         this.intensity    = this.intensity or 20
 
         -- Look for nearby objects to explode.

@@ -29,32 +29,23 @@ return {
         this.flash_timer = 0
         this.flash_color = {1, 1, 1, 1}
 
-        -- Member funcs.
-        this.throw = function(self, dx, dy)
-            self.shape = love.physics.newCircleShape(self.radius)
-            self.body = love.physics.newBody(map.get_physics_world(), self.x, self.y, 'dynamic')
-            self.fixture = love.physics.newFixture(self.body, self.shape, 1)
-            self.body:applyLinearImpulse(dx, dy)
-            self.body:applyAngularImpulse(self.spin)
-            self.thrown = true
-        end
+        -- Physics state.
+        this.shape = love.physics.newCircleShape(this.radius)
+        this.body = love.physics.newBody(map.get_physics_world(), this.x, this.y, 'dynamic')
+        this.fixture = love.physics.newFixture(this.body, this.shape, 1)
     end,
 
     destroy = function(this)
         -- Create an explosion. Place it in the same layer as this.
         object_group.create_object(this.__layer, 'explosion', { x = this.x, y = this.y })
 
-        if this.thrown then
-            this.body:destroy()
-        end
+        this.body:destroy()
     end,
 
     update = function(this, dt)
-        -- Follow physics body if thrown.
-        if this.thrown then
-            this.x, this.y = this.body:getPosition()
-            this.angle = this.body:getAngle()
-        end
+        -- Follow physics body.
+        this.x, this.y = this.body:getPosition()
+        this.angle = this.body:getAngle()
 
         -- Unconditionally update fuse timer.
         if this.fuse_time > 0 then

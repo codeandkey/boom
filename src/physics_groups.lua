@@ -3,4 +3,5 @@
 return {
     WORLD = 1,
     GIB   = 2,
+    ROPE  = 3,
 }

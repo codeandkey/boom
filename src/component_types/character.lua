@@ -2,6 +2,7 @@
 
 local log          = require 'log'
 local map          = require 'map'
+local object       = require 'object'
 local object_group = require 'object_group'
 local sprite       = require 'sprite'
 
@@ -33,6 +34,9 @@ return {
         this.dx_max            = this.dx_max or 150
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
+        this.rope_length       = this.rope_length or 80
+        this.rope_color        = this.rope_color or {1, 1, 1, 1}
+        this.num_rope_segments = this.num_rope_segments or (this.rope_length / 16) -- use length 16 segments as a sane default
 
         this.w = this.w or 14
         this.h = this.h or 32
@@ -54,6 +58,9 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+
+        -- Physics control.
+        this.body = love.physics.newBody(map.get_physics_world(), 0, 0, 'kinematic')
     end,
 
     explode = function(this, _, _, _)
@@ -122,10 +129,49 @@ return {
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
             if this.nade == nil then
+                -- Create a new nade.
                 this.nade = object_group.create_object(this.__layer, 'nade', {
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
+                    holding_body = this.body,
                 })
+
+                -- Create distance joint holding nade.
+                this.nade_joint = love.physics.newRopeJoint(this.body,
+                                                            this.nade.body,
+                                                            this.x + this.w / 2,
+                                                            this.y + this.h / 2,
+                                                            this.x + this.w / 2,
+                                                            this.y + this.h / 2,
+                                                            this.rope_length,
+                                                            false)
+
+                -- Create fake rope.
+                this.rope_segments = {}
+                this.rope_segment_joints = {}
+
+                for i=1,this.num_rope_segments do
+                    -- Initialize segment physics bits.
+                    local segment_shape = love.physics.newEdgeShape(0, 0, this.rope_length / this.num_rope_segments, 0)
+                    local segment_body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2)
+                    local segment_fixture = love.physics.newFixture(segment_body, segment_shape, 1)
+
+                    -- Disable collisions with physics objects.
+                    segment_fixture:setCategory(physics_groups.ROPE)
+                    segment_fixture:setMask(physics_groups.WORLD, physics_groups.GIB, physics_groups.ROPE)
+
+                    table.insert(this.rope_segments, {
+                        body = segment_body,
+                        shape = segment_shape,
+                        fixture = segment_fixture,
+                    })
+                end
+
+                -- Attach rope segments together.
+                for i=1,this.num_rope_segments-1 do
+                    local joint = love.physics.newDistanceJoint(this.rope_segments[i], this.rope_segments[i+1])
+                    table.insert(this.rope_segment_joints, joint)
+                end
             end
         end
     end,
@@ -136,10 +182,24 @@ return {
         elseif key == 'right' then
             this.wants_right = false
         elseif key == 'throw' then
-            -- Throw a grenade if we're holding one.
-            if this.nade ~= nil then
-                this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
+            -- Detonate any swinging grenades.
+            if this.nade then
+                object.destroy(this.nade)
                 this.nade = nil
+
+                -- Destroy the rope too.
+                for _, v in ipairs(this.rope_segment_joints) do
+                    v:release()
+                end
+
+                for _, v in ipairs(this.rope_segments) do
+                    v.fixture:release()
+                    v.body:release()
+                    v.shape:release()
+                end
+
+                this.rope_segments = {}
+                this.rope_segment_joints = {}
             end
         elseif key == 'jump' then
             if this.dy < 0 then
@@ -199,13 +259,6 @@ return {
         -- Apply gravity.
         this.dy = this.dy + dt * this.gravity
 
-        -- Update nade location if we're holding one.
-        if this.nade then
-            this.nade.x = this.x + this.w / 2
-            this.nade.y = this.y + this.h / 2
-            this.nade.dx, this.nade.dy = 0, 0
-        end
-
         -- Resolve horizontal motion.
         this.x = this.x + this.dx * dt
 
@@ -248,6 +301,9 @@ return {
         if math.abs(this.dy) > 20 then
             this.jump_enabled = false
         end
+
+        -- Update phys body with character center.
+        this.body:setPosition(this.x + this.w / 2, this.y + this.h / 2)
     end,
 
     render = function(this)
@@ -258,6 +314,14 @@ return {
             this.spr = this.spr_idle
         else
             this.spr = this.spr_jump
+        end
+
+        -- Render the grenade rope.
+        if this.nade then
+            love.graphics.setColor(this.rope_color)
+
+            for _, v in ipairs(this.rope_segments) do
+            end
         end
 
         -- Apply the appropriate color.
