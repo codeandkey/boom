@@ -138,6 +138,9 @@ return {
                     holding_body = this.body,
                 })
 
+                this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
+
+
                 -- Create distance joint holding nade.
                 this.nade_joint = love.physics.newRopeJoint(this.body,
                                                             this.nade.body,
@@ -326,6 +329,7 @@ return {
             love.graphics.setColor(this.rope_color)
 
             for _, v in ipairs(this.rope_segments) do
+                love.graphics.circle('line', v.body:getX(), v.body:getY(), this.rope_point_radius)
             end
         end
 

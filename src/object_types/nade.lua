@@ -33,6 +33,12 @@ return {
         this.shape = love.physics.newCircleShape(this.radius)
         this.body = love.physics.newBody(map.get_physics_world(), this.x, this.y, 'dynamic')
         this.fixture = love.physics.newFixture(this.body, this.shape, 1)
+
+        -- Throw function.
+        this.throw = function(self, dx, dy)
+            self.body:applyLinearImpulse(dx, dy)
+            self.body:applyAngularImpulse(self.spin)
+        end
     end,
 
     destroy = function(this)
