@@ -1,10 +1,11 @@
 --- Character component.
 
-local log          = require 'log'
-local map          = require 'map'
-local object       = require 'object'
-local object_group = require 'object_group'
-local sprite       = require 'sprite'
+local log            = require 'log'
+local map            = require 'map'
+local object         = require 'object'
+local object_group   = require 'object_group'
+local sprite         = require 'sprite'
+local physics_groups = require 'physics_groups'
 
 --[[
     Simulates a player-like object.
