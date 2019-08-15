@@ -38,6 +38,7 @@ return {
         this.rope_length       = this.rope_length or 80
         this.rope_color        = this.rope_color or {1, 1, 1, 1}
         this.num_rope_segments = this.num_rope_segments or (this.rope_length / 16) -- use length 16 segments as a sane default
+        this.rope_point_radius = 2
 
         this.w = this.w or 14
         this.h = this.h or 32
@@ -153,7 +154,7 @@ return {
 
                 for i=1,this.num_rope_segments do
                     -- Initialize segment physics bits.
-                    local segment_shape = love.physics.newEdgeShape(0, 0, this.rope_length / this.num_rope_segments, 0)
+                    local segment_shape = love.physics.newCircleShape(this.rope_point_radius)
                     local segment_body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2)
                     local segment_fixture = love.physics.newFixture(segment_body, segment_shape, 1)
 
@@ -170,7 +171,10 @@ return {
 
                 -- Attach rope segments together.
                 for i=1,this.num_rope_segments-1 do
-                    local joint = love.physics.newDistanceJoint(this.rope_segments[i], this.rope_segments[i+1])
+                    local joint = love.physics.newRopeJoint(this.rope_segments[i].body, this.rope_segments[i+1].body,
+                                                            this.x + this.w / 2, this.y + this.h / 2,
+                                                            this.x + this.w / 2, this.y + this.h / 2,
+                                                            this.rope_length / this.num_rope_segments)
                     table.insert(this.rope_segment_joints, joint)
                 end
             end
