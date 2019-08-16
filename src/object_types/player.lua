@@ -53,6 +53,9 @@ return {
             camera.set_focus_y(char.y + char.h / 2)
         end
 
+        -- Update with panic logic always.
+        camera.set_panic_point(char.x + char.w / 2, char.y + char.h / 2)
+
         -- Destroy the player if the character dies.
         if char.dead then
             object.destroy(this)
