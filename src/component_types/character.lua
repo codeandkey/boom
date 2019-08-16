@@ -2,8 +2,10 @@
 
 local log          = require 'log'
 local map          = require 'map'
+local object       = require 'object'
 local object_group = require 'object_group'
 local sprite       = require 'sprite'
+local util         = require 'util'
 
 --[[
     Simulates a player-like object.
@@ -127,6 +129,15 @@ return {
                     y = this.y + this.h / 2,
                 })
             end
+        elseif key == 'interact' then
+            -- Send out interaction events.
+            -- Use the containing object as the 'caller' and do not collide with it.
+
+            map.foreach_object(function (other_obj)
+                if other_obj ~= this.__parent and util.aabb(this, other_obj) then
+                    object.call(other_obj, 'interact', this.__parent)
+                end
+            end)
         end
     end,
 

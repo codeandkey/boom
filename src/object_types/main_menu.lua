@@ -151,7 +151,7 @@ return {
                 if this.main_menu_option == 1 then
                     -- New game!
                     -- Load the main map.
-                    map.request('test')
+                    map.request('intro')
                 elseif this.main_menu_option == 2 then
                     this.state = this.STATE_OPTIONS
                     this.option = 1
