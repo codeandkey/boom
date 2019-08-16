@@ -7,6 +7,7 @@ local fs = require 'fs'
 local tilesets = require 'tilesets'
 local object_group = require 'object_group'
 local tile_layer = require 'tile_layer'
+local util       = require 'util'
 
 local map = {
     default_gravity = 9.8 * 16,
@@ -20,7 +21,8 @@ local map = {
 --- Immediately load and initialize a map.
 -- Loads map from the disk, and unloads any current map.
 -- @param name Map to load.
-function map.load(name)
+-- @param packed_args Packed arguments to pass to ready event.
+function map.load(name, packed_args)
     if map.current then
         map.unload()
     end
@@ -54,7 +56,7 @@ function map.load(name)
     end
 
     log.debug('Posting map ready event.')
-    event.push('ready')
+    event.push('ready', unpack(packed_args or {n=0}))
 end
 
 --- Unload the current map, if there is one loaded.
@@ -91,8 +93,9 @@ end
 --- Request a transition to a new map.
 -- This should be used for switching maps instead of `map.load`.
 -- @param name Map to switch to.
-function map.request(name)
+function map.request(name, ...)
     map.requested = name
+    map.request_args = util.pack(...)
 end
 
 --- Update all objects in the map y _dt_ seconds.
@@ -119,7 +122,7 @@ function map.update(dt)
 
             if map.delay_time < 0 then
                 -- Load the next map now.
-                map.load(map.requested)
+                map.load(map.requested, map.request_args)
                 -- Unset the request.
                 map.requested = nil
             end
@@ -193,7 +196,7 @@ function map.find_object(name)
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
-            local res = v:find(name)
+            local res = object_group.find(v, name)
 
             if res then
                 return res

@@ -1,3 +1,5 @@
+local log    = require 'log'
+local map    = require 'map'
 local camera = require 'camera'
 local object = require 'object'
 local sprite = require 'sprite'
@@ -7,6 +9,7 @@ return {
         -- Subscribe to input events so the character is controlled by the user.
         object.subscribe(this, 'inputdown')
         object.subscribe(this, 'inputup')
+        object.subscribe(this, 'ready')
 
         this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
@@ -17,6 +20,25 @@ return {
                                                   spr_idle = this.spr_idle,
                                                   spr_walk = this.spr_walk,
                                                   spr_jump = this.spr_jump })
+    end,
+
+    ready = function(this, dest)
+        -- Jump to an object if we need to.
+
+        if dest then
+            log.debug('Searching for destination %s..', dest)
+
+            local dest_obj = map.find_object(dest)
+
+            if dest_obj then
+                -- Move character to bottom boundary.
+                -- Player position will later follow in update()
+                this.components.character.x = dest_obj.x + dest_obj.w / 2 - this.w / 2
+                this.components.character.y = dest_obj.y + dest_obj.h - this.h
+            else
+                log.debug('Invalid destination %s!', dest)
+            end
+        end
     end,
 
     update = function(this)
