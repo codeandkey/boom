@@ -852,14 +852,14 @@
     <property name="entry_point" value="vale_0"/>
    </properties>
   </object>
-  <object id="65" name="first_zone_3" type="load_trigger" x="2304" y="1360" width="32" height="48">
+  <object id="65" name="town_3" type="load_trigger" x="2304" y="1360" width="32" height="48">
    <properties>
-    <property name="destination" value="hell"/>
-    <property name="entry_point" value="hell_0"/>
+    <property name="destination" value="town"/>
+    <property name="entry_point" value="town_3"/>
    </properties>
   </object>
   <object id="66" name="Tower Sentry" type="npc" x="1344" y="1184" width="32" height="32"/>
-  <object id="67" name="first_zone_4" type="load_trigger" x="2304" y="480" width="32" height="48">
+  <object id="67" name="town_4" type="load_trigger" x="2304" y="480" width="32" height="48">
    <properties>
     <property name="destination" value="sky"/>
     <property name="entry_point" value="sky_0"/>
