@@ -11,6 +11,8 @@ local camera = {
     scale = 2, -- pixel scale (effective viewport size)
     focus_x = 0,
     focus_y = 0,
+    panic_x = 0,
+    panic_y = 0,
     max_game_width = 640, -- maximum camera width in game coordinates
 
     focus_box = {
@@ -21,10 +23,10 @@ local camera = {
     },
 
     panic_box = {
-        left = 0.1,
-        right = 0.9,
-        top = 0.1,
-        bottom = 0.9,
+        left = 0.2,
+        right = 0.8,
+        top = 0.2,
+        bottom = 0.8,
     },
 
     anim_xspeed = 1, -- Higher is slower.
@@ -128,6 +130,14 @@ function camera.set_focus_y(y)
     camera.focus_y = y
 end
 
+--- Set the camera panic point.
+-- If the panic point leaves the camera, the camera is immediately moved
+-- to keep it within the boundaries.
+-- @param y Y coordinate.
+function camera.set_panic_point(x, y)
+    camera.panic_x, camera.panic_y = x, y
+end
+
 -- Animate the camera towards the focus point.
 -- @param dt Update time (seconds).
 function camera.update(dt)
@@ -188,16 +198,16 @@ function camera.update(dt)
     end
 
     -- Immediately move the camera to keep the focus point in the panic box.
-    if camera.focus_x < pbox_world.left then
-        vx = camera.focus_x - pbox_world.left
-    elseif camera.focus_x > pbox_world.right then
-        vx = camera.focus_x - pbox_world.right
+    if camera.panic_x < pbox_world.left then
+        vx = camera.panic_x - pbox_world.left
+    elseif camera.panic_x > pbox_world.right then
+        vx = camera.panic_x - pbox_world.right
     end
 
-    if camera.focus_y < pbox_world.top then
-        vy = camera.focus_y - pbox_world.top
-    elseif camera.focus_y > pbox_world.bottom then
-        vy = camera.focus_y - pbox_world.bottom
+    if camera.panic_y < pbox_world.top then
+        vy = camera.panic_y - pbox_world.top
+    elseif camera.panic_y > pbox_world.bottom then
+        vy = camera.panic_y - pbox_world.bottom
     end
 
     -- Finally update the camera position.
