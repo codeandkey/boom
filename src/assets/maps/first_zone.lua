@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 12,
-  nextobjectid = 60,
+  nextobjectid = 61,
   properties = {},
   tilesets = {
     {
@@ -1110,6 +1110,22 @@ return {
           properties = {
             ["destination"] = "town",
             ["entry_point"] = "town_0"
+          }
+        },
+        {
+          id = 60,
+          name = "first_zone_2",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 688,
+          y = 512,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "intro",
+            ["entry_point"] = "intro_1"
           }
         }
       }
