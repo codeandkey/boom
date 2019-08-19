@@ -80,6 +80,14 @@ function map.unload()
     end
 end
 
+--- Get the loaded map name.
+-- @return The map name, or nil if none loaded.
+function map.get_current_name()
+    if map.current then
+        return map.current.name
+    end
+end
+
 --- Get the map physics world.
 -- @return The active physics world or nil if no map.
 function map.get_physics_world()
