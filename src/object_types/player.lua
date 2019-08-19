@@ -2,6 +2,7 @@ local log    = require 'log'
 local map    = require 'map'
 local camera = require 'camera'
 local object = require 'object'
+local opts   = require 'opts'
 local sprite = require 'sprite'
 
 return {
@@ -35,6 +36,14 @@ return {
                 -- Player position will later follow in update()
                 this.components.character.x = dest_obj.x + dest_obj.w / 2 - this.w / 2
                 this.components.character.y = dest_obj.y + dest_obj.h - this.h
+
+                -- Valid destination; write the save file.
+                opts.set('save_location', {
+                    map_name = map.get_current_name(),
+                    spawn_name = dest,
+                })
+
+                opts.save()
             else
                 log.debug('Invalid destination %s!', dest)
             end
