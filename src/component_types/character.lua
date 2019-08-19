@@ -26,19 +26,19 @@ local physics_groups = require 'physics_groups'
 return {
     init = function(this)
         -- Configuration.
-        this.gravity           = this.gravity or 350
-        this.crouch_decel      = this.crouch_decel or 600
-        this.passive_decel     = this.passive_decel or 400
-        this.midair_decel      = this.midair_decel or 200
-        this.jump_dy           = this.jump_dy or -280
-        this.dx_accel          = this.dx_accel or 1600
-        this.dx_max            = this.dx_max or 150
-        this.grenade_dampening = this.grenade_dampening or 3
-        this.color             = this.color or {1, 1, 1, 1}
-        this.rope_length       = this.rope_length or 80
-        this.rope_color        = this.rope_color or {1, 1, 1, 1}
-        this.num_rope_segments = this.num_rope_segments or (this.rope_length / 16) -- use length 16 segments as a sane default
-        this.rope_point_radius = 2
+        this.gravity             = this.gravity or 350
+        this.crouch_decel        = this.crouch_decel or 600
+        this.passive_decel       = this.passive_decel or 400
+        this.midair_decel        = this.midair_decel or 200
+        this.jump_dy             = this.jump_dy or -280
+        this.dx_accel            = this.dx_accel or 1600
+        this.dx_max              = this.dx_max or 150
+        this.grenade_dampening   = this.grenade_dampening or 3
+        this.color               = this.color or {1, 1, 1, 1}
+        this.rope_color          = this.rope_color or {1, 1, 1, 1}
+        this.num_rope_segments   = this.num_rope_segments or 5
+        this.rope_segment_length = 16
+        this.rope_point_radius   = 2
 
         this.w = this.w or 14
         this.h = this.h or 32
@@ -140,7 +140,6 @@ return {
 
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
 
-
                 -- Create distance joint holding nade.
                 this.nade_joint = love.physics.newRopeJoint(this.body,
                                                             this.nade.body,
@@ -148,7 +147,7 @@ return {
                                                             this.y + this.h / 2,
                                                             this.x + this.w / 2,
                                                             this.y + this.h / 2,
-                                                            this.rope_length,
+                                                            this.num_rope_segments * this.rope_segment_length,
                                                             false)
 
                 -- Create fake rope.
@@ -158,7 +157,7 @@ return {
                 for i=1,this.num_rope_segments do
                     -- Initialize segment physics bits.
                     local segment_shape = love.physics.newCircleShape(this.rope_point_radius)
-                    local segment_body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2)
+                    local segment_body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2, 'dynamic')
                     local segment_fixture = love.physics.newFixture(segment_body, segment_shape, 1)
 
                     -- Disable collisions with physics objects.
@@ -172,14 +171,32 @@ return {
                     })
                 end
 
+                log.debug('Created %d rope sgements.', this.num_rope_segments)
+
                 -- Attach rope segments together.
                 for i=1,this.num_rope_segments-1 do
                     local joint = love.physics.newRopeJoint(this.rope_segments[i].body, this.rope_segments[i+1].body,
                                                             this.x + this.w / 2, this.y + this.h / 2,
                                                             this.x + this.w / 2, this.y + this.h / 2,
-                                                            this.rope_length / this.num_rope_segments)
+                                                            this.rope_segment_length)
                     table.insert(this.rope_segment_joints, joint)
                 end
+
+                -- Attach player to first segment.
+                table.insert(this.rope_segment_joints, love.physics.newRopeJoint(
+                    this.body, this.rope_segments[1].body,
+                    this.x + this.w / 2, this.y + this.h / 2,
+                    this.x + this.w / 2, this.y + this.h / 2,
+                    this.rope_segment_length
+                ))
+
+                -- Attach nade to last segment.
+                table.insert(this.rope_segment_joints, love.physics.newRopeJoint(
+                    this.rope_segments[#this.rope_segments].body, this.nade.body,
+                    this.x + this.w / 2, this.y + this.h / 2,
+                    this.x + this.w / 2, this.y + this.h / 2,
+                    this.rope_segment_length
+                ))
             end
         end
     end,
@@ -315,6 +332,11 @@ return {
     end,
 
     render = function(this)
+        -- Make sure to not render any sprites for dead characters.
+        if this.dead then
+            return
+        end
+
         -- Choose the correct sprite.
         if this.is_walking then
             this.spr = this.spr_walk
@@ -328,8 +350,18 @@ return {
         if this.nade then
             love.graphics.setColor(this.rope_color)
 
+            -- Render rope segment points.
             for _, v in ipairs(this.rope_segments) do
                 love.graphics.circle('line', v.body:getX(), v.body:getY(), this.rope_point_radius)
+            end
+
+            -- Render rope joint lines.
+            for _, v in ipairs(this.rope_segment_joints) do
+                local ba, bb = v:getBodies()
+                local bax, bay = ba:getPosition()
+                local bbx, bby = bb:getPosition()
+
+                love.graphics.line(bax, bay, bbx, bby)
             end
         end
 
