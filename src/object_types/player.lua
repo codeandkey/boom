@@ -71,8 +71,9 @@ return {
         end
 
         -- Our location is the character's location.
-        -- We'll center for convienence.
-        this.x = char.x + char.w / 2
-        this.y = char.y + char.h / 2
+        this.x = char.x
+        this.y = char.y
+        this.w = char.w
+        this.h = char.h
     end,
 }
