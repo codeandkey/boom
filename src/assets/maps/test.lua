@@ -1,7 +1,7 @@
 return {
   version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.2.3",
+  tiledversion = "1.2.4",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 256,
@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 10,
-  nextobjectid = 57,
+  nextobjectid = 59,
   properties = {},
   tilesets = {
     {
@@ -561,7 +561,21 @@ return {
       offsety = 0,
       draworder = "topdown",
       properties = {},
-      objects = {}
+      objects = {
+        {
+          id = 58,
+          name = "crate",
+          type = "crate",
+          shape = "rectangle",
+          x = 400,
+          y = 224,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        }
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="57">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="59">
  <tileset firstgid="1" source="../tiled/tileset_placeholder.json"/>
  <objectgroup id="7" name="background_sky">
   <object id="52" name="background_sky" type="background" x="16" y="16" width="32" height="32">
@@ -333,5 +333,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="4" name="phys_objects"/>
+ <objectgroup id="4" name="phys_objects">
+  <object id="58" name="crate" type="crate" x="400" y="224" width="32" height="32"/>
+ </objectgroup>
 </map>

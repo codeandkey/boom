@@ -8,6 +8,9 @@ local input = {
         z = 'jump',
         x = 'throw',
         up = 'jump',
+        space = 'ok',
+        ['return'] = 'ok',
+        c = 'interact',
     }
 }
 

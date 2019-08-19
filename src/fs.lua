@@ -8,6 +8,7 @@ local fs = {
     prefixes = {
         maps = 'src/assets/maps/',
         sprites = 'assets/sprites/',
+        fonts = 'assets/fonts/',
     }
 }
 
@@ -51,6 +52,21 @@ function fs.read_texture(name)
         return result
     else
         log.error("Couldn't load texture %s! (for %s)", path, name)
+    end
+end
+
+--- Read a font from the disk.
+-- Tries to load a font from the font prefix (assets/fonts).
+-- @param name Font file suffix to load, with extension.
+-- @param size Font size (pt). [default 16]
+function fs.read_font(name, size)
+    local path = fs.prefixes.fonts .. util.basename(name)
+    local status, result = pcall(love.graphics.newFont, path, size or 16)
+
+    if status then
+        return result
+    else
+        log.error("Couldn't load font %s! (for %s)", path, name)
     end
 end
 
