@@ -839,7 +839,7 @@
   <object id="58" name="vale_0" type="load_trigger" x="240" y="304" width="64" height="32">
    <properties>
     <property name="destination" value="town"/>
-    <property name="entry_point" value="town_2"/>
+    <property name="entry_point" value="town_1"/>
    </properties>
   </object>
  </objectgroup>

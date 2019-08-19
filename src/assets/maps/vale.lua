@@ -1063,7 +1063,7 @@ return {
           visible = true,
           properties = {
             ["destination"] = "town",
-            ["entry_point"] = "town_2"
+            ["entry_point"] = "town_1"
           }
         }
       }
