@@ -161,11 +161,16 @@ function map.render()
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
-            -- Render background layers at half brightness.
-            if v.properties.background then
-                tile_layer.render(v, {0.5, 0.5, 0.5, 1})
+            -- Respect alpha override if present.
+            if v.alpha_override then
+                tile_layer.render(v, {1, 1, 1, v.alpha_override})
             else
-                tile_layer.render(v)
+                -- Render background layers at half brightness.
+                if v.properties.background then
+                    tile_layer.render(v, {0.5, 0.5, 0.5, 1})
+                else
+                    tile_layer.render(v)
+                end
             end
         elseif v.type == 'objectgroup' then
             object_group.call(v, 'render')
