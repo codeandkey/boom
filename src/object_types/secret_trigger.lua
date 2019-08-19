@@ -70,7 +70,7 @@ return {
             if colliding then
                 a = math.max(a - dt * this.fade_out_speed, this.target_alpha)
             else
-                a = math.min(a + dt * this.fade_out_speed, 1)
+                a = math.min(a + dt * this.fade_in_speed, 1)
             end
 
             this.target_layer_ref.alpha_override = a
