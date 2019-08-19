@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 12,
-  nextobjectid = 68,
+  nextobjectid = 71,
   properties = {},
   tilesets = {
     {
@@ -741,9 +741,234 @@ return {
       }
     },
     {
+      type = "objectgroup",
+      id = 2,
+      name = "game_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 17,
+          name = "player",
+          type = "player",
+          shape = "rectangle",
+          x = 48,
+          y = 2064,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 57,
+          name = "player",
+          type = "player",
+          shape = "rectangle",
+          x = 48,
+          y = 2064,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 58,
+          name = "town_0",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 48,
+          y = 2048,
+          width = 32,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "first_zone",
+            ["entry_point"] = "first_zone_1"
+          }
+        },
+        {
+          id = 60,
+          name = "Old Man",
+          type = "npc",
+          shape = "rectangle",
+          x = 1984,
+          y = 1712,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 61,
+          name = "Knight",
+          type = "npc",
+          shape = "rectangle",
+          x = 2672,
+          y = 1712,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 62,
+          name = "Merchant",
+          type = "npc",
+          shape = "rectangle",
+          x = 2080,
+          y = 1872,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 63,
+          name = "Well Guy",
+          type = "npc",
+          shape = "rectangle",
+          x = 1552,
+          y = 2608,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 64,
+          name = "town_1",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 1120,
+          y = 2736,
+          width = 96,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "vale",
+            ["entry_point"] = "vale_0"
+          }
+        },
+        {
+          id = 65,
+          name = "town_3",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 2304,
+          y = 1360,
+          width = 32,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "town",
+            ["entry_point"] = "town_3"
+          }
+        },
+        {
+          id = 66,
+          name = "Tower Sentry",
+          type = "npc",
+          shape = "rectangle",
+          x = 1344,
+          y = 1184,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 67,
+          name = "town_4",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 2304,
+          y = 480,
+          width = 32,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "sky",
+            ["entry_point"] = "sky_0"
+          }
+        },
+        {
+          id = 68,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 2416,
+          y = 1904,
+          width = 112,
+          height = 224,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        },
+        {
+          id = 69,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 1296,
+          y = 2656,
+          width = 544,
+          height = 112,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        },
+        {
+          id = 70,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 1312,
+          y = 2624,
+          width = 48,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 4,
+      name = "phys_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {}
+    },
+    {
       type = "tilelayer",
       id = 11,
-      name = "FG Tile Layer",
+      name = "fg_tile_layer",
       x = 0,
       y = 0,
       width = 256,
@@ -1012,186 +1237,6 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
-    },
-    {
-      type = "objectgroup",
-      id = 2,
-      name = "game_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 17,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 48,
-          y = 2064,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 57,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 48,
-          y = 2064,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 58,
-          name = "town_0",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 48,
-          y = 2048,
-          width = 32,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "first_zone",
-            ["entry_point"] = "first_zone_1"
-          }
-        },
-        {
-          id = 60,
-          name = "Old Man",
-          type = "npc",
-          shape = "rectangle",
-          x = 1984,
-          y = 1712,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 61,
-          name = "Knight",
-          type = "npc",
-          shape = "rectangle",
-          x = 2672,
-          y = 1712,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 62,
-          name = "Merchant",
-          type = "npc",
-          shape = "rectangle",
-          x = 2080,
-          y = 1872,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 63,
-          name = "Well Guy",
-          type = "npc",
-          shape = "rectangle",
-          x = 1552,
-          y = 2608,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 64,
-          name = "town_1",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 1120,
-          y = 2736,
-          width = 96,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "vale",
-            ["entry_point"] = "vale_0"
-          }
-        },
-        {
-          id = 65,
-          name = "town_3",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 2304,
-          y = 1360,
-          width = 32,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "town",
-            ["entry_point"] = "town_3"
-          }
-        },
-        {
-          id = 66,
-          name = "Tower Sentry",
-          type = "npc",
-          shape = "rectangle",
-          x = 1344,
-          y = 1184,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 67,
-          name = "town_4",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 2304,
-          y = 480,
-          width = 32,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "sky",
-            ["entry_point"] = "sky_0"
-          }
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      id = 4,
-      name = "phys_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {}
     }
   }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="68">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="71">
  <tileset firstgid="1" source="4096x4096_stone_castle.tsx"/>
  <objectgroup id="7" name="background_sky">
   <object id="52" name="background_sky" type="background" x="2064" y="1296" width="32" height="32">
@@ -573,7 +573,56 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="11" name="FG Tile Layer" width="256" height="256">
+ <objectgroup id="2" name="game_objects">
+  <object id="17" name="player" type="player" x="48" y="2064" width="32" height="32"/>
+  <object id="57" name="player" type="player" x="48" y="2064" width="32" height="32"/>
+  <object id="58" name="town_0" type="load_trigger" x="48" y="2048" width="32" height="48">
+   <properties>
+    <property name="destination" value="first_zone"/>
+    <property name="entry_point" value="first_zone_1"/>
+   </properties>
+  </object>
+  <object id="60" name="Old Man" type="npc" x="1984" y="1712" width="32" height="32"/>
+  <object id="61" name="Knight" type="npc" x="2672" y="1712" width="32" height="32"/>
+  <object id="62" name="Merchant" type="npc" x="2080" y="1872" width="32" height="32"/>
+  <object id="63" name="Well Guy" type="npc" x="1552" y="2608" width="32" height="32"/>
+  <object id="64" name="town_1" type="load_trigger" x="1120" y="2736" width="96" height="32">
+   <properties>
+    <property name="destination" value="vale"/>
+    <property name="entry_point" value="vale_0"/>
+   </properties>
+  </object>
+  <object id="65" name="town_3" type="load_trigger" x="2304" y="1360" width="32" height="48">
+   <properties>
+    <property name="destination" value="town"/>
+    <property name="entry_point" value="town_3"/>
+   </properties>
+  </object>
+  <object id="66" name="Tower Sentry" type="npc" x="1344" y="1184" width="32" height="32"/>
+  <object id="67" name="town_4" type="load_trigger" x="2304" y="480" width="32" height="48">
+   <properties>
+    <property name="destination" value="sky"/>
+    <property name="entry_point" value="sky_0"/>
+   </properties>
+  </object>
+  <object id="68" type="secret_trigger" x="2416" y="1904" width="112" height="224">
+   <properties>
+    <property name="target_layer" value="fg_tile_layer"/>
+   </properties>
+  </object>
+  <object id="69" type="secret_trigger" x="1296" y="2656" width="544" height="112">
+   <properties>
+    <property name="target_layer" value="fg_tile_layer"/>
+   </properties>
+  </object>
+  <object id="70" type="secret_trigger" x="1312" y="2624" width="48" height="32">
+   <properties>
+    <property name="target_layer" value="fg_tile_layer"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="4" name="phys_objects"/>
+ <layer id="11" name="fg_tile_layer" width="256" height="256">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -833,38 +882,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="2" name="game_objects">
-  <object id="17" name="player" type="player" x="48" y="2064" width="32" height="32"/>
-  <object id="57" name="player" type="player" x="48" y="2064" width="32" height="32"/>
-  <object id="58" name="town_0" type="load_trigger" x="48" y="2048" width="32" height="48">
-   <properties>
-    <property name="destination" value="first_zone"/>
-    <property name="entry_point" value="first_zone_1"/>
-   </properties>
-  </object>
-  <object id="60" name="Old Man" type="npc" x="1984" y="1712" width="32" height="32"/>
-  <object id="61" name="Knight" type="npc" x="2672" y="1712" width="32" height="32"/>
-  <object id="62" name="Merchant" type="npc" x="2080" y="1872" width="32" height="32"/>
-  <object id="63" name="Well Guy" type="npc" x="1552" y="2608" width="32" height="32"/>
-  <object id="64" name="town_1" type="load_trigger" x="1120" y="2736" width="96" height="32">
-   <properties>
-    <property name="destination" value="vale"/>
-    <property name="entry_point" value="vale_0"/>
-   </properties>
-  </object>
-  <object id="65" name="town_3" type="load_trigger" x="2304" y="1360" width="32" height="48">
-   <properties>
-    <property name="destination" value="town"/>
-    <property name="entry_point" value="town_3"/>
-   </properties>
-  </object>
-  <object id="66" name="Tower Sentry" type="npc" x="1344" y="1184" width="32" height="32"/>
-  <object id="67" name="town_4" type="load_trigger" x="2304" y="480" width="32" height="48">
-   <properties>
-    <property name="destination" value="sky"/>
-    <property name="entry_point" value="sky_0"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup id="4" name="phys_objects"/>
 </map>

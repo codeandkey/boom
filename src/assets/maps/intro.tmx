@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="77">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="79">
  <tileset firstgid="1" source="4096x4096_stone_castle.tsx"/>
  <objectgroup id="9" name="background_sky" locked="1">
   <object id="64" name="background_sky" type="background" x="896" y="640" width="32" height="32">
@@ -258,6 +258,33 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="4" name="phys_objects" locked="1"/>
+ <objectgroup id="3" name="game_objects">
+  <object id="29" name="dog" type="npc" x="528" y="1056" width="32" height="32"/>
+  <object id="63" name="player" type="player" x="880" y="1056" width="32" height="32"/>
+  <object id="74" name="intro_0" type="load_trigger" x="864" y="800" width="64" height="48">
+   <properties>
+    <property name="destination" value="first_zone"/>
+    <property name="entry_point" value="first_zone_0"/>
+   </properties>
+  </object>
+  <object id="76" name="intro_1" type="load_trigger" x="1312" y="992" width="32" height="32">
+   <properties>
+    <property name="destination" value="first_zone"/>
+    <property name="entry_point" value="first_zone_2"/>
+   </properties>
+  </object>
+  <object id="77" type="secret_trigger" x="1200" y="576" width="256" height="448">
+   <properties>
+    <property name="target_layer" value="fg_tile_layer"/>
+   </properties>
+  </object>
+  <object id="78" type="secret_trigger" x="1136" y="544" width="64" height="64">
+   <properties>
+    <property name="target_layer" value="fg_tile_layer"/>
+   </properties>
+  </object>
+ </objectgroup>
  <layer id="10" name="fg_tile_layer" width="100" height="100">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -362,21 +389,4 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="phys_objects" locked="1"/>
- <objectgroup id="3" name="game_objects">
-  <object id="29" name="dog" type="npc" x="528" y="1056" width="32" height="32"/>
-  <object id="63" name="player" type="player" x="880" y="1056" width="32" height="32"/>
-  <object id="74" name="intro_0" type="load_trigger" x="864" y="800" width="64" height="48">
-   <properties>
-    <property name="destination" value="first_zone"/>
-    <property name="entry_point" value="first_zone_0"/>
-   </properties>
-  </object>
-  <object id="76" name="intro_1" type="load_trigger" x="1312" y="992" width="32" height="32">
-   <properties>
-    <property name="destination" value="first_zone"/>
-    <property name="entry_point" value="first_zone_2"/>
-   </properties>
-  </object>
- </objectgroup>
 </map>

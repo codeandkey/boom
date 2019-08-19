@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 12,
-  nextobjectid = 61,
+  nextobjectid = 65,
   properties = {},
   tilesets = {
     {
@@ -741,9 +741,198 @@ return {
       }
     },
     {
+      type = "objectgroup",
+      id = 2,
+      name = "game_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 17,
+          name = "player",
+          type = "player",
+          shape = "rectangle",
+          x = 256,
+          y = 304,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 48,
+          name = "Tom",
+          type = "npc",
+          shape = "rectangle",
+          x = 1552,
+          y = 288,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["name"] = "Tom"
+          }
+        },
+        {
+          id = 49,
+          name = "Bill",
+          type = "npc",
+          shape = "rectangle",
+          x = 2304,
+          y = 416,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["name"] = "Bill"
+          }
+        },
+        {
+          id = 57,
+          name = "player",
+          type = "player",
+          shape = "rectangle",
+          x = 256,
+          y = 304,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 58,
+          name = "first_zone_0",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 240,
+          y = 288,
+          width = 64,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "intro",
+            ["entry_point"] = "intro_0"
+          }
+        },
+        {
+          id = 59,
+          name = "first_zone_1",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 3040,
+          y = 464,
+          width = 32,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "town",
+            ["entry_point"] = "town_0"
+          }
+        },
+        {
+          id = 60,
+          name = "first_zone_2",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 688,
+          y = 512,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "intro",
+            ["entry_point"] = "intro_1"
+          }
+        },
+        {
+          id = 61,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 1008,
+          y = 352,
+          width = 288,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        },
+        {
+          id = 62,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 1008,
+          y = 368,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        },
+        {
+          id = 63,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 944,
+          y = 400,
+          width = 160,
+          height = 144,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        },
+        {
+          id = 64,
+          name = "",
+          type = "secret_trigger",
+          shape = "rectangle",
+          x = 688,
+          y = 512,
+          width = 256,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["target_layer"] = "fg_tile_layer"
+          }
+        }
+      }
+    },
+    {
+      type = "objectgroup",
+      id = 4,
+      name = "phys_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {}
+    },
+    {
       type = "tilelayer",
       id = 11,
-      name = "FG Tile Layer",
+      name = "fg_tile_layer",
       x = 0,
       y = 0,
       width = 256,
@@ -1012,135 +1201,6 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
       }
-    },
-    {
-      type = "objectgroup",
-      id = 2,
-      name = "game_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 17,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 256,
-          y = 304,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 48,
-          name = "Tom",
-          type = "npc",
-          shape = "rectangle",
-          x = 1552,
-          y = 288,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["name"] = "Tom"
-          }
-        },
-        {
-          id = 49,
-          name = "Bill",
-          type = "npc",
-          shape = "rectangle",
-          x = 2304,
-          y = 416,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["name"] = "Bill"
-          }
-        },
-        {
-          id = 57,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 256,
-          y = 304,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 58,
-          name = "first_zone_0",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 240,
-          y = 288,
-          width = 64,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "intro",
-            ["entry_point"] = "intro_0"
-          }
-        },
-        {
-          id = 59,
-          name = "first_zone_1",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 3040,
-          y = 464,
-          width = 32,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "town",
-            ["entry_point"] = "town_0"
-          }
-        },
-        {
-          id = 60,
-          name = "first_zone_2",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 688,
-          y = 512,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "intro",
-            ["entry_point"] = "intro_1"
-          }
-        }
-      }
-    },
-    {
-      type = "objectgroup",
-      id = 4,
-      name = "phys_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {}
     }
   }
 }
