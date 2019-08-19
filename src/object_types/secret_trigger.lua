@@ -15,7 +15,7 @@ return {
         this.fade_in_speed  = this.fade_in_speed or 1.5
 
         -- State.
-        this.current_alpha = 1
+        this.intersect = 1
 
         -- Verify target layer.
         this.target_layer_ref = map.find_layer(this.target_layer or 'MISSING')
@@ -23,6 +23,17 @@ return {
         if not this.target_layer_ref then
             log.error('Invalid target_layer %s for secret trigger!', this.target_layer)
             object.destroy(this)
+        end
+
+        -- The following is a mega hack but it will work.
+        -- In the future maybe some subsystem can be introduced to manage per-layer state.
+
+        -- Decide on a single trigger to manage the alpha.
+        if this.target_layer_ref.secret_control then
+            table.insert(this.target_layer_ref.secret_triggers, this)
+        else
+            this.target_layer_ref.secret_control = this
+            this.target_layer_ref.secret_triggers = { this }
         end
     end,
 
@@ -35,16 +46,34 @@ return {
             return
         end
 
-        -- Check for collisions and animate target layer alpha.
-        if util.aabb(this, this.player) then
-            -- Animate towards target alpha.
-            this.current_alpha = math.max(this.target_alpha, this.current_alpha - dt * this.fade_out_speed)
-        else
-            -- Animate towards normal alpha.
-            this.current_alpha = math.min(1, this.current_alpha + dt * this.fade_in_speed)
-        end
+        this.intersect = util.aabb(this, this.player)
 
-        -- Set the tile layer's alpha override.
-        this.target_layer_ref.alpha_override = this.current_alpha
+        -- Only allow the control trigger to modify the target layer alpha.
+        -- There is no guarantee that the other triggers are updated before the control-
+        -- this means that the intersection test may be a frame behind. There's not
+        -- much we can do about this without introducing a new post-frame event.
+
+        if this.target_layer_ref.secret_control == this then
+            -- Check if at least one controlling trigger is colliding.
+            local colliding = false
+
+            for _, v in ipairs(this.target_layer_ref.secret_triggers) do
+                if v.intersect then
+                    colliding = true
+                    break
+                end
+            end
+
+            local a = this.target_layer_ref.alpha_override or 1
+
+            -- Apply alpha animation.
+            if colliding then
+                a = math.max(a - dt * this.fade_out_speed, this.target_alpha)
+            else
+                a = math.min(a + dt * this.fade_out_speed, 1)
+            end
+
+            this.target_layer_ref.alpha_override = a
+        end
     end
 }
