@@ -25,6 +25,7 @@ return {
         this.fixture:setRestitution(0.1)
 
         this.body:applyAngularImpulse(math.random(-10, 10))
+        this.body:setAngle(this.angle or 0)
     end,
 
     destroy = function(this)
