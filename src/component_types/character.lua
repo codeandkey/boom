@@ -280,7 +280,7 @@ return {
 
         -- Decide what direction the player will aim.
         -- A directional switch should apply immediately, so we only animate the 'pitch' of the angle.
-    
+
         if this.wants_up and not this.wants_down then
             if this.wants_left or this.wants_right then
                 this.target_pitch = -3.141 / 4.0
@@ -338,7 +338,9 @@ return {
 
         if this.__parent.name == 'player' then
             love.graphics.setColor(1, 1, 1, 0.4)
-            love.graphics.line(this.x + this.w / 2, this.y + this.h / 2, this.x + this.w / 2 + 16 * math.cos(this.throw_angle), this.y + this.h / 2 + 16 * math.sin(this.throw_angle))
+            love.graphics.line(this.x + this.w / 2, this.y + this.h / 2,
+                               this.x + this.w / 2 + 16 * math.cos(this.throw_angle),
+                               this.y + this.h / 2 + 16 * math.sin(this.throw_angle))
         end
     end,
 }
