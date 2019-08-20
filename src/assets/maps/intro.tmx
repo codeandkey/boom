@@ -274,18 +274,11 @@
     <property name="entry_point" value="first_zone_2"/>
    </properties>
   </object>
-  <object id="77" type="secret_trigger" x="1200" y="576" width="256" height="448">
-   <properties>
-    <property name="target_layer" value="fg_tile_layer"/>
-   </properties>
-  </object>
-  <object id="78" type="secret_trigger" x="1136" y="544" width="64" height="64">
-   <properties>
-    <property name="target_layer" value="fg_tile_layer"/>
-   </properties>
-  </object>
  </objectgroup>
  <layer id="10" name="fg_tile_layer" width="100" height="100">
+  <properties>
+   <property name="secret" type="bool" value="true"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,

@@ -854,66 +854,6 @@ return {
             ["destination"] = "intro",
             ["entry_point"] = "intro_1"
           }
-        },
-        {
-          id = 61,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 1008,
-          y = 352,
-          width = 288,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
-        },
-        {
-          id = 62,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 1008,
-          y = 368,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
-        },
-        {
-          id = 63,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 944,
-          y = 400,
-          width = 160,
-          height = 144,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
-        },
-        {
-          id = 64,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 688,
-          y = 512,
-          width = 256,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
         }
       }
     },
@@ -941,7 +881,9 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {},
+      properties = {
+        ["secret"] = true
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

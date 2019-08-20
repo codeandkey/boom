@@ -506,36 +506,6 @@ return {
             ["destination"] = "first_zone",
             ["entry_point"] = "first_zone_2"
           }
-        },
-        {
-          id = 77,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 1200,
-          y = 576,
-          width = 256,
-          height = 448,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
-        },
-        {
-          id = 78,
-          name = "",
-          type = "secret_trigger",
-          shape = "rectangle",
-          x = 1136,
-          y = 544,
-          width = 64,
-          height = 64,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["target_layer"] = "fg_tile_layer"
-          }
         }
       }
     },
@@ -551,7 +521,9 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {},
+      properties = {
+        ["secret"] = true
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
