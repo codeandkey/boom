@@ -55,6 +55,13 @@ function map.load(name, packed_args)
         end
     end
 
+    -- Go ahead and find the player object.
+    map.current.player = map.find_object('player')
+
+    if not map.current.player then
+        log.warn('Map %s does not contain a player object. Expect problems.', map.current.name)
+    end
+
     log.debug('Posting map ready event.')
     event.push('ready', unpack(packed_args or {n=0}))
 end
@@ -86,6 +93,12 @@ function map.get_current_name()
     if map.current then
         return map.current.name
     end
+end
+
+--- Get the player object.
+-- @returns Player object or nil if none found.
+function map.get_player()
+    return map.current.player
 end
 
 --- Get the map physics world.
@@ -146,6 +159,8 @@ function map.update(dt)
         if v.type == 'objectgroup' then
             object_group.call(v, 'update', dt)
             object_group.remove_dead(v)
+        elseif v.type == 'tilelayer' then
+            tile_layer.update(v, dt, map.current.player)
         end
     end
 
@@ -161,17 +176,7 @@ function map.render()
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
-            -- Respect alpha override if present.
-            if v.alpha_override then
-                tile_layer.render(v, {1, 1, 1, v.alpha_override})
-            else
-                -- Render background layers at half brightness.
-                if v.properties.background then
-                    tile_layer.render(v, {0.5, 0.5, 0.5, 1})
-                else
-                    tile_layer.render(v)
-                end
-            end
+            tile_layer.render(v)
         elseif v.type == 'objectgroup' then
             object_group.call(v, 'render')
         end

@@ -18,6 +18,13 @@ function tile_layer.init(tiled_obj, tilesets_obj, physics_world)
         tiled_obj.fixtures = {}
     end
 
+    if tiled_obj.properties.secret then
+        tiled_obj.properties.fade_in_speed = tiled_obj.properties.fade_in_speed or 2
+        tiled_obj.properties.fade_out_speed = tiled_obj.properties.fade_out_speed or 2
+        tiled_obj.properties.target_secret_alpha = tiled_obj.properties.target_secret_alpha or 0.5
+        tiled_obj.cur_secret_alpha = 1
+    end
+
     local tw = tilesets_obj.tilewidth
     local th = tilesets_obj.tileheight
     local tileshape = love.physics.newRectangleShape(tw, th)
@@ -66,10 +73,42 @@ function tile_layer.unload(layer)
     end
 end
 
+--- Update a tile layer.
+-- @param layer Layer to update.
+-- @param dt Delta time (s)
+-- @param player Reference to the player object.
+function tile_layer.update(layer, dt, player)
+    if layer.properties.secret and player then
+        -- If the layer is a secret, check for collisions with the player.
+
+        if tile_layer.aabb(layer, player) then
+            -- Animate layer alpha down.
+            layer.cur_secret_alpha = math.max(layer.properties.target_secret_alpha,
+                                              layer.cur_secret_alpha - dt * layer.properties.fade_out_speed)
+        else
+            -- Animate layer alpha up.
+            layer.cur_secret_alpha = math.min(1, layer.cur_secret_alpha + dt * layer.properties.fade_out_speed)
+        end
+    end
+end
+
 --- Render a tile layer.
 -- @param layer Tile layer to render.
-function tile_layer.render(layer, color)
-    love.graphics.setColor(color or {1, 1, 1, 1})
+function tile_layer.render(layer)
+    local render_color = layer.color or {1, 1, 1, 1}
+
+    -- Perform render modifiers if needed.
+    if layer.properties.secret then
+        render_color[4] = layer.cur_secret_alpha
+    end
+
+    if layer.properties.background then
+        render_color[1] = render_color[1] / 2
+        render_color[2] = render_color[2] / 2
+        render_color[3] = render_color[3] / 2
+    end
+
+    love.graphics.setColor(render_color)
     love.graphics.draw(layer.batch)
 end
 
