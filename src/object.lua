@@ -126,7 +126,7 @@ function object.add_component(obj, type_name, initial)
 
     obj.components[type_name] = object.construct(c_type, initial)
 
-    log.debug('Added component of type %s to object type %s', type_name, obj.__typename)
+    log.debug('Added component of type %s to %s (type %s)', type_name, obj, obj.__typename)
 end
 
 return object
