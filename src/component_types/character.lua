@@ -335,6 +335,12 @@ return {
             this.spr = this.spr_jump
         end
 
+        -- Apply the appropriate color.
+        love.graphics.setColor(this.color)
+
+        -- Render the current sprite.
+        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+
         -- Render debug throw indicator
         -- REMOVEME eventually, should be replaced with a better indicator or hint
 
@@ -342,11 +348,5 @@ return {
             love.graphics.setColor(1, 1, 1, 0.4)
             love.graphics.line(this.x + this.w / 2, this.y + this.h / 2, this.x + this.w / 2 + 16 * math.cos(this.throw_angle), this.y + this.h / 2 + 16 * math.sin(this.throw_angle))
         end
-
-        -- Apply the appropriate color.
-        love.graphics.setColor(this.color)
-
-        -- Render the current sprite.
-        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
     end,
 }
