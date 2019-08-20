@@ -27,11 +27,12 @@ return {
     init = function(this)
         -- Configuration.
         this.gravity           = this.gravity or 350
-        this.crouch_decel      = this.crouch_decel or 600
-        this.passive_decel     = this.passive_decel or 400
+        this.crouch_decel      = this.crouch_decel or 1000
+        this.passive_decel     = this.passive_decel or 600
         this.midair_decel      = this.midair_decel or 200
         this.jump_dy           = this.jump_dy or -280
         this.dx_accel          = this.dx_accel or 1600
+        this.air_accel         = this.air_accel or 800
         this.dx_max            = this.dx_max or 150
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
@@ -111,6 +112,8 @@ return {
             this.wants_left = true
         elseif key == 'right' then
             this.wants_right = true
+        elseif key == 'crouch' and this.jump_enabled then
+            this.wants_crouch = true
         elseif key == 'jump' then
             -- Perform a jump if we can.
             if this.jump_enabled then
@@ -156,6 +159,8 @@ return {
             if this.dy < 0 then
                 this.dy = this.dy / 2
             end
+        elseif key == 'crouch' then
+            this.wants_crouch = false
         end
     end,
 
@@ -172,21 +177,25 @@ return {
         -- if both movement keys are held don't move,
         -- use air/crouch decel to stop quicker
         if this.wants_right and this.wants_left then
-            decel_amt = this.midair_decel
+            decel_amt = this.crouch_decel
             this.is_walking = false
         elseif this.wants_left then
-            this.dx = this.dx - this.dx_accel * dt
             this.direction = 'left'
 
             if this.jump_enabled then
                 this.is_walking = true
+                this.dx = this.dx - this.dx_accel * dt
+            else
+                this.dx = this.dx - this.air_accel * dt
             end
         elseif this.wants_right then
-            this.dx = this.dx + this.dx_accel * dt
             this.direction = 'right'
 
             if this.jump_enabled then
                 this.is_walking = true
+                this.dx = this.dx + this.dx_accel * dt
+            else
+                this.dx = this.dx + this.air_accel * dt
             end
         end
 
