@@ -112,10 +112,6 @@ return {
     end,
 
     inputdown = function(this, key)
-        if this.__parent.name == 'player' then
-            log.debug('player.character: inputdown %s', key)
-        end
-
         if key == 'left' then
             this.wants_left = true
         elseif key == 'right' then
@@ -155,10 +151,6 @@ return {
     end,
 
     inputup = function(this, key)
-        if this.__parent.name == 'player' then
-            log.debug('player.character: inputup %s', key)
-        end
-
         if key == 'left' then
             this.wants_left = false
         elseif key == 'right' then
