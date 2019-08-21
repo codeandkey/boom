@@ -136,6 +136,23 @@ return {
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                     holding_body = this.body,
+                    on_destroy = function()
+                        -- Destroy the player's rope objects.
+                        this.nade = nil
+
+                        for _, v in ipairs(this.rope_segment_joints) do
+                            v:release()
+                        end
+
+                        for _, v in ipairs(this.rope_segments) do
+                            v.fixture:release()
+                            v.body:release()
+                            v.shape:release()
+                        end
+
+                        this.rope_segments = {}
+                        this.rope_segment_joints = {}
+                    end,
                 })
 
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
@@ -210,21 +227,6 @@ return {
             -- Detonate any swinging grenades.
             if this.nade then
                 object.destroy(this.nade)
-                this.nade = nil
-
-                -- Destroy the rope too.
-                for _, v in ipairs(this.rope_segment_joints) do
-                    v:release()
-                end
-
-                for _, v in ipairs(this.rope_segments) do
-                    v.fixture:release()
-                    v.body:release()
-                    v.shape:release()
-                end
-
-                this.rope_segments = {}
-                this.rope_segment_joints = {}
             end
         elseif key == 'jump' then
             if this.dy < 0 then
@@ -349,11 +351,7 @@ return {
         -- Render the grenade rope.
         if this.nade then
             love.graphics.setColor(this.rope_color)
-
-            -- Render rope segment points.
-            for _, v in ipairs(this.rope_segments) do
-                love.graphics.circle('line', v.body:getX(), v.body:getY(), this.rope_point_radius)
-            end
+            love.graphics.setLineWidth(1)
 
             -- Render rope joint lines.
             for _, v in ipairs(this.rope_segment_joints) do
