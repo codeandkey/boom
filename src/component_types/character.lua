@@ -35,7 +35,7 @@ return {
         this.dx_max              = this.dx_max or 150
         this.grenade_dampening   = this.grenade_dampening or 3
         this.color               = this.color or {1, 1, 1, 1}
-        this.rope_color          = this.rope_color or {1, 1, 1, 1}
+        this.rope_color          = this.rope_color or {0.2, 0.2, 0.2, 1}
         this.num_rope_segments   = this.num_rope_segments or 5
         this.rope_segment_length = 16
         this.rope_point_radius   = 2
