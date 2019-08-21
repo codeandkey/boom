@@ -46,6 +46,10 @@ return {
         object_group.create_object(this.__layer, 'explosion', { x = this.x, y = this.y })
 
         this.body:destroy()
+
+        if this.on_destroy then
+            this.on_destroy()
+        end
     end,
 
     update = function(this, dt)
