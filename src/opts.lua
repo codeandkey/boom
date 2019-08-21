@@ -49,7 +49,7 @@ function opts.save()
     ofile:write('return ' .. opts.serialize(opts.values))
     ofile:close()
 
-    log.info('Wrote options to %s', 'src/' .. opts.path .. '.lua')
+    log.info('Wrote state to %s', 'src/' .. opts.path .. '.lua')
 end
 
 --- Serialize a Lua value for writing configs.

@@ -7,6 +7,7 @@ local fs = require 'fs'
 local tilesets = require 'tilesets'
 local object_group = require 'object_group'
 local tile_layer = require 'tile_layer'
+local util       = require 'util'
 
 local map = {
     default_gravity = 9.8 * 16,
@@ -20,7 +21,8 @@ local map = {
 --- Immediately load and initialize a map.
 -- Loads map from the disk, and unloads any current map.
 -- @param name Map to load.
-function map.load(name)
+-- @param packed_args Packed arguments to pass to ready event.
+function map.load(name, packed_args)
     if map.current then
         map.unload()
     end
@@ -53,8 +55,15 @@ function map.load(name)
         end
     end
 
+    -- Go ahead and find the player object.
+    map.current.player = map.find_object('player')
+
+    if not map.current.player then
+        log.warn('Map %s does not contain a player object. Expect problems.', map.current.name)
+    end
+
     log.debug('Posting map ready event.')
-    event.push('ready')
+    event.push('ready', unpack(packed_args or {n=0}))
 end
 
 --- Unload the current map, if there is one loaded.
@@ -78,6 +87,20 @@ function map.unload()
     end
 end
 
+--- Get the loaded map name.
+-- @return The map name, or nil if none loaded.
+function map.get_current_name()
+    if map.current then
+        return map.current.name
+    end
+end
+
+--- Get the player object.
+-- @returns Player object or nil if none found.
+function map.get_player()
+    return map.current.player
+end
+
 --- Get the map physics world.
 -- @return The active physics world or nil if no map.
 function map.get_physics_world()
@@ -91,8 +114,9 @@ end
 --- Request a transition to a new map.
 -- This should be used for switching maps instead of `map.load`.
 -- @param name Map to switch to.
-function map.request(name)
+function map.request(name, ...)
     map.requested = name
+    map.request_args = util.pack(...)
 end
 
 --- Update all objects in the map y _dt_ seconds.
@@ -119,7 +143,7 @@ function map.update(dt)
 
             if map.delay_time < 0 then
                 -- Load the next map now.
-                map.load(map.requested)
+                map.load(map.requested, map.request_args)
                 -- Unset the request.
                 map.requested = nil
             end
@@ -135,6 +159,8 @@ function map.update(dt)
         if v.type == 'objectgroup' then
             object_group.call(v, 'update', dt)
             object_group.remove_dead(v)
+        elseif v.type == 'tilelayer' then
+            tile_layer.update(v, dt, map.current.player)
         end
     end
 
@@ -150,12 +176,7 @@ function map.render()
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
-            -- Render background layers at half brightness.
-            if v.properties.background then
-                tile_layer.render(v, {0.5, 0.5, 0.5, 1})
-            else
-                tile_layer.render(v)
-            end
+            tile_layer.render(v)
         elseif v.type == 'objectgroup' then
             object_group.call(v, 'render')
         end
@@ -193,7 +214,7 @@ function map.find_object(name)
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'objectgroup' then
-            local res = v:find(name)
+            local res = object_group.find(v, name)
 
             if res then
                 return res

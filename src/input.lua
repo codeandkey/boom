@@ -4,12 +4,13 @@ local input = {
     keybinds = {
         left = 'left',
         right = 'right',
-        down = 'crouch',
+        down = 'down',
+        up = 'up',
         z = 'jump',
         x = 'throw',
-        up = 'jump',
         space = 'ok',
-        enter = 'ok',
+        ['return'] = 'ok',
+        c = 'interact',
     }
 }
 

@@ -6,6 +6,7 @@ local object         = require 'object'
 local object_group   = require 'object_group'
 local sprite         = require 'sprite'
 local physics_groups = require 'physics_groups'
+local util           = require 'util'
 
 --[[
     Simulates a player-like object.
@@ -16,7 +17,8 @@ local physics_groups = require 'physics_groups'
     Inputs:
         'left' : move left
         'right' : move right
-        'crouch' : crouch
+        'down' : crouch
+        'up'   : aim up
         'jump' : jump
         'throw' : grenade throw
 
@@ -39,6 +41,8 @@ return {
         this.num_rope_segments   = this.num_rope_segments or 5
         this.rope_segment_length = 16
         this.rope_point_radius   = 2
+        this.throw_pitch_speed  = 20 -- higher values make the player aim up/down faster
+        this.throw_strength     = this.throw_strength or 40
 
         this.w = this.w or 14
         this.h = this.h or 32
@@ -60,6 +64,8 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+        this.throw_pitch   = 0 -- radians
+        this.target_pitch  = 0
 
         -- Physics control.
         this.body = love.physics.newBody(map.get_physics_world(), 0, 0, 'kinematic')
@@ -155,7 +161,12 @@ return {
                     end,
                 })
 
-                this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
+                local vx, vy = math.cos(this.throw_angle), math.sin(this.throw_angle)
+
+                vx = vx * this.throw_strength + this.dx / this.grenade_dampening
+                vy = vy * this.throw_strength + this.dy / this.grenade_dampening
+
+                this.nade:throw(vx, vy)
 
                 -- Create distance joint holding nade.
                 this.nade_joint = love.physics.newRopeJoint(this.body,
@@ -215,6 +226,19 @@ return {
                     this.rope_segment_length
                 ))
             end
+        elseif key == 'interact' then
+            -- Send out interaction events.
+            -- Use the containing object as the 'caller' and do not collide with it.
+
+            map.foreach_object(function (other_obj)
+                if other_obj ~= this.__parent and util.aabb(this, other_obj) then
+                    object.call(other_obj, 'interact', this.__parent)
+                end
+            end)
+        elseif key == 'up' then
+            this.wants_up = true
+        elseif key == 'down' then
+            this.wants_down = true
         end
     end,
 
@@ -232,6 +256,10 @@ return {
             if this.dy < 0 then
                 this.dy = this.dy / 2
             end
+        elseif key == 'up' then
+            this.wants_up = false
+        elseif key == 'down' then
+            this.wants_down = false
         end
     end,
 
@@ -331,6 +359,39 @@ return {
 
         -- Update phys body with character center.
         this.body:setPosition(this.x + this.w / 2, this.y + this.h / 2)
+
+        -- Decide what direction the player will aim.
+        -- A directional switch should apply immediately, so we only animate the 'pitch' of the angle.
+
+        if this.wants_up and not this.wants_down then
+            if this.wants_left or this.wants_right then
+                this.target_pitch = -3.141 / 4.0
+            else
+                this.target_pitch = -3.141 / 2.0
+            end
+        elseif this.wants_down and not this.wants_up then
+            if this.wants_left or this.wants_right then
+                this.target_pitch = 3.141 / 4.0
+            else
+                this.target_pitch = 3.141 / 2.0
+            end
+        else
+            this.target_pitch = 0
+        end
+
+        -- Animate player pitch to target.
+        if this.throw_pitch < this.target_pitch then
+            this.throw_pitch = math.min(this.throw_pitch + dt * this.throw_pitch_speed, this.target_pitch)
+        elseif this.throw_pitch > this.target_pitch then
+            this.throw_pitch = math.max(this.throw_pitch - dt * this.throw_pitch_speed, this.target_pitch)
+        end
+
+        -- Compute actual throw angle.
+        if this.direction == 'right' then
+            this.throw_angle = this.throw_pitch
+        else
+            this.throw_angle = 3.141 - this.throw_pitch
+        end
     end,
 
     render = function(this)
@@ -368,5 +429,15 @@ return {
 
         -- Render the current sprite.
         sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+
+        -- Render debug throw indicator
+        -- REMOVEME eventually, should be replaced with a better indicator or hint
+
+        if this.__parent.name == 'player' then
+            love.graphics.setColor(1, 1, 1, 0.4)
+            love.graphics.line(this.x + this.w / 2, this.y + this.h / 2,
+                               this.x + this.w / 2 + 16 * math.cos(this.throw_angle),
+                               this.y + this.h / 2 + 16 * math.sin(this.throw_angle))
+        end
     end,
 }

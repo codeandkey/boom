@@ -40,6 +40,9 @@ return {
         this.confirm_menu_option = 1
         this.confirm_timer = 0
 
+        -- Grab previous save state.
+        this.save_location = opts.get('save_location')
+
         -- Subscribe to input events.
         object.subscribe(this, 'inputdown')
 
@@ -113,11 +116,11 @@ return {
     inputdown = function(this, key)
         log.debug('Handling inputdown: %s', key)
 
-        if key == 'crouch' then
+        if key == 'down' then
             this.option = this.option + 1
         end
 
-        if key == 'jump' then
+        if key == 'up' then
             this.option = this.option - 1
         end
 
@@ -149,9 +152,13 @@ return {
                 -- Handle main menu buttons.
 
                 if this.main_menu_option == 1 then
-                    -- New game!
-                    -- Load the main map.
-                    map.request('test')
+                    if this.save_location then
+                        -- Continue game!
+                        map.request(this.save_location.map_name, this.save_location.spawn_name)
+                    else
+                        -- Start a new game.
+                        map.request('intro')
+                    end
                 elseif this.main_menu_option == 2 then
                     this.state = this.STATE_OPTIONS
                     this.option = 1
@@ -247,9 +254,16 @@ return {
             this:draw_element(strings.get('MAIN_MENU_TITLE'), cb.x + cb.w / 2, cb.y + cb.h / 4, this.font, false)
 
             -- Draw main options.
-            this:draw_element(strings.get('MAIN_MENU_NEW'),
-                              cb.x + cb.w / 2, cb.y + cb.h / 2,
-                              this.subfont, this.main_menu_option == 1)
+
+            if this.save_location then
+                this:draw_element(strings.get('MAIN_MENU_CONTINUE'),
+                                  cb.x + cb.w / 2, cb.y + cb.h / 2,
+                                  this.subfont, this.main_menu_option == 1)
+            else
+                this:draw_element(strings.get('MAIN_MENU_NEW'),
+                                  cb.x + cb.w / 2, cb.y + cb.h / 2,
+                                  this.subfont, this.main_menu_option == 1)
+            end
 
             this:draw_element(strings.get('MAIN_MENU_OPTIONS'),
                               cb.x + cb.w / 2, cb.y + cb.h / 2 + this.subfont:getHeight(),
