@@ -1,7 +1,6 @@
 --- Post-processing pipeline manager.
 -- Controls the game rendering pipeline and any post-processing effects.
 
-local log     = require 'log'
 local event   = require 'event'
 local shaders = require 'shaders'
 
