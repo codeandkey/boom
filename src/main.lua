@@ -44,20 +44,16 @@ function love.resize()
 end
 
 function love.keypressed(key)
-    -- Translate key to the bound input (if there is one).
-    local inp = input.translate(key)
-
-    if inp ~= nil then
+    -- Try and map the key to one or more inputs.
+    input.try(key, function(inp)
         event.push('inputdown', inp)
-    end
+    end)
 end
 
 function love.keyreleased(key)
-    local inp = input.translate(key)
-
-    if inp ~= nil then
+    input.try(key, function(inp)
         event.push('inputup', inp)
-    end
+    end)
 end
 
 function love.quit()
