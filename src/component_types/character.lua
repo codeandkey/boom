@@ -70,6 +70,7 @@ return {
             y = this.y,
             dx = this.dx,
             dy = this.dy,
+            flip = (this.direction == 'left'),
             color = this.color,
         })
 

@@ -17,6 +17,7 @@ return {
 
         this.wait = this.wait or 5
         this.color = this.color or {1, 1, 1, 1}
+        this.flip = this.flip or false
 
         this.shape = love.physics.newRectangleShape(this.w, this.h)
         this.body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2, 'dynamic')
@@ -54,6 +55,6 @@ return {
         this.y = this.body:getY() - this.h / 2
 
         love.graphics.setColor(this.color)
-        sprite.render(this.spr, this.x, this.y, this.angle)
+        sprite.render(this.spr, this.x, this.y, this.angle, this.flip)
     end,
 }
