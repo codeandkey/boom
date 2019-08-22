@@ -9,6 +9,8 @@ return {
     init = function(this)
         this.x = this.x or 0
         this.y = this.y or 0
+        this.dx = this.dx or 0
+        this.dy = this.dy or 0
 
         this.spr = sprite.create(this.spr_name)
         this.w, this.h = sprite.frame_size(this.spr)
@@ -24,6 +26,7 @@ return {
         this.fixture:setMask(physics_groups.GIB)
         this.fixture:setRestitution(0.1)
 
+        this.body:setLinearVelocity(this.dx, this.dy)
         this.body:applyAngularImpulse(math.random(-10, 10))
         this.body:setAngle(this.angle or 0)
     end,
