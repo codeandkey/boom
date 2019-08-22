@@ -9,6 +9,7 @@ local input  = require 'input'
 local log    = require 'log'
 local map    = require 'map'
 local opts   = require 'opts'
+local post   = require 'post'
 
 function love.load()
     -- Load game. Check first: is there a saved mode? If so, apply it.
@@ -73,8 +74,9 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- Render the current map with the camera applied.
+    post.begin_frame()
     camera.apply()
     map.render()
     camera.unapply()
+    post.end_frame()
 end
