@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 13,
-  nextobjectid = 76,
+  nextobjectid = 79,
   properties = {},
   tilesets = {
     {
@@ -427,6 +427,89 @@ return {
       }
     },
     {
+      type = "objectgroup",
+      id = 4,
+      name = "phys_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {}
+    },
+    {
+      type = "objectgroup",
+      id = 3,
+      name = "game_objects",
+      visible = true,
+      opacity = 1,
+      offsetx = 0,
+      offsety = 0,
+      draworder = "topdown",
+      properties = {},
+      objects = {
+        {
+          id = 29,
+          name = "dog",
+          type = "npc",
+          shape = "rectangle",
+          x = 528,
+          y = 1056,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 63,
+          name = "player",
+          type = "player",
+          shape = "rectangle",
+          x = 880,
+          y = 1056,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 74,
+          name = "intro_0",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 864,
+          y = 800,
+          width = 64,
+          height = 48,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "first_zone",
+            ["entry_point"] = "first_zone_0"
+          }
+        },
+        {
+          id = 76,
+          name = "intro_1",
+          type = "load_trigger",
+          shape = "rectangle",
+          x = 1312,
+          y = 992,
+          width = 32,
+          height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {
+            ["destination"] = "first_zone",
+            ["entry_point"] = "first_zone_2"
+          }
+        }
+      }
+    },
+    {
       type = "tilelayer",
       id = 10,
       name = "fg_tile_layer",
@@ -438,7 +521,9 @@ return {
       opacity = 1,
       offsetx = 0,
       offsety = 0,
-      properties = {},
+      properties = {
+        ["secret"] = true
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -541,73 +626,6 @@ return {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-      }
-    },
-    {
-      type = "objectgroup",
-      id = 4,
-      name = "phys_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {}
-    },
-    {
-      type = "objectgroup",
-      id = 3,
-      name = "game_objects",
-      visible = true,
-      opacity = 1,
-      offsetx = 0,
-      offsety = 0,
-      draworder = "topdown",
-      properties = {},
-      objects = {
-        {
-          id = 29,
-          name = "dog",
-          type = "npc",
-          shape = "rectangle",
-          x = 528,
-          y = 1056,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 63,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 880,
-          y = 1056,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 74,
-          name = "intro_0",
-          type = "load_trigger",
-          shape = "rectangle",
-          x = 864,
-          y = 800,
-          width = 64,
-          height = 48,
-          rotation = 0,
-          visible = true,
-          properties = {
-            ["destination"] = "first_zone",
-            ["entry_point"] = "first_zone_0"
-          }
-        }
       }
     }
   }
