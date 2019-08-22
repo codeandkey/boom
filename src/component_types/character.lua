@@ -64,7 +64,7 @@ return {
 
         local sprite_left = this.x + this.spr_offsetx
 
-        object_group.create_object(this.__layer, 'gib', {
+        this.follow_gib = object_group.create_object(this.__layer, 'gib', {
             spr_name = '12x9_player_head.png',
             x = sprite_left + 11,
             y = this.y,
