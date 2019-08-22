@@ -3,6 +3,7 @@ local map    = require 'map'
 local camera = require 'camera'
 local object = require 'object'
 local opts   = require 'opts'
+local post   = require 'post'
 local sprite = require 'sprite'
 
 return {
@@ -11,6 +12,11 @@ return {
         object.subscribe(this, 'inputdown')
         object.subscribe(this, 'inputup')
         object.subscribe(this, 'ready')
+
+        this.death_sequence = 0.0
+
+        -- Unset any death sequence effects.
+        post.set_grayscale(0)
 
         this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
@@ -50,30 +56,51 @@ return {
         end
     end,
 
-    update = function(this)
+    update = function(this, dt)
         -- Focus the camera on the player.
         local char = this.components.character
-        camera.set_focus_x(char.x + char.w / 2 + char.dx / 2)
 
-        -- Point the camera in the right direction.
-        camera.set_focus_flip(char.direction == 'left')
+        if char then
+            camera.set_focus_x(char.x + char.w / 2 + char.dx / 2)
 
-        if char.jump_enabled then
-            camera.set_focus_y(char.y + char.h / 2)
+            -- Point the camera in the right direction.
+            camera.set_focus_flip(char.direction == 'left')
+
+            if char.jump_enabled then
+                camera.set_focus_y(char.y + char.h / 2)
+            end
+
+            -- Update with panic logic always.
+            camera.set_panic_point(char.x + char.w / 2, char.y + char.h / 2)
+
+            -- Our location is the character's location.
+            this.x = char.x
+            this.y = char.y
+            this.w = char.w
+            this.h = char.h
+
+            -- Charcter died. Remove the component and set our dead flag.
+            if char.dead then
+                object.del_component(this, 'character')
+                this.dead = true
+            end
         end
 
-        -- Update with panic logic always.
-        camera.set_panic_point(char.x + char.w / 2, char.y + char.h / 2)
+        -- If the character dies, start a death sequence.
+        -- Slowly apply a grayscale effect and slow down time.
+        -- This is a little funky because the sequence is time-dependent, while also modifying time during execution
+        -- However, it will still take the same amount of time to complete every time.
+        if this.dead then
+            this.death_sequence = this.death_sequence + dt
 
-        -- Destroy the player if the character dies.
-        if char.dead then
-            object.destroy(this)
+            map.set_time_div(this.death_sequence * 2 + 1)
+
+            if this.death_sequence >= 1.0 then
+                local loc = opts.get('save_location')
+                map.request(loc.map_name, loc.spawn_name)
+            end
+
+            post.set_grayscale(math.min(this.death_sequence, 1.0))
         end
-
-        -- Our location is the character's location.
-        this.x = char.x
-        this.y = char.y
-        this.w = char.w
-        this.h = char.h
     end,
 }
