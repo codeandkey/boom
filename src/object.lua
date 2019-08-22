@@ -129,4 +129,16 @@ function object.add_component(obj, type_name, initial)
     log.debug('Added component of type %s to object type %s', type_name, obj.__typename)
 end
 
+--- Remove a component from an object.
+-- @param obj Object to remove from.
+-- @param type_name Component to remove.
+function object.del_component(obj, type_name)
+    if obj.components[type_name] then
+        object.call(obj.components[type_name], 'destroy')
+        obj.components[type_name] = nil
+    else
+        log.warn('Cannot remove component type %s from object %s: no component!', type_name, obj.__typename)
+    end
+end
+
 return object

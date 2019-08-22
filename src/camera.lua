@@ -9,6 +9,7 @@ local camera = {
     x = 0, -- center coordinates
     y = 0,
     scale = 2, -- pixel scale (effective viewport size)
+    escale = 0, -- extra scale
     focus_x = 0,
     focus_y = 0,
     panic_x = 0,
@@ -56,11 +57,17 @@ function camera.setscale(scale)
     camera.scale = scale
 end
 
+--- Sets an additonal camera scale. This is added to the normal scale.
+-- @param escale Extra scale.
+function camera.setescale(escale)
+    camera.escale = escale
+end
+
 --- Get the camera bounding rectangle.
 -- @return Table with _x_, _y_, _w_, _h_ in world space.
 function camera.get_bounds()
     local sw, sh = love.graphics.getDimensions()
-    local cw, ch = (sw / camera.scale), (sh / camera.scale)
+    local cw, ch = (sw / (camera.scale + camera.escale)), (sh / (camera.scale + camera.escale))
 
     return {
         x = camera.x - cw / 2,
@@ -85,7 +92,7 @@ function camera.apply()
 
     love.graphics.push()
     love.graphics.translate(sw / 2, sh / 2)
-    love.graphics.scale(camera.scale)
+    love.graphics.scale(camera.scale + camera.escale)
     love.graphics.translate(-camera.x, -camera.y)
 
     -- Apply extra translate if shaking.
