@@ -116,11 +116,11 @@ return {
     inputdown = function(this, key)
         log.debug('Handling inputdown: %s', key)
 
-        if key == 'crouch' then
+        if key == 'down' then
             this.option = this.option + 1
         end
 
-        if key == 'jump' then
+        if key == 'up' then
             this.option = this.option - 1
         end
 
