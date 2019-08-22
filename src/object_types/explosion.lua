@@ -8,9 +8,9 @@ return {
     init = function(this)
         -- Configuration.
         this.resolution   = this.resolution or 100
-        this.radius       = this.radius or 300
+        this.radius       = this.radius or 100
         this.object_range = this.object_range or 100
-        this.intensity    = this.intensity or 35
+        this.intensity    = this.intensity or 5
         this.num_casts    = this.num_casts or 5 -- number of times rays sent out after init
 
         -- Look for nearby objects to explode.
@@ -43,7 +43,7 @@ return {
                             y = y - this.y,
                         }
 
-                        local impulse_length = fraction * this.radius
+                        local impulse_length = (1.0 - fraction) * this.radius
 
                         impulse_vector.x = impulse_vector.x * this.intensity / impulse_length
                         impulse_vector.y = impulse_vector.y * this.intensity / impulse_length
