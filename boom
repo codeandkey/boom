@@ -1,4 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # boom launch script
 
+# rebuild game maps
+for i in $(dirname $0)/src/assets/maps/*.tmx; do
+    name="${i%.*}"
+    printf "building %s..\n" "$(basename $name)"
+    tiled --export-map lua "$i" "${name}.lua"
+done
+
+echo "starting game.."
 exec love $(dirname $0)/src
