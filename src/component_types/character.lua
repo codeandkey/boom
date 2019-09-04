@@ -37,6 +37,8 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+        this.dy_blur_threshold = this.dy_blur_threshold or 30
+
         this.w = this.w or 14
         this.h = this.h or 32
 
@@ -291,6 +293,19 @@ return {
             this.spr = this.spr_idle
         else
             this.spr = this.spr_jump
+        end
+
+        -- Render fake "blur"
+        local d = this.dy / this.dy_blur_threshold
+
+        d = math.max(-12, math.min(12, d))
+
+        if math.abs(d) >= 1 then
+            love.graphics.setColor({
+                this.color[1], this.color[2], this.color[3], 0.1
+            })
+
+            sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y) - d, 0, this.direction == 'left')
         end
 
         -- Apply the appropriate color.
