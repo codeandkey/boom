@@ -143,9 +143,14 @@ return {
 
     render = function(this)
         if this.pre_quit then
+            local quit_text = 'ARE YOU SURE? PRESS AGAIN TO QUIT.'
+            local quit_width = 512
+            local quit_x = this.x + this.w / 2 - quit_width / 2
+            local quit_y = this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist
+
             love.graphics.setFont(this.quit_font)
             love.graphics.setColor(1, 1, 1, this.quit_alpha)
-            love.graphics.printf('ARE YOU SURE? PRESS AGAIN TO QUIT.', this.x + this.w / 2 - 256, this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist, 512, 'center')
+            love.graphics.printf(quit_text, quit_x, quit_y, quit_width, 'center')
         end
     end
 }
