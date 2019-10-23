@@ -143,8 +143,6 @@ return {
 
     render = function(this)
         if this.pre_quit then
-            local bounds = camera.get_bounds()
-
             love.graphics.setFont(this.quit_font)
             love.graphics.setColor(1, 1, 1, this.quit_alpha)
             love.graphics.printf('ARE YOU SURE? PRESS AGAIN TO QUIT.', this.x + this.w / 2 - 256, this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist, 512, 'center')
