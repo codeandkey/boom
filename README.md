@@ -7,12 +7,34 @@ finished product. The goal of this project is to finish the game in it's
 entirety, complete with a central mechanic and a compact design that also
 provides an entertaining experience.
 
-## Boom.
+## HTML Documentation
+
+To view the documentation you'll need to install `ldoc` and compile with the
+build script. If you don't have luarocks you can install it on most linux
+distributions with `apt`. Once luarocks has been installed you can install
+`ldoc`.
+
+```BASH
+apt install luarocks
+
+luarocks install ldoc
+```
+
+The documentation can be viewed by opening `index.html` inside `doc` with your
+favorite web browser.
+
+## Quickstart
 
 Before running the game you'll need to install the Love2d engine. Love is
 available on the official repositories for most linux distributions.
 If you need help or don't know how to install love2d for your system you can
-check out the [Love2d website](https://love2d.org).
+check out the [Love2d website](https://love2d.org). Most linux distributions
+can install love with the command: 
+
+```BASH
+apt install love
+```
+## Boom. 
 
 Boom can be run either by executing the `boom` executable
 
