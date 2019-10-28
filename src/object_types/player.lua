@@ -143,7 +143,7 @@ return {
 
     render = function(this)
         if this.pre_quit then
-            local quit_text = 'ARE YOU SURE? PRESS AGAIN TO QUIT.'
+            local quit_text = 'PRESS [ESC] AGAIN TO QUIT.'
             local quit_width = 512
             local quit_x = this.x + this.w / 2 - quit_width / 2
             local quit_y = this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist
