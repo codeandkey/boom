@@ -1,10 +1,11 @@
-local log    = require 'log'
-local map    = require 'map'
-local camera = require 'camera'
-local object = require 'object'
-local opts   = require 'opts'
-local post   = require 'post'
-local sprite = require 'sprite'
+local log          = require 'log'
+local map          = require 'map'
+local camera       = require 'camera'
+local object       = require 'object'
+local object_group = require 'object_group'
+local opts         = require 'opts'
+local post         = require 'post'
+local sprite       = require 'sprite'
 
 return {
     init = function(this)
@@ -29,6 +30,8 @@ return {
                                                   spr_idle = this.spr_idle,
                                                   spr_walk = this.spr_walk,
                                                   spr_jump = this.spr_jump })
+
+        object_group.create_object(this.__layer, 'dialog_sequence', {})
     end,
 
     ready = function(this, dest)
