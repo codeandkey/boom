@@ -20,7 +20,7 @@ function love.load()
         love.window.setMode(mode.width, mode.height, mode.flags)
     else
         -- Choose the nicest looking default mode.
-        love.window.setFullscreen(true)
+        love.window.setFullscreen(false)
     end
 
 
