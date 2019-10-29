@@ -1,4 +1,5 @@
 local log    = require 'log'
+local fs     = require 'fs'
 local map    = require 'map'
 local camera = require 'camera'
 local object = require 'object'
@@ -23,6 +24,12 @@ return {
         this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
+
+        this.pre_quit = false
+        this.quit_font = fs.read_font('pixeled.ttf', 8)
+        this.quit_y_dist   = 4
+        this.quit_y_counter = 0
+        this.quit_alpha = 0
 
         object.add_component(this, 'character', { x = this.x,
                                                   y = this.y,
@@ -110,5 +117,40 @@ return {
 
             post.set_grayscale(math.min(this.death_sequence / this.death_sequence_max, 1.0))
         end
+
+        this.quit_y_counter = this.quit_y_counter + dt
+
+        if this.pre_quit then
+            this.quit_alpha = math.min(this.quit_alpha + dt, 1)
+        end
+
+        if not this.pre_quit then
+            this.quit_alpha = math.max(0, this.quit_alpha - 2 * dt)
+        end
     end,
+
+    inputdown = function(this, inp)
+        if inp == 'quit_to_menu' then
+            if this.pre_quit then
+                map.request('main_menu')
+            else
+                this.pre_quit = true
+            end
+        else
+            this.pre_quit = false
+        end
+    end,
+
+    render = function(this)
+        if this.pre_quit then
+            local quit_text = 'PRESS [ESC] AGAIN TO QUIT.'
+            local quit_width = 512
+            local quit_x = this.x + this.w / 2 - quit_width / 2
+            local quit_y = this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist
+
+            love.graphics.setFont(this.quit_font)
+            love.graphics.setColor(1, 1, 1, this.quit_alpha)
+            love.graphics.printf(quit_text, quit_x, quit_y, quit_width, 'center')
+        end
+    end
 }
