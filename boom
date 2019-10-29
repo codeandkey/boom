@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 # boom launch script
 
-exec love $(dirname $0)/src
+exec love $(dirname $0)/src $@
