@@ -10,3 +10,4 @@ done
 
 echo "starting game.."
 exec love $(dirname $0)/src
+
