@@ -21,6 +21,9 @@ return {
         post.set_grayscale(0)
         camera.setescale(0)
 
+        -- Center the camera on the player initially.
+        camera.center(this.x + this.w / 2, this.y + this.h / 2)
+
         this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
