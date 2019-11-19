@@ -28,7 +28,7 @@ function love.load(arg)
         love.window.setMode(mode.width, mode.height, mode.flags)
     else
         -- Choose the nicest looking default mode.
-        love.window.setFullscreen(true)
+        love.window.setFullscreen(false)
     end
 
     -- Send a resize event to set up anything dependent on fb size.
