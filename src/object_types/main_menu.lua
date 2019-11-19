@@ -158,6 +158,12 @@ return {
                     else
                         -- Start a new game.
                         map.request('intro')
+			opts.set('save_location', {
+			    map_name = 'intro',
+			    spawn_name = dest,
+		    	})
+
+			opts.save()
                     end
                 elseif this.main_menu_option == 2 then
                     this.state = this.STATE_OPTIONS
