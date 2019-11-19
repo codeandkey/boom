@@ -160,8 +160,8 @@ return {
                         map.request('intro')
 			opts.set('save_location', {
 			    map_name = 'intro',
-			    spawn_name = dest,
-		    	})
+			    spawn_name = 'intro_0',
+			})
 
 			opts.save()
                     end
