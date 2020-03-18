@@ -43,6 +43,7 @@ return {
         this.spr_offsetx = this.spr_offsetx or -10
 
         -- Sprites
+
         this.spr_idle = this.spr_idle or sprite.create('32x32_player.png', 32, 32, 0.25)
         this.spr_walk = this.spr_walk or sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = this.spr_jump or sprite.create('32x32_player-jump.png', 32, 32, 0.05)
@@ -124,12 +125,8 @@ return {
             this.wants_left = true
         elseif key == 'right' then
             this.wants_right = true
-        elseif key == 'up' then
-            this.wants_up = true
-        elseif key == 'crouch' then
-            this.wants_down = true
-            if this.jump_enabled then
-                this.wants_crouch = true
+        elseif key == 'crouch' and this.jump_enabled then
+            this.wants_crouch = true
         elseif key == 'jump' then
             -- Perform a jump if we can.
             if this.jump_enabled then
@@ -144,7 +141,7 @@ return {
             -- Start to throw a nade if we can.
             if this.nade == nil then
                 this.nade = object_group.create_object(this.__layer, 'nade', {
-                    x = this.x + this.w,
+                    x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                 })
             end
@@ -165,8 +162,6 @@ return {
             this.wants_left = false
         elseif key == 'right' then
             this.wants_right = false
-        elseif key == 'up' then
-            this.wants_up = false
         elseif key == 'throw' then
             -- Throw a grenade if we're holding one.
             if this.nade ~= nil then
@@ -239,19 +234,8 @@ return {
 
         -- Update nade location if we're holding one.
         if this.nade then
-            
-            if this.wants_left then
-                this.nade.x = this.x
-            elseif this.wants_right then
-                this.nade.x = this.x + this.w
-            end
-
-            if this.wants_down and not this.jump_enabled then
-                this.nade.y = this.y
-            elseif this.wants_up then
-                this.nade.y = this.y + this.h
-            end
-            
+            this.nade.x = this.x + this.w / 2
+            this.nade.y = this.y + this.h / 2
             this.nade.dx, this.nade.dy = 0, 0
         end
 
