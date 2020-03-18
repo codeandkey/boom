@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="72">
+<map version="1.2" tiledversion="1.3.3" orientation="orthogonal" renderorder="right-down" width="256" height="256" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="72">
  <tileset firstgid="1" source="4096x4096_stone_castle.tsx"/>
  <objectgroup id="7" name="background_sky">
   <object id="52" name="background_sky" type="background" x="2064" y="1296" width="32" height="32">
@@ -575,7 +575,6 @@
  </layer>
  <objectgroup id="2" name="game_objects">
   <object id="17" name="player" type="player" x="48" y="2064" width="32" height="32"/>
-  <object id="57" name="player" type="player" x="48" y="2064" width="32" height="32"/>
   <object id="58" name="town_0" type="load_trigger" x="48" y="2048" width="32" height="48">
    <properties>
     <property name="destination" value="first_zone"/>

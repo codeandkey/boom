@@ -1,7 +1,7 @@
 return {
   version = "1.2",
   luaversion = "5.1",
-  tiledversion = "1.2.4",
+  tiledversion = "1.3.3",
   orientation = "orthogonal",
   renderorder = "right-down",
   width = 256,
@@ -793,19 +793,6 @@ return {
           properties = {
             ["name"] = "Bill"
           }
-        },
-        {
-          id = 57,
-          name = "player",
-          type = "player",
-          shape = "rectangle",
-          x = 256,
-          y = 304,
-          width = 32,
-          height = 32,
-          rotation = 0,
-          visible = true,
-          properties = {}
         },
         {
           id = 58,
