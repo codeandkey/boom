@@ -130,6 +130,7 @@ return {
             this.wants_down = true
             if this.jump_enabled then
                 this.wants_crouch = true
+            end
         elseif key == 'jump' then
             -- Perform a jump if we can.
             if this.jump_enabled then
