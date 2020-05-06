@@ -28,7 +28,7 @@ return {
         this.spr_idle = sprite.create('32x32_player.png', 32, 32, 1.5)
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
-        
+
 	this.spr_key = sprite.create('16x16_blank-key.png', 16, 16, 0)
 
         this.pre_quit = false
@@ -42,9 +42,9 @@ return {
 	this.interact_alpha = 0
 	this.interact_y_dist = 4
 	this.interact_y_counter = 0
-        
+
 	-- create storage for interactable object once we find it
-	interactable = {}
+	this.interactable = {}
 
         object.add_component(this, 'character', { x = this.x,
                                                   y = this.y,
@@ -150,10 +150,9 @@ return {
 	-- if pre_interactable is true we know interactable has some value
         if this.pre_interactable then
             this.interact_alpha = math.min(this.interact_alpha + dt, 0.8)
-        
-            if not util.aabb(char, interactable) then
+
+            if not util.aabb(char, this.interactable) then
 		this.pre_interactable = false
-		log.debug('setting interactable to false')
 	    end
         end
 
@@ -166,7 +165,7 @@ return {
 	-- this feels.. wrong..
 	map.foreach_object(function (other_obj)
             if other_obj ~= this and util.aabb(char, other_obj) then
-	        interactable = other_obj
+	        this.interactable = other_obj
 		this.pre_interactable = true
 		log.debug('setting to true')
             end
@@ -203,7 +202,7 @@ return {
 	if this.pre_interactable then
 	    -- set this to the binding for interact
             local interact_key = 'C'
-	    
+
 	    -- interact prompt width should be the size of the sprite
             local interact_width = 16
             local interact_x = this.x + this.w / 2 - interact_width / 2
@@ -211,7 +210,7 @@ return {
 
 	    -- set font for text
             love.graphics.setFont(this.interact_font)
-	    
+
 	    --display interact prompt
 	    love.graphics.setColor(1,1,1, this.interact_alpha)
             sprite.render(this.spr_key, interact_x-1, interact_y-1)
