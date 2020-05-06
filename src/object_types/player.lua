@@ -202,7 +202,7 @@ return {
         end
 	if this.pre_interactable then
 	    -- set this to the binding for interact
-            local interact_key = 'T'
+            local interact_key = 'C'
 	    
 	    -- interact prompt width should be the size of the sprite
             local interact_width = 16
