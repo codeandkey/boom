@@ -44,6 +44,9 @@ function map.load(name, packed_args)
     -- Initialize tilesets.
     map.current.tilesets = tilesets.init(map.current.tilesets)
 
+    -- Set default time divisor.
+    map.current.time_div = 1
+
     -- Initialize layers.
     for k, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
@@ -53,6 +56,13 @@ function map.load(name, packed_args)
             log.debug('Loading object group from index %d', k)
             map.current.layers[k] = object_group.init(v)
         end
+    end
+
+    -- Go ahead and find the player object.
+    map.current.player = map.find_object('player')
+
+    if not map.current.player then
+        log.warn('Map %s does not contain a player object. Expect problems.', map.current.name)
     end
 
     log.debug('Posting map ready event.')
@@ -88,6 +98,12 @@ function map.get_current_name()
     end
 end
 
+--- Get the player object.
+-- @returns Player object or nil if none found.
+function map.get_player()
+    return map.current.player
+end
+
 --- Get the map physics world.
 -- @return The active physics world or nil if no map.
 function map.get_physics_world()
@@ -114,6 +130,9 @@ function map.update(dt)
     if map.current == nil then
         return
     end
+
+    -- Apply time divisor.
+    dt = dt / map.current.time_div
 
     -- Perform transition logic if a transition is happening.
     if map.requested ~= nil then
@@ -146,6 +165,8 @@ function map.update(dt)
         if v.type == 'objectgroup' then
             object_group.call(v, 'update', dt)
             object_group.remove_dead(v)
+        elseif v.type == 'tilelayer' then
+            tile_layer.update(v, dt, map.current.player)
         end
     end
 
@@ -161,12 +182,7 @@ function map.render()
 
     for _, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
-            -- Render background layers at half brightness.
-            if v.properties.background then
-                tile_layer.render(v, {0.5, 0.5, 0.5, 1})
-            else
-                tile_layer.render(v)
-            end
+            tile_layer.render(v)
         elseif v.type == 'objectgroup' then
             object_group.call(v, 'render')
         end
@@ -192,6 +208,13 @@ function map.find_layer(name)
             return v
         end
     end
+end
+
+--- Sets the time divisor for the current map.
+-- A value of 2 will make the map run at half speed.
+-- @param div Time divisor.
+function map.set_time_div(div)
+    map.current.time_div = div
 end
 
 --- Find an object by name.

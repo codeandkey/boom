@@ -9,12 +9,15 @@ return {
     init = function(this)
         this.x = this.x or 0
         this.y = this.y or 0
+        this.dx = this.dx or 0
+        this.dy = this.dy or 0
 
         this.spr = sprite.create(this.spr_name)
         this.w, this.h = sprite.frame_size(this.spr)
 
         this.wait = this.wait or 5
         this.color = this.color or {1, 1, 1, 1}
+        this.flip = this.flip or false
 
         this.shape = love.physics.newRectangleShape(this.w, this.h)
         this.body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2, 'dynamic')
@@ -24,6 +27,7 @@ return {
         this.fixture:setMask(physics_groups.GIB)
         this.fixture:setRestitution(0.1)
 
+        this.body:setLinearVelocity(this.dx, this.dy)
         this.body:applyAngularImpulse(math.random(-10, 10))
         this.body:setAngle(this.angle or 0)
     end,
@@ -51,6 +55,6 @@ return {
         this.y = this.body:getY() - this.h / 2
 
         love.graphics.setColor(this.color)
-        sprite.render(this.spr, this.x, this.y, this.angle)
+        sprite.render(this.spr, this.x, this.y, this.angle, this.flip)
     end,
 }

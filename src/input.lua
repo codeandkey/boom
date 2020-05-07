@@ -11,6 +11,7 @@ local input = {
         space = 'ok',
         ['return'] = 'ok',
         c = 'interact',
+        escape = 'quit_to_menu',
     }
 }
 

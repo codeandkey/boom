@@ -6,11 +6,20 @@
 local camera = require 'camera'
 local event  = require 'event'
 local input  = require 'input'
+local fs     = require 'fs'
 local log    = require 'log'
 local map    = require 'map'
 local opts   = require 'opts'
+local post   = require 'post'
 
-function love.load()
+local enable_debug    = false
+local debug_font      = nil
+local last_delta      = 0
+local delta_graph     = {}
+local delta_graph_len = 128
+local delta_graph_ind = 0
+
+function love.load(arg)
     -- Load game. Check first: is there a saved mode? If so, apply it.
     local mode = opts.get('mode')
 
@@ -19,9 +28,8 @@ function love.load()
         love.window.setMode(mode.width, mode.height, mode.flags)
     else
         -- Choose the nicest looking default mode.
-        love.window.setFullscreen(true)
+        love.window.setFullscreen(false)
     end
-
 
     -- Send a resize event to set up anything dependent on fb size.
     local w, h, _ = love.window.getMode()
@@ -29,6 +37,17 @@ function love.load()
     event.push('fbsize', w, h)
 
     love.graphics.setDefaultFilter('nearest', 'nearest')
+
+    -- Apply debug mode if requested.
+    for _, v in ipairs(arg) do
+        if v == '--debug' or v == '-d' then
+            enable_debug = true
+            debug_font = fs.read_font('pixeled.ttf', 8)
+            log.info('Running in debug mode.')
+        else
+            log.warn('Invalid command-line argument %s!', v)
+        end
+    end
 
     map.load('main_menu')
     log.info('Finished loading.')
@@ -70,11 +89,45 @@ function love.update(dt)
 
     map.update(dt)
     camera.update(dt)
+
+    if enable_debug then
+        last_delta = dt
+        delta_graph_ind = delta_graph_ind % delta_graph_len
+        delta_graph_ind = delta_graph_ind + 1
+        delta_graph[delta_graph_ind] = dt
+    end
 end
 
 function love.draw()
-    -- Render the current map with the camera applied.
+    post.begin_frame()
     camera.apply()
     map.render()
     camera.unapply()
+    post.end_frame()
+
+    if enable_debug then
+        -- Render some debug information.
+        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setFont(debug_font)
+        love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
+        love.graphics.print('LAST DELTA: ' .. string.format('%.2f', last_delta * 1000) .. ' ms', 10, 30)
+        love.graphics.print('MAP: ' .. map.get_current_name() or '(none)', 10, 50)
+
+        -- Draw delta time graph.
+        local left = 180
+        local bottom = 40
+        local height = 256
+        local last = bottom
+
+        for i=1,delta_graph_len do
+            local v = delta_graph[i] or 0
+            local dist = delta_graph_ind - i
+            if dist < 0 then
+                dist = delta_graph_len - i + delta_graph_ind
+            end
+            love.graphics.setColor(1, 1, 1, 1 - dist / delta_graph_len)
+            love.graphics.line(left + i, bottom - (v * height), left + (i - 1), last)
+            last = bottom - (v * height)
+        end
+    end
 end
