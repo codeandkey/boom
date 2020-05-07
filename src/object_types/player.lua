@@ -167,7 +167,6 @@ return {
             if other_obj ~= this and util.aabb(char, other_obj) then
 	        this.interactable = other_obj
 		this.pre_interactable = true
-		log.debug('setting to true')
             end
 	end)
     end,
