@@ -143,7 +143,8 @@ end
 -- @param y Y coord for the top-left corner.
 -- @param angle Rotation about the center.
 -- @param flipped If `true`, horizontally flip the sprite.
-function sprite.render(self, x, y, angle, flipped)
+-- @param crush Pixels to reduce image height by.
+function sprite.render(self, x, y, angle, flipped, crush)
     local sx = 1
 
     if flipped then
@@ -153,7 +154,10 @@ function sprite.render(self, x, y, angle, flipped)
     local iw = self.frame_w
     local ih = self.frame_h
 
-    love.graphics.draw(self.image, sprite.frame(self), x + iw / 2, y + ih / 2, angle or 0, sx, 1, iw / 2, ih / 2)
+    -- apply crush, nearest filtering should already be applied
+    local sy = (ih - (crush or 0)) / ih
+
+    love.graphics.draw(self.image, sprite.frame(self), x + iw / 2, y + ih / 2, angle or 0, sx, sy, iw / 2, ih / 2)
 end
 
 --- Reverse the order of a sprite's frames.
