@@ -57,6 +57,9 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+        this.squish        = 0
+        this.squishiness   = this.squishiness or this.spr_jump.frame_h / 10
+        this.squishspeed   = 64 -- pixels per second
     end,
 
     explode = function(this, _, _, _)
@@ -186,6 +189,9 @@ return {
         -- Compute deceleration amount.
         local decel_amt = this.passive_decel
 
+        -- Update squish state.
+        this.squish = math.max(0, this.squish - this.squishspeed * dt)
+
         -- Update movement velocities.
         -- if both movement keys are held don't move,
         -- use air/crouch decel to stop quicker
@@ -269,7 +275,11 @@ return {
         if collision then
             if this.dy >= 0 then
                 this.y = collision_rect.y - this.h
-                this.jump_enabled = true
+
+                if not this.jump_enabled then
+                    this.jump_enabled = true
+                    this.squish = this.squishiness -- squish
+                end
             else
                 this.y = collision_rect.y + collision_rect.h
             end
@@ -297,6 +307,6 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+        sprite.render(this.spr, this.x + this.spr_offsetx, this.y + this.squish * 1.5, 0, this.direction == 'left', this.squish * 2)
     end,
 }
