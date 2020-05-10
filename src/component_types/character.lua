@@ -58,7 +58,7 @@ return {
         this.nade          = nil
         this.throw_enabled = false
         this.squish        = 0
-        this.squishiness   = this.squishiness or this.spr_jump.frame_h / 10
+        this.squishiness   = this.squishiness or 1
         this.squishspeed   = 64 -- pixels per second
     end,
 
@@ -135,6 +135,7 @@ return {
             if this.jump_enabled then
                 this.dy = this.jump_dy
                 this.jump_enabled = false
+                this.squish = -4 * this.squishiness
 
                 -- Start the jump sprite from the beginning.
                 -- It will be switched to in render().
@@ -190,7 +191,11 @@ return {
         local decel_amt = this.passive_decel
 
         -- Update squish state.
-        this.squish = math.max(0, this.squish - this.squishspeed * dt)
+        if this.squish < 0 then
+            this.squish = math.min(0, this.squish + this.squishspeed * dt)
+        elseif this.squish > 0 then
+            this.squish = math.max(0, this.squish - this.squishspeed * dt)
+        end
 
         -- Update movement velocities.
         -- if both movement keys are held don't move,
@@ -278,7 +283,7 @@ return {
 
                 if not this.jump_enabled then
                     this.jump_enabled = true
-                    this.squish = this.squishiness -- squish
+                    this.squish = this.squishiness * math.max(1, math.log(this.dy)) -- squish
                 end
             else
                 this.y = collision_rect.y + collision_rect.h
@@ -307,6 +312,6 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, this.x + this.spr_offsetx, this.y + this.squish * 1.5, 0, this.direction == 'left', this.squish * 2)
+        sprite.render(this.spr, this.x + this.spr_offsetx, this.y + this.squish, 0, this.direction == 'left', this.squish)
     end,
 }
