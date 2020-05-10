@@ -57,6 +57,9 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+        this.squish        = 0
+        this.squishiness   = this.squishiness or 1
+        this.squishspeed   = 32 -- pixels per second
     end,
 
     explode = function(this, _, _, _)
@@ -132,6 +135,7 @@ return {
             if this.jump_enabled then
                 this.dy = this.jump_dy
                 this.jump_enabled = false
+                this.squish = -4 * this.squishiness
 
                 -- Start the jump sprite from the beginning.
                 -- It will be switched to in render().
@@ -185,6 +189,13 @@ return {
 
         -- Compute deceleration amount.
         local decel_amt = this.passive_decel
+
+        -- Update squish state.
+        if this.squish < 0 then
+            this.squish = math.min(0, this.squish + this.squishspeed * dt)
+        elseif this.squish > 0 then
+            this.squish = math.max(0, this.squish - this.squishspeed * dt)
+        end
 
         -- Update movement velocities.
         -- if both movement keys are held don't move,
@@ -269,7 +280,11 @@ return {
         if collision then
             if this.dy >= 0 then
                 this.y = collision_rect.y - this.h
-                this.jump_enabled = true
+
+                if not this.jump_enabled then
+                    this.jump_enabled = true
+                    this.squish = this.squishiness * math.max(1, math.log(this.dy)) -- squish
+                end
             else
                 this.y = collision_rect.y + collision_rect.h
             end
@@ -297,6 +312,13 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+        sprite.render(
+            this.spr,
+            this.x + this.spr_offsetx,
+            this.y + this.squish,
+            0,
+            this.direction == 'left',
+            this.squish
+        )
     end,
 }
