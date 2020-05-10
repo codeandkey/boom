@@ -59,7 +59,7 @@ return {
         this.throw_enabled = false
         this.squish        = 0
         this.squishiness   = this.squishiness or 1
-        this.squishspeed   = 64 -- pixels per second
+        this.squishspeed   = 32 -- pixels per second
     end,
 
     explode = function(this, _, _, _)
