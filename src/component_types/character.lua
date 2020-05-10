@@ -312,6 +312,13 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, this.x + this.spr_offsetx, this.y + this.squish, 0, this.direction == 'left', this.squish)
+        sprite.render(
+            this.spr,
+            this.x + this.spr_offsetx,
+            this.y + this.squish,
+            0,
+            this.direction == 'left',
+            this.squish
+        )
     end,
 }
