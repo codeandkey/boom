@@ -2,17 +2,40 @@
 
 ## Boom?
 
-Boom is an open-source platformer designed as a prototype for creating a
-finished product. The goal of this project is to finish the game in it's
-entirety, complete with a central mechanic and a compact design that also
-provides an entertaining experience.
+Boom is an open-source platformer codeandkey and myself (quigley-c) began with
+the goal of finishing a project together. The goal of this project is to
+finish the game in it's entirety, complete with a central mechanic and a
+compact design that also provides an entertaining experience.
 
-## Boom.
+## HTML Documentation
+
+The documentation can be viewed by opening `index.html` inside `doc` with your
+favorite web browser.
+
+If for some reason you can't view the doc you can compile it yourself. 
+To compole the documentation you'll need to install `ldoc` and compile with the
+build script. If you don't have luarocks you can install it on most linux
+distributions with `apt`. Once luarocks has been installed you can install
+`ldoc`.
+
+```BASH
+apt install luarocks
+
+luarocks install ldoc
+```
+
+## Quickstart
 
 Before running the game you'll need to install the Love2d engine. Love is
 available on the official repositories for most linux distributions.
 If you need help or don't know how to install love2d for your system you can
-check out the [Love2d website](https://love2d.org).
+check out the [Love2d website](https://love2d.org). Most linux distributions
+can install love with the command: 
+
+```BASH
+apt install love
+```
+## Boom. 
 
 Boom can be run either by executing the `boom` executable
 
@@ -31,19 +54,20 @@ from the root directory.
 ## Boom. Maps.
 
 To design maps for Boom you will need to get the [Tiled](https://www.mapeditor.org/) map editor.
-In the `src/assets` directory you will find Boom's object types and tilesets
-which can be imported into the map editor.
+In the `src/object_types` directory you will find Boom's object types that can be used in the editor.
 
 Some useful object types:
 - `player` is the player spawn point.
-- `noclip` is solid ground that players can move and jump on.
-- `physbox` is a physics object. Requires `type` string parameter.
-	- setting `type` to `dynamic` allows interaction with other objects.
-	- setting `type` to `static` forces a static object.
+- `background` draws a background with optional parallax movement.
+    - `parallax_x` denotes the horizontal parallax factor. Higher values will make motion slower. `1` will lock the background to the camera.
+    - `parallax_y` denotes the vertical parllax factor.
+- `npc` is a passive non-player-character.
+    - `name` will be displayed above the `npc` in game.
+- `nade`, `explosion`, and `gib` are types used at runtime and should not be placed in the map.
 
 ## Boom. Physics.
 
-Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/). 
+Boom uses Love2d's builtin physics engine, [Box2D](http://box2d.org/about/).
 
 ## Boom. Devs.
 
