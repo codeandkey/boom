@@ -48,9 +48,7 @@ return {
 
         object.add_component(this, 'character', { x = this.x,
                                                   y = this.y,
-                                                  spr_idle = this.spr_idle,
-                                                  spr_walk = this.spr_walk,
-                                                  spr_jump = this.spr_jump })
+                                                  spriteset = this.spriteset })
 
         object_group.create_object(this.__layer, 'dialog_sequence', {})
     end,

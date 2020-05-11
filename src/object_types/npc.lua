@@ -44,9 +44,7 @@ return {
                                     { x = this.x,
                                       y = this.y,
                                       dx_max = this.dx_max,
-                                      spr_idle = this.spr_idle,
-                                      spr_walk = this.spr_walk,
-                                      spr_jump = this.spr_jump } )
+                                      spriteset = this.spriteset } )
     end,
 
     update = function(this, dt)
