@@ -1,7 +1,6 @@
 --- NPC object type.
-
 local object = require 'object'
-local sprite = require 'sprite'
+
 -- Type-wide constants can go here
 local npc = {
     Tom = {
