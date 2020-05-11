@@ -41,10 +41,10 @@ return {
         this.spriteset = this.spriteset or 'char/player/'
 
         -- load gib sprites
-        this.gib_head = this.spriteset .. this.head_dim .. '12x9_head.png'
-        this.gib_body = this.spriteset .. this.body_dim .. '12x9_body.png'
-        this.gib_arm = this.spriteset .. this.arm_dim .. '12x9_arm.png'
-        this.gib_leg = this.spriteset .. this.leg_dim .. '12x9_leg.png'
+        this.gib_head = this.spriteset .. 'head.png'
+        this.gib_body = this.spriteset .. 'body.png'
+        this.gib_arm = this.spriteset .. 'arm.png'
+        this.gib_leg = this.spriteset .. 'leg.png'
 
         -- Gib locations.
         this.gib_config = this.gib_config or {
@@ -88,9 +88,9 @@ return {
 
         -- Sprites
 
-        this.spr_idle = sprite.create(this.spriteset .. '32x32_idle.png', 32, 32, 0.25)
-        this.spr_walk = sprite.create(this.spriteset .. '32x32_walk.png', 32, 32, 0.1)
-        this.spr_jump = sprite.create(this.spriteset .. '32x32_jump.png', 32, 32, 0.05)
+        this.spr_idle = sprite.create(this.spriteset .. 'idle.png', 32, 32, 0.25)
+        this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
+        this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
         this.spr_jump.looping = false
 
         -- initial sprite

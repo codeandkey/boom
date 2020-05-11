@@ -36,9 +36,7 @@ return {
         this.thought_timer           = 0
 
         -- Set the sprites to be used
-        this.spr_idle = sprite.create('32x32_hero.png', 32, 32, 0.1)
-        this.spr_walk = sprite.create('32x32_hero-walk.png', 32, 32, 0.15)
-        this.spr_jump = sprite.create('32x32_hero-jump.png', 32, 32, 0.05)
+        this.spriteset = 'char/hero/'
 
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
