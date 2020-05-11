@@ -37,36 +37,45 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+        -- set character sprites to use
+        this.spriteset = this.spriteset or 'char/player/'
+
+        -- load gib sprites
+        this.gib_head = this.spriteset .. this.head_dim .. '12x9_head.png'
+        this.gib_body = this.spriteset .. this.body_dim .. '12x9_body.png'
+        this.gib_arm = this.spriteset .. this.arm_dim .. '12x9_arm.png'
+        this.gib_leg = this.spriteset .. this.leg_dim .. '12x9_leg.png'
+
         -- Gib locations.
         this.gib_config = this.gib_config or {
             head = {
-                spr = '12x9_player_head.png',
+                spr = this.git_head,
                 x = 0,
                 y = 0,
                 follow = true,
             },
             body = {
-                spr = '14x13_player_body.png',
+                spr = this.gib_body,
                 x = 8,
                 y = 8,
             },
             leg_left = {
-                spr = '5x9_player_leg.png',
+                spr = this.gib_leg,
                 x = 8,
                 y = 22,
             },
             leg_right = {
-                spr = '5x9_player_leg.png',
+                spr = this.gib_leg,
                 x = 14,
                 y = 22,
             },
             arm_left = {
-                spr = '6x13_player_arm.png',
+                spr = this.gib_arm,
                 x = 8,
                 y = 8,
             },
             arm_right = {
-                spr = '6x13_player_arm.png',
+                spr = this.gib_arm,
                 x = 18,
                 y = 8,
             },
@@ -79,10 +88,12 @@ return {
 
         -- Sprites
 
-        this.spr_idle = this.spr_idle or sprite.create('32x32_player.png', 32, 32, 0.25)
-        this.spr_walk = this.spr_walk or sprite.create('32x32_player-walk.png', 32, 32, 0.1)
-        this.spr_jump = this.spr_jump or sprite.create('32x32_player-jump.png', 32, 32, 0.05)
+        this.spr_idle = sprite.create(this.spriteset .. '32x32_idle.png', 32, 32, 0.25)
+        this.spr_walk = sprite.create(this.spriteset .. '32x32_walk.png', 32, 32, 0.1)
+        this.spr_jump = sprite.create(this.spriteset .. '32x32_jump.png', 32, 32, 0.05)
         this.spr_jump.looping = false
+
+        -- initial sprite
         this.spr = this.spr_idle
 
         -- State.
