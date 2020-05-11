@@ -29,7 +29,7 @@ function tilesets.init(tiled_obj)
     tiled_obj.tileheight = th
 
     -- Load tileset image.
-    tiled_obj.texture = fs.read_texture(ts.image)
+    tiled_obj.texture = fs.read_tileset(ts.image)
 
     for y=0,(ts.imageheight / th)-1 do
         for x=0,(ts.imagewidth / tw)-1 do

@@ -14,7 +14,7 @@ return {
         -- (Higher parallax factors imply a greater "distance")
 
         if this.image then
-            this.spr = sprite.create(this.image, this.frame_w, this.frame_h, this.duration)
+            this.spr = sprite.create('bg/' .. this.image, this.frame_w, this.frame_h, this.duration)
             this.spr_w, this.spr_h = sprite.frame_size(this.spr)
         end
     end,
