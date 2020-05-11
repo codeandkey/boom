@@ -49,7 +49,7 @@ return {
         -- Gib locations.
         this.gib_config = this.gib_config or {
             head = {
-                spr = this.git_head,
+                spr = this.gib_head,
                 x = 0,
                 y = 0,
                 follow = true,
