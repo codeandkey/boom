@@ -3,7 +3,9 @@
  <editorsettings>
   <export target="intro.lua" format="lua"/>
  </editorsettings>
- <tileset firstgid="1" source="4096x4096_stone_castle.tsx"/>
+ <tileset firstgid="1" name="4096x4096_stone_castle" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+  <image source="../sprites/4096x4096_stone_castle.png" width="256" height="256"/>
+ </tileset>
  <objectgroup id="9" name="background_sky"/>
  <objectgroup id="8" name="background_sun"/>
  <objectgroup id="6" name="background_tower"/>
