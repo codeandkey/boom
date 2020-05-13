@@ -44,6 +44,9 @@ function map.load(name, packed_args)
     -- Initialize tilesets.
     map.current.tilesets = tilesets.init(map.current.tilesets)
 
+    -- Set default time divisor.
+    map.current.time_div = 1
+
     -- Initialize layers.
     for k, v in ipairs(map.current.layers) do
         if v.type == 'tilelayer' then
@@ -128,6 +131,9 @@ function map.update(dt)
         return
     end
 
+    -- Apply time divisor.
+    dt = dt / map.current.time_div
+
     -- Perform transition logic if a transition is happening.
     if map.requested ~= nil then
         if map.fade_alpha < 1 then
@@ -202,6 +208,13 @@ function map.find_layer(name)
             return v
         end
     end
+end
+
+--- Sets the time divisor for the current map.
+-- A value of 2 will make the map run at half speed.
+-- @param div Time divisor.
+function map.set_time_div(div)
+    map.current.time_div = div
 end
 
 --- Find an object by name.

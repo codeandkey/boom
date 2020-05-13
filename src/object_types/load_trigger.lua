@@ -7,6 +7,7 @@ local map = require 'map'
 return {
     init = function(this)
         this.destination = this.destination or 'main_menu'
+        this.interactable = this.interactable or 'false'
     end,
 
     interact = function(this, caller)

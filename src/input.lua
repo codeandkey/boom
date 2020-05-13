@@ -10,6 +10,7 @@ local input = {
         throw    = 'x',
         ok       = {'z', 'return', 'space'},
         interact = 'c',
+        quit_to_menu = 'escape',
     },
     map = {},
 }

@@ -37,6 +37,50 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+        -- set character sprites to use
+        this.spriteset = this.spriteset or 'char/player/'
+
+        -- load gib sprites
+        this.gib_head = this.spriteset .. 'head.png'
+        this.gib_body = this.spriteset .. 'body.png'
+        this.gib_arm = this.spriteset .. 'arm.png'
+        this.gib_leg = this.spriteset .. 'leg.png'
+
+        -- Gib locations.
+        this.gib_config = this.gib_config or {
+            head = {
+                spr = this.gib_head,
+                x = 0,
+                y = 0,
+                follow = true,
+            },
+            body = {
+                spr = this.gib_body,
+                x = 8,
+                y = 8,
+            },
+            leg_left = {
+                spr = this.gib_leg,
+                x = 8,
+                y = 22,
+            },
+            leg_right = {
+                spr = this.gib_leg,
+                x = 14,
+                y = 22,
+            },
+            arm_left = {
+                spr = this.gib_arm,
+                x = 8,
+                y = 8,
+            },
+            arm_right = {
+                spr = this.gib_arm,
+                x = 18,
+                y = 8,
+            },
+        }
+
         this.w = this.w or 14
         this.h = this.h or 32
 
@@ -44,10 +88,12 @@ return {
 
         -- Sprites
 
-        this.spr_idle = this.spr_idle or sprite.create('32x32_player.png', 32, 32, 0.25)
-        this.spr_walk = this.spr_walk or sprite.create('32x32_player-walk.png', 32, 32, 0.1)
-        this.spr_jump = this.spr_jump or sprite.create('32x32_player-jump.png', 32, 32, 0.05)
+        this.spr_idle = sprite.create(this.spriteset .. 'idle.png', 32, 32, 0.25)
+        this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
+        this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
         this.spr_jump.looping = false
+
+        -- initial sprite
         this.spr = this.spr_idle
 
         -- State.
@@ -57,6 +103,9 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+        this.squish        = 0
+        this.squishiness   = this.squishiness or 1
+        this.squishspeed   = 32 -- pixels per second
     end,
 
     explode = function(this, _, _, _)
@@ -64,47 +113,21 @@ return {
 
         local sprite_left = this.x + this.spr_offsetx
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '12x9_player_head.png',
-            x = sprite_left + 11,
-            y = this.y,
-            color = this.color,
-        })
+        for _, v in pairs(this.gib_config) do
+            local gib = object_group.create_object(this.__layer, 'gib', {
+                spr_name = v.spr,
+                x = sprite_left + v.x,
+                y = this.y + v.y,
+                dx = this.dx,
+                dy = this.dy,
+                flip = (this.direction == 'left'),
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '14x13_player_body.png',
-            x = sprite_left + 8,
-            y = this.y + 8,
-            color = this.color,
-        })
-
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '5x9_player_leg.png',
-            x = sprite_left + 14,
-            y = this.y + 22,
-            color = this.color,
-        })
-
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '5x9_player_leg.png',
-            x = sprite_left + 18,
-            y = this.y + 22,
-            color = this.color,
-        })
-
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '6x13_player_arm.png',
-            x = sprite_left + 8,
-            y = this.y + 8,
-            color = this.color,
-        })
-
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '6x13_player_arm.png',
-            x = sprite_left + 18,
-            y = this.y + 8,
-            color = this.color,
-        })
+            if v.follow then
+                this.follow_gib = gib
+            end
+        end
     end,
 
     inputdown = function(this, key)
@@ -119,6 +142,7 @@ return {
             if this.jump_enabled then
                 this.dy = this.jump_dy
                 this.jump_enabled = false
+                this.squish = -4 * this.squishiness
 
                 -- Start the jump sprite from the beginning.
                 -- It will be switched to in render().
@@ -172,6 +196,13 @@ return {
 
         -- Compute deceleration amount.
         local decel_amt = this.passive_decel
+
+        -- Update squish state.
+        if this.squish < 0 then
+            this.squish = math.min(0, this.squish + this.squishspeed * dt)
+        elseif this.squish > 0 then
+            this.squish = math.max(0, this.squish - this.squishspeed * dt)
+        end
 
         -- Update movement velocities.
         -- if both movement keys are held don't move,
@@ -256,7 +287,11 @@ return {
         if collision then
             if this.dy >= 0 then
                 this.y = collision_rect.y - this.h
-                this.jump_enabled = true
+
+                if not this.jump_enabled then
+                    this.jump_enabled = true
+                    this.squish = this.squishiness * math.max(1, math.log(this.dy)) -- squish
+                end
             else
                 this.y = collision_rect.y + collision_rect.h
             end
@@ -284,6 +319,13 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+        sprite.render(
+            this.spr,
+            this.x + this.spr_offsetx,
+            this.y + this.squish,
+            0,
+            this.direction == 'left',
+            this.squish
+        )
     end,
 }
