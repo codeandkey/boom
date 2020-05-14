@@ -15,7 +15,6 @@ return {
     {
       name = "4096x4096_stone_castle",
       firstgid = 1,
-      filename = "4096x4096_stone_castle.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
