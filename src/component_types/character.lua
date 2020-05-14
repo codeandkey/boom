@@ -251,7 +251,7 @@ return {
                 this.dx = this.dx + this.air_accel * dt
             end
         end
-        
+
         if this.wants_up then
             this.nade_yoffset = -10
         end
