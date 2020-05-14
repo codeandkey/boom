@@ -60,67 +60,81 @@ return {
         this.squish        = 0
         this.squishiness   = this.squishiness or 1
         this.squishspeed   = 32 -- pixels per second
+
+        this.nade_xoffset = this.nade_xoffset or 0
+        this.nade_yoffset = this.nade_yoffset or 0
     end,
 
     explode = function(this, _, _, _)
-        this.dead = true
+        -- if we're the player
+        -- and we're going to explode
+        -- don't die, cuz that's lame
+        -- A haiku by quigley-c
+        if __this.parent == 'player' then    
+            -- get angle from player to nade and apply accel
+            -- temp vals while we fix things not exploding
+            this.dx_accel = 2000
+            this.air_accel = 2000
+        else
+            this.dead = true
 
-        local sprite_left = this.x + this.spr_offsetx
+            local sprite_left = this.x + this.spr_offsetx
 
-        this.follow_gib = object_group.create_object(this.__layer, 'gib', {
-            spr_name = '12x9_player_head.png',
-            x = sprite_left + 11,
-            y = this.y,
-            dx = this.dx,
-            dy = this.dy,
-            flip = (this.direction == 'left'),
-            color = this.color,
-        })
+            this.follow_gib = object_group.create_object(this.__layer, 'gib', {
+                spr_name = '12x9_player_head.png',
+                x = sprite_left + 11,
+                y = this.y,
+                dx = this.dx,
+                dy = this.dy,
+                flip = (this.direction == 'left'),
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '14x13_player_body.png',
-            x = sprite_left + 8,
-            y = this.y + 8,
-            dx = this.dx,
-            dy = this.dy,
-            color = this.color,
-        })
+            object_group.create_object(this.__layer, 'gib', {
+                spr_name = '14x13_player_body.png',
+                x = sprite_left + 8,
+                y = this.y + 8,
+                dx = this.dx,
+                dy = this.dy,
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '5x9_player_leg.png',
-            x = sprite_left + 14,
-            y = this.y + 22,
-            dx = this.dx,
-            dy = this.dy,
-            color = this.color,
-        })
+            object_group.create_object(this.__layer, 'gib', {
+                spr_name = '5x9_player_leg.png',
+                x = sprite_left + 14,
+                y = this.y + 22,
+                dx = this.dx,
+                dy = this.dy,
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '5x9_player_leg.png',
-            x = sprite_left + 18,
-            y = this.y + 22,
-            dx = this.dx,
-            dy = this.dy,
-            color = this.color,
-        })
+            object_group.create_object(this.__layer, 'gib', {
+                spr_name = '5x9_player_leg.png',
+                x = sprite_left + 18,
+                y = this.y + 22,
+                dx = this.dx,
+                dy = this.dy,
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '6x13_player_arm.png',
-            x = sprite_left + 8,
-            y = this.y + 8,
-            dx = this.dx,
-            dy = this.dy,
-            color = this.color,
-        })
+            object_group.create_object(this.__layer, 'gib', {
+                spr_name = '6x13_player_arm.png',
+                x = sprite_left + 8,
+                y = this.y + 8,
+                dx = this.dx,
+                dy = this.dy,
+                color = this.color,
+            })
 
-        object_group.create_object(this.__layer, 'gib', {
-            spr_name = '6x13_player_arm.png',
-            x = sprite_left + 18,
-            y = this.y + 8,
-            dx = this.dx,
-            dy = this.dy,
-            color = this.color,
-        })
+            object_group.create_object(this.__layer, 'gib', {
+                spr_name = '6x13_player_arm.png',
+                x = sprite_left + 18,
+                y = this.y + 8,
+                dx = this.dx,
+                dy = this.dy,
+                color = this.color,
+            })
+        end
     end,
 
     inputdown = function(this, key)
@@ -169,8 +183,10 @@ return {
     inputup = function(this, key)
         if key == 'left' then
             this.wants_left = false
+            this.nade_xoffset = 0
         elseif key == 'right' then
             this.wants_right = false
+            this.nade_xoffset = 0
         elseif key == 'throw' then
             -- Throw a grenade if we're holding one.
             if this.nade ~= nil then
@@ -183,6 +199,8 @@ return {
             end
         elseif key == 'crouch' then
             this.wants_crouch = false
+            this.wants_down = false
+            this.nade_yoffset = 0
         end
     end,
 
@@ -208,8 +226,10 @@ return {
         if this.wants_right and this.wants_left then
             decel_amt = this.crouch_decel
             this.is_walking = false
+            this.nade_xoffset = 0
         elseif this.wants_left then
             this.direction = 'left'
+            this.nade_xoffset = -10
 
             if this.jump_enabled then
                 this.is_walking = true
@@ -219,6 +239,7 @@ return {
             end
         elseif this.wants_right then
             this.direction = 'right'
+            this.nade_xoffset = 10
 
             if this.jump_enabled then
                 this.is_walking = true
@@ -232,6 +253,10 @@ return {
             decel_amt = this.crouch_decel
         elseif not this.jump_enabled then
             decel_amt = this.midair_decel
+        end
+
+        if this.wants_down then
+            this.nade_yoffset = 10
         end
 
         -- Perform deceleration.
@@ -250,8 +275,8 @@ return {
 
         -- Update nade location if we're holding one.
         if this.nade then
-            this.nade.x = this.x + this.w / 2
-            this.nade.y = this.y + this.h / 2
+            this.nade.x = this.x + this.w / 2 + this.nade_xoffset
+            this.nade.y = this.y + this.h / 2 + this.nade_yoffset
             this.nade.dx, this.nade.dy = 0, 0
         end
 

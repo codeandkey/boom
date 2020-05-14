@@ -30,7 +30,7 @@ return {
         this.spr_walk = sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create('32x32_player-jump.png', 32, 32, 0.05)
 
-	this.spr_key = sprite.create('16x16_blank-key.png', 16, 16, 0)
+	      this.spr_key = sprite.create('16x16_blank-key.png', 16, 16, 0)
 
         this.pre_quit = false
         this.quit_font = fs.read_font('pixeled.ttf', 8)
@@ -38,14 +38,14 @@ return {
         this.quit_y_counter = 0
         this.quit_alpha = 0
 
-	this.pre_interactable = false
+	      this.pre_interactable = false
         this.interact_font = fs.read_font('pixeled.ttf', 5)
-	this.interact_alpha = 0
-	this.interact_y_dist = 4
-	this.interact_y_counter = 0
+	      this.interact_alpha = 0
+	      this.interact_y_dist = 4
+	      this.interact_y_counter = 0
 
-	-- create storage for interactable object once we find it
-	this.interactable = {}
+	      -- create storage for interactable object once we find it
+	      this.interactable = {}
 
         object.add_component(this, 'character', { x = this.x,
                                                   y = this.y,
@@ -139,7 +139,7 @@ return {
         this.quit_y_counter = this.quit_y_counter + dt
         this.interact_y_counter = this.interact_y_counter + dt
 
-	-- quit text fade
+	      -- quit text fade
         if this.pre_quit then
             this.quit_alpha = math.min(this.quit_alpha + dt, 1)
         end
@@ -149,14 +149,14 @@ return {
         end
 
 
-	-- fade prompt, check if still colliding with interactable
-	-- if pre_interactable is true we know interactable has some value
+	      -- fade prompt, check if still colliding with interactable
+	      -- if pre_interactable is true we know interactable has some value
         if this.pre_interactable then
             this.interact_alpha = math.min(this.interact_alpha + dt, 0.8)
 
             if not util.aabb(char, this.interactable) then
-		this.pre_interactable = false
-	    end
+		            this.pre_interactable = false
+	          end
         end
 
         if not this.pre_interactable then
@@ -165,13 +165,13 @@ return {
 
 
         -- interact prompt fade
-	-- this feels.. wrong..
-	map.foreach_object(function (other_obj)
+	      -- this feels.. wrong..
+	      map.foreach_object(function (other_obj)
             if other_obj ~= this and other_obj.interactable == 'true' and util.aabb(char, other_obj) then
-	        this.interactable = other_obj
-		this.pre_interactable = true
+	              this.interactable = other_obj
+		            this.pre_interactable = true
             end
-	end)
+	      end)
     end,
 
     inputdown = function(this, inp)
@@ -194,29 +194,29 @@ return {
             local quit_y = this.y - 30 + math.sin(this.quit_y_counter) * this.quit_y_dist
 
 
-	    -- set font for text
+	          -- set font for text
             love.graphics.setFont(this.quit_font)
 
-	    -- display quit prompt
+	          -- display quit prompt
             love.graphics.setColor(1, 1, 1, this.quit_alpha)
             love.graphics.printf(quit_text, quit_x, quit_y, quit_width, 'center')
         end
-	if this.pre_interactable then
-	    -- set this to the binding for interact
+	      if this.pre_interactable then
+	          -- set this to the binding for interact
             local interact_key = 'C'
 
-	    -- interact prompt width should be the size of the sprite
+	          -- interact prompt width should be the size of the sprite
             local interact_width = 16
             local interact_x = this.x + this.w / 2 - interact_width / 2
             local interact_y = this.y -20 + math.sin(this.interact_y_counter) * this.interact_y_dist
 
-	    -- set font for text
+	          -- set font for text
             love.graphics.setFont(this.interact_font)
 
-	    --display interact prompt
-	    love.graphics.setColor(1,1,1, this.interact_alpha)
+	          --display interact prompt
+	          love.graphics.setColor(1,1,1, this.interact_alpha)
             sprite.render(this.spr_key, interact_x-1, interact_y-1)
-	    love.graphics.printf(interact_key, interact_x, interact_y, interact_width, 'center')
+	          love.graphics.printf(interact_key, interact_x, interact_y, interact_width, 'center')
         end
-    end
+  end
 }
