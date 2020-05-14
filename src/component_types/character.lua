@@ -43,6 +43,7 @@ return {
         this.spr_offsetx = this.spr_offsetx or -10
 
         -- Sprites
+
         this.spr_idle = this.spr_idle or sprite.create('32x32_player.png', 32, 32, 0.25)
         this.spr_walk = this.spr_walk or sprite.create('32x32_player-walk.png', 32, 32, 0.1)
         this.spr_jump = this.spr_jump or sprite.create('32x32_player-jump.png', 32, 32, 0.05)
@@ -56,6 +57,9 @@ return {
         this.direction     = 'right'
         this.nade          = nil
         this.throw_enabled = false
+        this.squish        = 0
+        this.squishiness   = this.squishiness or 1
+        this.squishspeed   = 32 -- pixels per second
     end,
 
     explode = function(this, _, _, _)
@@ -136,6 +140,7 @@ return {
             if this.jump_enabled then
                 this.dy = this.jump_dy
                 this.jump_enabled = false
+                this.squish = -4 * this.squishiness
 
                 -- Start the jump sprite from the beginning.
                 -- It will be switched to in render().
@@ -145,7 +150,7 @@ return {
             -- Start to throw a nade if we can.
             if this.nade == nil then
                 this.nade = object_group.create_object(this.__layer, 'nade', {
-                    x = this.x + this.w,
+                    x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                 })
             end
@@ -166,8 +171,6 @@ return {
             this.wants_left = false
         elseif key == 'right' then
             this.wants_right = false
-        elseif key == 'up' then
-            this.wants_up = false
         elseif key == 'throw' then
             -- Throw a grenade if we're holding one.
             if this.nade ~= nil then
@@ -191,6 +194,13 @@ return {
 
         -- Compute deceleration amount.
         local decel_amt = this.passive_decel
+
+        -- Update squish state.
+        if this.squish < 0 then
+            this.squish = math.min(0, this.squish + this.squishspeed * dt)
+        elseif this.squish > 0 then
+            this.squish = math.max(0, this.squish - this.squishspeed * dt)
+        end
 
         -- Update movement velocities.
         -- if both movement keys are held don't move,
@@ -240,19 +250,8 @@ return {
 
         -- Update nade location if we're holding one.
         if this.nade then
-            
-            if this.wants_left then
-                this.nade.x = this.x
-            elseif this.wants_right then
-                this.nade.x = this.x + this.w
-            end
-
-            if this.wants_down and not this.jump_enabled then
-                this.nade.y = this.y
-            elseif this.wants_up then
-                this.nade.y = this.y + this.h
-            end
-            
+            this.nade.x = this.x + this.w / 2
+            this.nade.y = this.y + this.h / 2
             this.nade.dx, this.nade.dy = 0, 0
         end
 
@@ -286,7 +285,11 @@ return {
         if collision then
             if this.dy >= 0 then
                 this.y = collision_rect.y - this.h
-                this.jump_enabled = true
+
+                if not this.jump_enabled then
+                    this.jump_enabled = true
+                    this.squish = this.squishiness * math.max(1, math.log(this.dy)) -- squish
+                end
             else
                 this.y = collision_rect.y + collision_rect.h
             end
@@ -314,6 +317,13 @@ return {
         love.graphics.setColor(this.color)
 
         -- Render the current sprite.
-        sprite.render(this.spr, math.floor(this.x + this.spr_offsetx), math.floor(this.y), 0, this.direction == 'left')
+        sprite.render(
+            this.spr,
+            this.x + this.spr_offsetx,
+            this.y + this.squish,
+            0,
+            this.direction == 'left',
+            this.squish
+        )
     end,
 }

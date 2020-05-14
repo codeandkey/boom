@@ -2,14 +2,18 @@
 
 ## Boom?
 
-Boom is an open-source platformer designed as a prototype for creating a
-finished product. The goal of this project is to finish the game in it's
-entirety, complete with a central mechanic and a compact design that also
-provides an entertaining experience.
+Boom is an open-source platformer codeandkey and myself (quigley-c) began with
+the goal of finishing a project together. The goal of this project is to
+finish the game in it's entirety, complete with a central mechanic and a
+compact design that also provides an entertaining experience.
 
 ## HTML Documentation
 
-To view the documentation you'll need to install `ldoc` and compile with the
+The documentation can be viewed by opening `index.html` inside `doc` with your
+favorite web browser.
+
+If for some reason you can't view the doc you can compile it yourself. 
+To compole the documentation you'll need to install `ldoc` and compile with the
 build script. If you don't have luarocks you can install it on most linux
 distributions with `apt`. Once luarocks has been installed you can install
 `ldoc`.
@@ -19,9 +23,6 @@ apt install luarocks
 
 luarocks install ldoc
 ```
-
-The documentation can be viewed by opening `index.html` inside `doc` with your
-favorite web browser.
 
 ## Quickstart
 
@@ -61,7 +62,7 @@ Some useful object types:
     - `parallax_x` denotes the horizontal parallax factor. Higher values will make motion slower. `1` will lock the background to the camera.
     - `parallax_y` denotes the vertical parllax factor.
 - `npc` is a passive non-player-character.
-    - `name` changes the color and behavior of the npc. Defined names are "Tom", "Fred", "Joe", and "Bill".
+    - `name` will be displayed above the `npc` in game.
 - `nade`, `explosion`, and `gib` are types used at runtime and should not be placed in the map.
 
 ## Boom. Physics.
