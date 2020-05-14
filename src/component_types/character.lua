@@ -193,6 +193,9 @@ return {
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
                 this.nade = nil
             end
+        elseif key == 'up' then
+            this.wants_up = false
+            this.nade_yoffset = 0
         elseif key == 'jump' then
             if this.dy < 0 then
                 this.dy = this.dy / 2
@@ -247,6 +250,10 @@ return {
             else
                 this.dx = this.dx + this.air_accel * dt
             end
+        end
+        
+        if this.wants_up then
+            this.nade_yoffset = -10
         end
 
         if this.wants_crouch then
