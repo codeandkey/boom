@@ -15,6 +15,10 @@ return {
 
         -- Look for nearby objects to explode.
         map.foreach_object(function (other_obj)
+            if other_obj.x == nil or other_obj.y == nil then
+                return
+            end
+
             local dist = math.sqrt(math.pow(other_obj.x - this.x, 2) + math.pow(other_obj.y - this.y, 2))
 
             if dist < this.object_range then
