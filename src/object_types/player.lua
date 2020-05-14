@@ -168,8 +168,8 @@ return {
 	      -- this feels.. wrong..
 	      map.foreach_object(function (other_obj)
             if other_obj ~= this and other_obj.interactable == 'true' and util.aabb(char, other_obj) then
-	              this.interactable = other_obj
-		            this.pre_interactable = true
+                this.interactable = other_obj
+                this.pre_interactable = true
             end
 	      end)
     end,
@@ -197,26 +197,26 @@ return {
 	          -- set font for text
             love.graphics.setFont(this.quit_font)
 
-	          -- display quit prompt
+            -- display quit prompt
             love.graphics.setColor(1, 1, 1, this.quit_alpha)
             love.graphics.printf(quit_text, quit_x, quit_y, quit_width, 'center')
         end
-	      if this.pre_interactable then
-	          -- set this to the binding for interact
+        if this.pre_interactable then
+            -- set this to the binding for interact
             local interact_key = 'C'
 
-	          -- interact prompt width should be the size of the sprite
+            -- interact prompt width should be the size of the sprite
             local interact_width = 16
             local interact_x = this.x + this.w / 2 - interact_width / 2
             local interact_y = this.y -20 + math.sin(this.interact_y_counter) * this.interact_y_dist
 
-	          -- set font for text
+            -- set font for text
             love.graphics.setFont(this.interact_font)
 
-	          --display interact prompt
+            --display interact prompt
 	          love.graphics.setColor(1,1,1, this.interact_alpha)
             sprite.render(this.spr_key, interact_x-1, interact_y-1)
-	          love.graphics.printf(interact_key, interact_x, interact_y, interact_width, 'center')
+            love.graphics.printf(interact_key, interact_x, interact_y, interact_width, 'center')
         end
   end
 }
