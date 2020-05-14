@@ -1,4 +1,4 @@
-# Boom ![nade](src/assets/sprites/16x16_nade.png "boom")
+# Boom ![nade](src/assets/sprites/obj/16x16_nade.png "boom")
 
 ## Boom?
 
@@ -58,11 +58,15 @@ In the `src/object_types` directory you will find Boom's object types that can b
 
 Some useful object types:
 - `player` is the player spawn point.
-- `background` draws a background with optional parallax movement.
-    - `parallax_x` denotes the horizontal parallax factor. Higher values will make motion slower. `1` will lock the background to the camera.
-    - `parallax_y` denotes the vertical parllax factor.
 - `npc` is a passive non-player-character.
-    - `name` will be displayed above the `npc` in game.
+- `load_trigger` will prompt the player to transition to another map
+	- `interactable` makes the trigger usable by the player
+	- `destination` points to another map
+	- `entry_point` points to the load trigger the other map
+- `background` draws a background with optional parallax movement.
+    - `parallax_x` denotes the horizontal parallax factor. Higher values will
+		make motion slower. `1` will lock the background to the camera.
+    - `parallax_y` denotes the vertical parllax factor.
 - `nade`, `explosion`, and `gib` are types used at runtime and should not be placed in the map.
 
 ## Boom. Physics.
