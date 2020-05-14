@@ -5,6 +5,7 @@
 
 local camera = require 'camera'
 local event  = require 'event'
+local gui    = require 'gui'
 local input  = require 'input'
 local fs     = require 'fs'
 local log    = require 'log'
@@ -104,6 +105,7 @@ function love.draw()
     map.render()
     camera.unapply()
     post.end_frame()
+    gui.render()
 
     if enable_debug then
         -- Render some debug information.
