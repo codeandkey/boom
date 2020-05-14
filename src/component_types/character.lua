@@ -70,7 +70,7 @@ return {
         -- and we're going to explode
         -- don't die, cuz that's lame
         -- A haiku by quigley-c
-        if __this.parent == 'player' then    
+        if this.__parent == 'player' then
             -- get angle from player to nade and apply accel
             -- temp vals while we fix things not exploding
             this.dx_accel = 2000
