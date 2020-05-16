@@ -29,13 +29,23 @@ function fs.read_map(name)
     end
 end
 
+--- Loads a tileset texture from the disk.
+-- This is equivalent to fs.read_texture, but the name is passed to
+-- basename() before loading the file. This is because
+-- Tiled stores somewhat unpredictable paths to textures sometimes.
+-- @param name Texture name to load. Only the last path element is considered.
+-- @return The loaded texture, or nil if an error occurs.
+function fs.read_tileset(name)
+    return fs.read_texture(util.basename(name))
+end
+
 --- Read a texture from the disk.
 -- Attempts to load a sprite from the sprite prefix (assets/sprites).
 -- Any path prefixes are stripped off the beginning of the texture name.
 -- @param name Texture name to load.
 -- @return The loaded texture, or nil if an error occurs.
 function fs.read_texture(name)
-    local path = fs.prefixes.sprites .. util.basename(name)
+    local path = fs.prefixes.sprites .. name
     local status, result = pcall(love.graphics.newImage, path)
 
     if status then

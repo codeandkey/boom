@@ -19,7 +19,7 @@ return {
         }
 
         -- Resources.
-        this.spr = sprite.create('16x16_nade.png')
+        this.spr = sprite.create('obj/16x16_nade.png')
 
         -- State.
         this.thrown = false
