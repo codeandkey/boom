@@ -119,8 +119,9 @@ return {
         if this.__parent.__typename == 'player' then
             -- get angle from player to nade and apply accel
             -- temp vals while we fix things not exploding
-            this.dx_accel = 2000
-            this.air_accel = 2000
+            this.jump_enabled = false
+            this.dx = 2000
+            this.dy = -2000
         else
             this.dead = true
 
@@ -233,6 +234,8 @@ return {
         -- Update movement velocities.
         -- if both movement keys are held don't move,
         -- use air/crouch decel to stop quicker
+        -- air movement should never clamp accel or top speed
+        -- but should never apply more speed when above the max
         if this.wants_right and this.wants_left then
             decel_amt = this.crouch_decel
             this.is_walking = false
@@ -281,8 +284,10 @@ return {
         end
 
         -- Perform max speed clamping.
-        this.dx = math.max(this.dx, -this.dx_max)
-        this.dx = math.min(this.dx, this.dx_max)
+        if this.jump_enabled then
+            this.dx = math.max(this.dx, -this.dx_max)
+            this.dx = math.min(this.dx, this.dx_max)
+        end
 
         -- Apply gravity.
         this.dy = this.dy + dt * this.gravity
