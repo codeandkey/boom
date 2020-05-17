@@ -111,7 +111,7 @@ return {
         this.nade_yoffset = this.nade_yoffset or 0
     end,
 
-    explode = function(this, _, _, _)
+    explode = function(this, _, xdist, ydist)
         -- if we're the player
         -- and we're going to explode
         -- don't die, cuz that's lame
@@ -120,8 +120,9 @@ return {
             -- get angle from player to nade and apply accel
             -- temp vals while we fix things not exploding
             this.jump_enabled = false
-            this.dx = 2000
-            this.dy = -2000
+            
+            this.dx = this.dx + 400 * xdist
+            this.dy = this.dy + 400 * ydist
         else
             this.dead = true
 
@@ -248,7 +249,11 @@ return {
                 this.is_walking = true
                 this.dx = this.dx - this.dx_accel * dt
             else
-                this.dx = this.dx - this.air_accel * dt
+                if math.abs(this.dx) <= this.dx_max then
+                    this.dx = this.dx - this.air_accel * dt
+                else
+                    this.dx = this.dx - 0 * dt
+                end
             end
         elseif this.wants_right then
             this.direction = 'right'
@@ -258,7 +263,11 @@ return {
                 this.is_walking = true
                 this.dx = this.dx + this.dx_accel * dt
             else
-                this.dx = this.dx + this.air_accel * dt
+                if math.abs(this.dx) <= this.dx_max then
+                    this.dx = this.dx + this.air_accel * dt
+                else
+                    this.dx = this.dx + 0 * dt
+                end
             end
         end
 
