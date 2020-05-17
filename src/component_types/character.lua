@@ -37,6 +37,10 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+        -- base knockback from thrown nades (player only)        
+        this.nade_push_x = this.nade_push_x or 250
+        this.nade_push_y = this.nade_push_y or 250
+
         -- set character sprites to use
         this.spriteset = this.spriteset or 'char/player/'
 
@@ -111,18 +115,25 @@ return {
         this.nade_yoffset = this.nade_yoffset or 0
     end,
 
-    explode = function(this, _, xdist, ydist)
+    explode = function(this, dist, xdist, ydist, radius)
         -- if we're the player
         -- and we're going to explode
         -- don't die, cuz that's lame
         -- A haiku by quigley-c
         if this.__parent.__typename == 'player' then
-            -- get angle from player to nade and apply accel
-            -- temp vals while we fix things not exploding
+            -- apply accel based on distance between nade and player
             this.jump_enabled = false
-            
-            this.dx = this.dx + 400 * xdist
-            this.dy = this.dy + 400 * ydist
+
+            -- don't divide by 0 lol
+            -- this also sets a max power for a single throw by limiting distance minimum
+            if dist < 0.1 then
+                dist = 0.1
+            end
+
+            -- calculate knockback
+            -- less distance = more power
+            this.dx = this.dx + (radius / dist) + this.nade_push_x * (xdist/math.abs(xdist))
+            this.dy = this.dy + (radius / dist) + this.nade_push_y * (ydist/math.abs(ydist))
         else
             this.dead = true
 
