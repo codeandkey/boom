@@ -121,7 +121,7 @@ return {
         -- don't die, cuz that's lame
         -- A haiku by quigley-c
         if this.__parent.__typename == 'player' then
-            
+
             -- don't divide by 0 lol
             -- this also sets a max power for a single throw by limiting distance minimum
             if dist < 0.1 then
