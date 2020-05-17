@@ -4,12 +4,12 @@ local log  = require 'log'
 local util = require 'util'
 
 local fs = {
-    -- prefix constants. defines the location of game resources
-    prefixes = {
-        maps = 'src/assets/maps/',
-        sprites = 'assets/sprites/',
-        fonts = 'assets/fonts/',
-    }
+	-- prefix constants. defines the location of game resources
+	prefixes = {
+		maps = 'src/assets/maps/',
+		sprites = 'assets/sprites/',
+		fonts = 'assets/fonts/',
+	}
 }
 
 --- Read a map from the disk.
@@ -17,16 +17,16 @@ local fs = {
 -- @param name Map name to load.
 -- @return The map table, or nil if an error occurs.
 function fs.read_map(name)
-    local path = fs.prefixes.maps .. name .. '.lua'
-    log.debug('Loading map %s from %s.', name, path)
+	local path = fs.prefixes.maps .. name .. '.lua'
+	log.debug('Loading map %s from %s.', name, path)
 
-    local status, result = pcall(function() return dofile(path) end)
+	local status, result = pcall(function() return dofile(path) end)
 
-    if status then
-        return result
-    else
-        log.error("Couldn't load map %s!", name)
-    end
+	if status then
+		return result
+	else
+		log.error("Couldn't load map %s!", name)
+	end
 end
 
 --- Loads a tileset texture from the disk.
@@ -36,7 +36,7 @@ end
 -- @param name Texture name to load. Only the last path element is considered.
 -- @return The loaded texture, or nil if an error occurs.
 function fs.read_tileset(name)
-    return fs.read_texture(util.basename(name))
+	return fs.read_texture(util.basename(name))
 end
 
 --- Read a texture from the disk.
@@ -45,14 +45,14 @@ end
 -- @param name Texture name to load.
 -- @return The loaded texture, or nil if an error occurs.
 function fs.read_texture(name)
-    local path = fs.prefixes.sprites .. name
-    local status, result = pcall(love.graphics.newImage, path)
+	local path = fs.prefixes.sprites .. name
+	local status, result = pcall(love.graphics.newImage, path)
 
-    if status then
-        return result
-    else
-        log.error("Couldn't load texture %s! (for %s)", path, name)
-    end
+	if status then
+		return result
+	else
+		log.error("Couldn't load texture %s! (for %s)", path, name)
+	end
 end
 
 --- Read a font from the disk.
@@ -60,14 +60,14 @@ end
 -- @param name Font file suffix to load, with extension.
 -- @param size Font size (pt). [default 16]
 function fs.read_font(name, size)
-    local path = fs.prefixes.fonts .. util.basename(name)
-    local status, result = pcall(love.graphics.newFont, path, size or 16)
+	local path = fs.prefixes.fonts .. util.basename(name)
+	local status, result = pcall(love.graphics.newFont, path, size or 16)
 
-    if status then
-        return result
-    else
-        log.error("Couldn't load font %s! (for %s)", path, name)
-    end
+	if status then
+		return result
+	else
+		log.error("Couldn't load font %s! (for %s)", path, name)
+	end
 end
 
 return fs

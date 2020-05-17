@@ -1,6 +1,6 @@
 --- Collection of physics groups.
 
 return {
-    WORLD = 1,
-    GIB   = 2,
+	WORLD = 1,
+	GIB   = 2,
 }

@@ -1,19 +1,10 @@
 --- Subsystem for manging game events and subscriptions.
---
--- Event types are documented here.
---
--- |    SIGNATURE    |                       DESCRIPTION                          |
--- | --------------- | ---------------------------------------------------------- |
--- | `ready ()`      | Called by the map after all objects have been initialized. |
--- | `keydown (key)` | Called by the display manager when _key_ is pressed.       |
--- | `keyup (key)`   | Called by the display manager when _key_ is released.      |
--- | `fbsize (w, h)` | Called when the framebuffer is resized.
 
 local log  = require 'log'
 local util = require 'util'
 
 local event = {
-    subscriptions = {}
+	subscriptions = {}
 }
 
 --- Subscribe to an event.
@@ -28,29 +19,29 @@ local event = {
 --
 -- @return The subscription object.
 function event.subscribe(event_name, callback, userdata)
-    if event.subscriptions[event_name] == nil then
-        event.subscriptions[event_name] = {}
-    end
+	if event.subscriptions[event_name] == nil then
+		event.subscriptions[event_name] = {}
+	end
 
-    local sublist = event.subscriptions[event_name]
+	local sublist = event.subscriptions[event_name]
 
-    local sub_object = {
-        event_name = event_name,
-        callback = callback,
-        valid = true,
-        destroy = function(this)
-            this.valid = false
-        end,
-    }
+	local sub_object = {
+		event_name = event_name,
+		callback = callback,
+		valid = true,
+		destroy = function(this)
+			this.valid = false
+		end,
+	}
 
-    if userdata then
-        sub_object.userdata = util.pack(userdata)
-    end
+	if userdata then
+		sub_object.userdata = util.pack(userdata)
+	end
 
-    log.debug('Subscribed handler object %s to event type %s', sub_object, event_name)
+	log.debug('Subscribed handler object %s to event type %s', sub_object, event_name)
 
-    table.insert(sublist, sub_object)
-    return sub_object
+	table.insert(sublist, sub_object)
+	return sub_object
 end
 
 --- Push a new event to the queue.
@@ -59,63 +50,63 @@ end
 -- @param event_name Type of event to push.
 -- @param ... Arguments to pass to subscriber callbacks.
 function event.push(event_name, ...)
-    local event_obj = {
-        event_name = event_name,
-        args = util.pack(...),
-    }
+	local event_obj = {
+		event_name = event_name,
+		args = util.pack(...),
+	}
 
-    if event.tail then
-        event.tail.next = event_obj
-    else
-        event.head = event_obj
-    end
+	if event.tail then
+		event.tail.next = event_obj
+	else
+		event.head = event_obj
+	end
 
-    event.tail = event_obj
+	event.tail = event_obj
 end
 
 --- Evalute the next event on the queue.
 -- @return The event processed, or nil if no more events.
 function event.next()
-    local current = event.head
+	local current = event.head
 
-    -- check there is an event
-    if current == nil then
-        return nil
-    end
+	-- check there is an event
+	if current == nil then
+		return nil
+	end
 
-    -- call any subscriptions
-    local sublist = event.subscriptions[current.event_name]
+	-- call any subscriptions
+	local sublist = event.subscriptions[current.event_name]
 
-    if sublist then
-        for k, v in pairs(sublist) do
-            if v.valid then
-                -- valid subscription, make the call
-                if v.userdata then
-                    util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
-                else
-                    util.pcall(v.callback, unpack(current.args))
-                end
-            else
-                -- subscription no longer valid, destroy it
-                sublist[k] = nil
-            end
-        end
-    end
+	if sublist then
+		for k, v in pairs(sublist) do
+			if v.valid then
+				-- valid subscription, make the call
+				if v.userdata then
+					util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
+				else
+					util.pcall(v.callback, unpack(current.args))
+				end
+			else
+				-- subscription no longer valid, destroy it
+				sublist[k] = nil
+			end
+		end
+	end
 
-    -- advance the linked list
-    event.head = event.head.next
+	-- advance the linked list
+	event.head = event.head.next
 
-    -- clean up tail if we reach it
-    if event.head == nil then
-        event.tail = nil
-    end
+	-- clean up tail if we reach it
+	if event.head == nil then
+		event.tail = nil
+	end
 
-    return current
+	return current
 end
 
 --- Process the event queue until no events remain.
 function event.run()
-    while event.next() do end
+	while event.next() do end
 end
 
 return event
