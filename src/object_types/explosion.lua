@@ -26,7 +26,11 @@ return {
                 other_obj.h = other_obj.h or 32
                 other_obj.x = other_obj.x + (other_obj.w/2)
                 other_obj.y = other_obj.y - (other_obj.h/2)
-                object.call(other_obj, 'explode', dist, (other_obj.x - this.x) / dist, (other_obj.y - this.y) / dist, this.radius)
+                object.call(other_obj,
+                            'explode',
+                            dist,
+                            (other_obj.x - this.x) / dist,
+                            (other_obj.y - this.y) / dist, this.radius);
             end
         end)
 

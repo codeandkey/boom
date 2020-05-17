@@ -37,7 +37,7 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
-        -- base knockback from thrown nades (player only)        
+        -- base knockback from thrown nades (player only)
         this.nade_push_x = this.nade_push_x or 250
         this.nade_push_y = this.nade_push_y or 250
 
@@ -138,7 +138,7 @@ return {
             this.dead = true
 
             local sprite_left = this.x + this.spr_offsetx
-        
+
             for _, v in pairs(this.gib_config) do
                 local gib = object_group.create_object(this.__layer, 'gib', {
                     spr_name = v.spr,
