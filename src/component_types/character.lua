@@ -29,7 +29,7 @@ return {
         this.gravity           = this.gravity or 350
         this.crouch_decel      = this.crouch_decel or 1000
         this.passive_decel     = this.passive_decel or 600
-        this.midair_decel      = this.midair_decel or 200
+        this.midair_decel      = this.midair_decel or 50
         this.jump_dy           = this.jump_dy or -280
         this.dx_accel          = this.dx_accel or 1600
         this.air_accel         = this.air_accel or 800
@@ -121,9 +121,7 @@ return {
         -- don't die, cuz that's lame
         -- A haiku by quigley-c
         if this.__parent.__typename == 'player' then
-            -- apply accel based on distance between nade and player
-            this.jump_enabled = false
-
+            
             -- don't divide by 0 lol
             -- this also sets a max power for a single throw by limiting distance minimum
             if dist < 0.1 then
