@@ -25,6 +25,7 @@ local util         = require 'util'
 
 return {
     init = function(this)
+
         -- Configuration.
         this.gravity           = this.gravity or 350
         this.crouch_decel      = this.crouch_decel or 1000
@@ -37,9 +38,23 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+        -- question mark prompt
+        this.question_prompt   = false
+        this.question_y_counter  = 0
+        this.question_time     = 0.5
+        this.question_y_dist   = -20
+        this.question_alpha    = 0
+
+        -- grenade count
+        this.max_nades = this.max_nades or 1
+        nades = 0
+
         -- base knockback from thrown nades (player only)
         this.nade_push_x = this.nade_push_x or 250
         this.nade_push_y = this.nade_push_y or 250
+
+        -- set question mark sprite
+        this.spr_question = sprite.create('16x16_qmark.png', 16, 16, 0)
 
         -- set character sprites to use
         this.spriteset = this.spriteset or 'char/player/'
@@ -180,11 +195,16 @@ return {
             end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
-            if this.nade == nil then
+            if this.nade == nil and nades < this.max_nades then
+                nades = nades + 1
                 this.nade = object_group.create_object(this.__layer, 'nade', {
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                 })
+            else
+                -- display ? prmopt
+                this.question_prompt = true
+                this.question_y_counter = 0
             end
         elseif key == 'interact' then
             -- Send out interaction events.
@@ -363,6 +383,20 @@ return {
         if math.abs(this.dy) > 20 then
             this.jump_enabled = false
         end
+
+        -- question mark prompt
+        if this.question_prompt then
+            -- begin the question mark fade
+            this.question_alpha = math.min(this.question_alpha + dt, 0.8)
+
+            if this.question_y_counter > this.question_time then
+                this.question_prompt = false
+            end
+
+            this.question_y_counter = this.question_y_counter + dt
+        end
+
+
     end,
 
     render = function(this)
@@ -373,6 +407,17 @@ return {
             this.spr = this.spr_idle
         else
             this.spr = this.spr_jump
+        end
+
+        if this.question_prompt then
+            -- question prompt width should be the size of the sprite
+            local question_width = 16
+            local question_x = this.x + this.w / 2 - question_width / 2
+            local question_y = this.y -10 + math.sin(this.question_y_counter) * this.question_y_dist
+
+            --display question prompt
+	        love.graphics.setColor(1,1,1, this.question_alpha)
+            sprite.render(this.spr_question, question_x-1, question_y-1)
         end
 
         -- Apply the appropriate color.
