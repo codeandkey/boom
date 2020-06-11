@@ -37,6 +37,11 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
+	this.walljump_strength = {
+		x = 350,
+		y = -150,
+	}
+
         -- set character sprites to use
         this.spriteset = this.spriteset or 'char/player/'
 
@@ -106,6 +111,7 @@ return {
         this.squish        = 0
         this.squishiness   = this.squishiness or 1
         this.squishspeed   = 32 -- pixels per second
+	this.can_walljump  = false
     end,
 
     explode = function(this, _, _, _)
@@ -148,6 +154,17 @@ return {
                 -- It will be switched to in render().
                 sprite.play(this.spr_jump)
             end
+
+	    -- Test for walljump.
+	    if this.can_walljump then
+		    if this.can_walljump == 'left' then
+			    this.dx = -this.walljump_strength.x
+		    else
+			    this.dx = this.walljump_strength.x
+		    end
+
+		    this.dy = this.walljump_strength.y
+	    end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
             if this.nade == nil then
@@ -215,18 +232,27 @@ return {
 
             if this.jump_enabled then
                 this.is_walking = true
-                this.dx = this.dx - this.dx_accel * dt
+		if this.dx > -this.dx_max then
+			this.dx = this.dx - this.dx_accel * dt
+		end
             else
-                this.dx = this.dx - this.air_accel * dt
+		if this.dx > -this.dx_max then
+			this.dx = this.dx - this.air_accel * dt
+		end
             end
         elseif this.wants_right then
             this.direction = 'right'
 
             if this.jump_enabled then
                 this.is_walking = true
-                this.dx = this.dx + this.dx_accel * dt
+
+		if this.dx < this.dx_max then
+			this.dx = this.dx + this.dx_accel * dt
+		end
             else
-                this.dx = this.dx + this.air_accel * dt
+		if this.dx < this.dx_max then
+			this.dx = this.dx + this.air_accel * dt
+		end
             end
         end
 
@@ -243,10 +269,6 @@ return {
             this.dx = math.min(this.dx + decel_amt * dt, 0)
         end
 
-        -- Perform max speed clamping.
-        this.dx = math.max(this.dx, -this.dx_max)
-        this.dx = math.min(this.dx, this.dx_max)
-
         -- Apply gravity.
         this.dy = this.dy + dt * this.gravity
 
@@ -259,14 +281,23 @@ return {
 
         -- Resolve horizontal motion.
         this.x = this.x + this.dx * dt
+	this.can_walljump = false
 
         local collision, collision_rect = map.aabb_tile(this)
 
         if collision then
             if this.dx > 0 then
                 this.x = collision_rect.x - this.w
+
+		if this.wants_right and not this.jump_enabled and this.dy > 0 then
+			this.can_walljump = 'left'
+		end
             elseif this.dx < 0 then
                 this.x = collision_rect.x + collision_rect.w
+
+		if this.wants_left and not this.jump_enabled and this.dy > 0 then
+			this.can_walljump = 'right'
+		end
             else
                 log.debug('Player is in a bad place. Colliding horizontally without moving?')
                 log.debug('Player rect: %d %d %d %d (right %d, bottom %d)',
