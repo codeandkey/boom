@@ -97,6 +97,7 @@ return {
         this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
         this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
         this.spr_jump.looping = false
+        this.spr_wallslide = sprite.create(this.spriteset .. 'wallslide.png', 32, 32, 0.05)
 
         -- initial sprite
         this.spr = this.spr_idle
@@ -281,7 +282,7 @@ return {
 
         -- Resolve horizontal motion.
         this.x = this.x + this.dx * dt
-	this.can_walljump = false
+        this.can_walljump = false
 
         local collision, collision_rect = map.aabb_tile(this)
 
@@ -342,6 +343,8 @@ return {
             this.spr = this.spr_walk
         elseif this.jump_enabled then
             this.spr = this.spr_idle
+        elseif this.can_walljump then
+            this.spr = this.spr_wallslide
         else
             this.spr = this.spr_jump
         end
