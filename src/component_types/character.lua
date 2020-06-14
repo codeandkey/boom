@@ -47,7 +47,7 @@ return {
 
         -- grenade count
         this.max_nades = this.max_nades or 1
-        nades = 0
+        this.nades = 0
 
         -- base knockback from thrown nades (player only)
         this.nade_push_x = this.nade_push_x or 250
@@ -195,9 +195,10 @@ return {
             end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
-            if this.nade == nil and nades < this.max_nades then
-                nades = nades + 1
+            if this.nade == nil and this.nades < this.max_nades then
+                this.nades = this.nades + 1
                 this.nade = object_group.create_object(this.__layer, 'nade', {
+                    thrower = this.__parent,
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                 })
@@ -243,6 +244,10 @@ return {
             this.wants_down = false
             this.nade_yoffset = 0
         end
+    end,
+
+    decrement_nades = function(this)
+        this.nades = this.nades - 1
     end,
 
     update = function(this, dt)
