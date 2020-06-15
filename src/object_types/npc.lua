@@ -35,7 +35,7 @@ return {
         this.thought_timer           = 0
 
         -- Set the sprites to be used
-        this.spriteset = 'char/hero/'
+        this.spriteset = this.spriteset or 'char/hero/'
 
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
