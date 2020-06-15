@@ -95,8 +95,9 @@ return {
 
         this.spr_idle = sprite.create(this.spriteset .. 'idle.png', 32, 32, 0.25)
         this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
-        this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
-        this.spr_jump.looping = false
+	this.spr_jump_loop = sprite.create(this.spriteset .. 'jump-loop.png', 32, 32, 0.05)
+	this.spr_jump_start = sprite.create(this.spriteset .. 'jump-start.png', 32, 32, 0.05)
+        this.spr_jump_start.looping = false
         this.spr_wallslide = sprite.create(this.spriteset .. 'wallslide.png', 32, 32, 0.05)
 
         -- initial sprite
@@ -152,8 +153,9 @@ return {
                 this.squish = -4 * this.squishiness
 
                 -- Start the jump sprite from the beginning.
-                -- It will be switched to in render().
                 sprite.play(this.spr_jump)
+
+		this.spr = this.spr_jump
             end
 
 	    -- Test for walljump.
@@ -165,6 +167,7 @@ return {
 		    end
 
 		    this.dy = this.walljump_strength.y
+		    this.spr = this.spr_jump_loop
 	    end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
@@ -346,7 +349,19 @@ return {
         elseif this.can_walljump then
             this.spr = this.spr_wallslide
         else
-            this.spr = this.spr_jump
+	    -- Player is midair and not able to walljump.
+	    -- If the player jumped to get here, the sprite was already set (in inputdown).
+	    -- Otherwise, the sprite should be set to jump_loop as a default.
+
+	    if this.spr == this.spr_jump_start then
+		    -- Explicit jump, wait for jump_start to finish and then switch to loop.
+		    if not this.spr.playing then
+			    this.spr = this.spr_jump_loop
+		    end
+	    else
+		    -- Jump was not explicit, switch to loop immediately.
+		    this.spr = this.spr_jump_loop
+	    end
         end
 
         -- Apply the appropriate color.
