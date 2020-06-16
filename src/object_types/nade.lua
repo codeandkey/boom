@@ -7,17 +7,20 @@ local shaders      = require 'shaders'
 local sprite       = require 'sprite'
 
 return {
-	init = function(this)
-		-- Configuration.
-		this.radius = this.radius or 8
-		this.spin = this.spin or math.random(-100, 100)
-
-		this.flash_params = this.flash_params or {
-			{ color={ 1, 0.2, 0, 1 }, pct=0.0, delay=0.07 },  -- red
-			{ color={ 1, 0.7, 0, 1 }, pct=0.25, delay=0.15 }, -- yellow
-			{ color={ 1, 1, 1, 1 }, pct=0.5, delay=0.3 },   -- white
+	defaults = function(this)
+		return {
+			radius      = 8, -- radius for physics body
+			spin        = math.random(-100, 100), -- this is okay, as this function is called for every new nade.
+			fuse_time   = 2.5,
+			flash_params = {
+				{ color = { 1, 0.2, 0, 1 }, pct = 0, delay = 0.07 }, -- red
+				{ color = { 1, 0.7, 0, 1 }, pct = 0.25, delay = 0.15, } -- yellow
+				{ color = { 1, 1, 1, 1 }, pct = 0.5, delay = 0.3 }, -- white
+			},
 		}
+	end,
 
+	init = function(this)
 		-- Resources.
 		this.spr = sprite.create('obj/16x16_nade.png')
 
