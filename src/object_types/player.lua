@@ -10,6 +10,12 @@ local fs           = require 'fs'
 local util         = require 'util'
 
 return {
+	defaults = function()
+		return {
+			death_sequence_max = 0.25,          -- length of death sequence (in game time, will be slowed)
+		}
+	end
+
 	init = function(this)
 		-- Subscribe to input events so the character is controlled by the user.
 		object.subscribe(this, 'inputdown')
@@ -17,7 +23,6 @@ return {
 		object.subscribe(this, 'ready')
 
 		this.death_sequence = 0.0
-		this.death_sequence_max = 0.25
 
 		-- Unset any death sequence effects.
 		post.set_grayscale(0)
@@ -25,9 +30,6 @@ return {
 
 		-- Center the camera on the player initially.
 		camera.center(this.x + this.w / 2, this.y + this.h / 2)
-
-		-- use player sprites
-		this.spriteset = 'char/player/'
 
 		this.spr_key = sprite.create('16x16_blank-key.png', 16, 16, 0)
 
@@ -49,7 +51,7 @@ return {
 		object.add_component(this, 'character', {
 			x = this.x,
 			y = this.y,
-			spriteset = this.spriteset
+			spriteset = 'char/player',
 		})
 
 		object_group.create_object(this.__layer, 'dialog_sequence', {})
