@@ -6,18 +6,21 @@ local physics_groups = require 'physics_groups'
 local sprite         = require 'sprite'
 
 return {
-	init = function(this)
-		this.x = this.x or 0
-		this.y = this.y or 0
-		this.dx = this.dx or 0
-		this.dy = this.dy or 0
+        defaults = function()
+		return {
+			x = 0, -- location and velocity are included in defaults because they are REQUIRED to be present.
+			y = 0,
+			dx = 0,
+			dy = 0,
+			wait = 5, -- time to wait before destroying in seconds
+			color = {1, 1, 1, 1}, -- render color
+			flip = false, -- horizontal render flip
+		}
+	end,
 
+	init = function(this)
 		this.spr = sprite.create(this.spr_name)
 		this.w, this.h = sprite.frame_size(this.spr)
-
-		this.wait = this.wait or 5
-		this.color = this.color or {1, 1, 1, 1}
-		this.flip = this.flip or false
 
 		this.shape = love.physics.newRectangleShape(this.w, this.h)
 		this.body = love.physics.newBody(map.get_physics_world(), this.x + this.w / 2, this.y + this.h / 2, 'dynamic')
