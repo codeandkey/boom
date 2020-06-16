@@ -14,7 +14,7 @@ return {
 			fuse_time   = 2.5,
 			flash_params = {
 				{ color = { 1, 0.2, 0, 1 }, pct = 0, delay = 0.07 }, -- red
-				{ color = { 1, 0.7, 0, 1 }, pct = 0.25, delay = 0.15, } -- yellow
+				{ color = { 1, 0.7, 0, 1 }, pct = 0.25, delay = 0.15, }, -- yellow
 				{ color = { 1, 1, 1, 1 }, pct = 0.5, delay = 0.3 }, -- white
 			},
 		}
