@@ -24,22 +24,24 @@ local util         = require 'util'
 ]]--
 
 return {
+	defaults = function()
+		return {
+			-- TODO: doc comments for character defaults
+			spriteset         = 'char/player/',
+			gravity           = 350,
+			crouch_decel      = 1000,
+			passive_decel     = 600,
+			midair_decel      = 200,
+			jump_dy           = -280,
+			dx_accel          = 1600,
+			air_accel         = 800,
+			dx_max            = 150,
+			grenade_dampening = 3,
+			color             = {1, 1, 1, 1},
+		}
+	end,
+
 	init = function(this)
-		-- Configuration.
-		this.gravity           = this.gravity or 350
-		this.crouch_decel      = this.crouch_decel or 1000
-		this.passive_decel     = this.passive_decel or 600
-		this.midair_decel      = this.midair_decel or 200
-		this.jump_dy           = this.jump_dy or -280
-		this.dx_accel          = this.dx_accel or 1600
-		this.air_accel         = this.air_accel or 800
-		this.dx_max            = this.dx_max or 150
-		this.grenade_dampening = this.grenade_dampening or 3
-		this.color             = this.color or {1, 1, 1, 1}
-
-		-- set character sprites to use
-		this.spriteset = this.spriteset or 'char/player/'
-
 		-- load gib sprites
 		this.gib_head = this.spriteset .. 'head.png'
 		this.gib_body = this.spriteset .. 'body.png'
@@ -99,11 +101,11 @@ return {
 		-- State.
 		this.dx, this.dy   = 0, 0
 		this.jump_enabled  = false
-		this.is_walking	= false
-		this.direction	 = 'right'
-		this.nade		  = nil
+		this.is_walking	   = false
+		this.direction	   = 'right'
+		this.nade          = nil
 		this.throw_enabled = false
-		this.squish		= 0
+		this.squish        = 0
 		this.squishiness   = this.squishiness or 1
 		this.squishspeed   = 32 -- pixels per second
 	end,
