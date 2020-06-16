@@ -51,7 +51,7 @@ return {
 		object.add_component(this, 'character', {
 			x = this.x,
 			y = this.y,
-			spriteset = 'char/player',
+			spriteset = 'char/player/',
 		})
 
 		object_group.create_object(this.__layer, 'dialog_sequence', {})
