@@ -45,7 +45,7 @@ function object.construct(type_table, initial_state)
 		if type(defs) ~= 'table' then
 			log.warn('Invalid return type from defaults(): expected table, got %s', type(defs))
 		else
-			for k, v in defs do
+			for k, v in pairs(defs) do
 				if initial_state[k] == nil then
 					initial_state[k] = v
 				end
