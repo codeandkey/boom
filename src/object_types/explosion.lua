@@ -12,6 +12,7 @@ return {
 			object_range = 100, -- range to call 'explode' on objects
 			intensity    = 5, -- physics impulse intensity
 			num_casts    = 5, -- number of frames to explode stuff in the physics world
+		}
 	end,
 
 	init = function(this)
