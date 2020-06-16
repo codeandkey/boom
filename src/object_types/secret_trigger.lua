@@ -8,12 +8,15 @@ local object = require 'object'
 local util   = require 'util'
 
 return {
-	init = function(this)
-		-- Configuration.
-		this.target_alpha   = this.target_alpha or 0.5
-		this.fade_out_speed = this.fade_out_speed or 2
-		this.fade_in_speed  = this.fade_in_speed or 1.5
+	defaults = function()
+		return {
+			target_alpha = 0.5,
+			fade_out_speed = 2,
+			fade_in_sped = 1.5,
+		}
+	end,
 
+	init = function(this)
 		-- State.
 		this.current_alpha = 1
 
