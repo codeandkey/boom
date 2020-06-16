@@ -37,6 +37,20 @@ function object.construct(type_table, initial_state)
 	initial_state.components = {}
 	initial_state.visible = initial_state.visible or false
 
+	if type_table.defaults then
+		-- type_table.defaults MUST be a function returning a table.
+		-- this is an easy way to guarantee strictly immutable defaults
+		local defs = type_table.defaults()
+
+		if type(defs) ~= 'table' then
+			log.warn('Invalid return type from defaults(): expected table, got %s', type(defs))
+		else
+			for k, v in defs do
+				initial_state[k] = v
+			end
+		end
+	end
+
 	object.call(initial_state, 'init')
 
 	return initial_state
