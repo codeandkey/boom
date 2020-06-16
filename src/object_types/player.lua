@@ -14,7 +14,7 @@ return {
 		return {
 			death_sequence_max = 0.25,          -- length of death sequence (in game time, will be slowed)
 		}
-	end
+	end,
 
 	init = function(this)
 		-- Subscribe to input events so the character is controlled by the user.
