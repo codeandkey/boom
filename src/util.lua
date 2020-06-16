@@ -9,6 +9,8 @@ local util = {}
 -- @param b Second rectangle
 -- @return true if _a_ intersects _b_
 function util.aabb(a, b)
+	if not a or not b then return false end
+
 	if a.x + a.w <= b.x then return false end
 	if b.x + b.w <= a.x then return false end
 	if a.y + a.h <= b.y then return false end
