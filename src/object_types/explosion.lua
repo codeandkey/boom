@@ -5,14 +5,16 @@ local map	= require 'map'
 local object = require 'object'
 
 return {
-	init = function(this)
-		-- Configuration.
-		this.resolution   = this.resolution or 100
-		this.radius	   = this.radius or 100
-		this.object_range = this.object_range or 100
-		this.intensity	= this.intensity or 5
-		this.num_casts	= this.num_casts or 5 -- number of times rays sent out after init
+	defaults = function()
+		return {
+			resolution   = 100, -- number of equiangular physics rays to cast
+			radius       = 100, -- radius for physics rays
+			object_range = 100, -- range to call 'explode' on objects
+			intensity    = 5, -- physics impulse intensity
+			num_casts    = 5, -- number of frames to explode stuff in the physics world
+	end,
 
+	init = function(this)
 		-- Look for nearby objects to explode.
 		map.foreach_object(function (other_obj)
 			if other_obj.x == nil or other_obj.y == nil then
