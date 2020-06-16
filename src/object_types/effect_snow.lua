@@ -4,18 +4,21 @@ local camera = require 'camera'
 local fs     = require 'fs'
 
 return {
-	init = function(this)
-		-- Configuration.
-		this.num_particles = this.num_particles or 300
-		this.dx_min        = this.dx_min or -20
-		this.dx_max        = this.dx_max or 20
-		this.dy_min        = this.dy_min or 5
-		this.dy_max        = this.dy_max or 10
-		this.dr_min        = this.dr_min or -1
-		this.dr_max        = this.dr_max or 1
-		this.color         = this.color or {1, 1, 1, 1}
-		this.wrap_padding  = this.wrap_padding or 32
+        defaults = function()
+		return {
+			num_particles = 300,
+			dx_min        = -20,
+			dx_max        = 20,
+			dy_min        = 5,
+			dy_max        = 10,
+			dr_min        = -1,
+			dr_max        = 1,
+			color         = {1, 1, 1, 1},
+			wrap_padding  = 32,
+		}
+	end,
 
+	init = function(this)
 		-- Load snowflake sheet.
 		this.snowflake_sheet = fs.read_texture('32x32_snowflake_sheet.png')
 
