@@ -21,21 +21,22 @@ local npc = {
 }
 
 return {
+	defaults = function()
+		return {
+			name                    = 'noname',
+			spriteset               = 'char/hero/',
+			thought_timer_variation = 5, -- parameters to control movement inputs
+			thought_timer_min       = 3,
+			dx_max                  = 50, -- maximum movement speed, passed to character
+		}
+	end,
+
 	init = function(this)
 		-- Which NPC are we?
-		this.name = this.name or 'noname'
 		this.mode = npc[this.name]
 
-		-- Static movement properties
-		this.dx_max =50
-
 		-- Random movement state.
-		this.thought_timer_variation = 5
-		this.thought_timer_min       = 3
-		this.thought_timer           = 0
-
-		-- Set the sprites to be used
-		this.spriteset = 'char/hero/'
+		this.thought_timer = 0
 
 		-- Create a character component, but don't subsbcribe to input events.
 		-- We will generate our own.
