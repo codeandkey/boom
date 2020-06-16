@@ -6,17 +6,20 @@ local object = require 'object'
 local sprite = require 'sprite'
 
 return {
+	defaults = function()
+		return {
+			parallax_x = 1,                                 -- parallax horizontal factor
+			parallax_y = 1,                                 -- parallax vertical factor
+			image      = '800x600_background_sky_blue.png', -- background sprite path
+			frame_w    = 800,                               -- background sprite frame width
+			frame_h    = 600,                               -- background sprite frame height
+			duration   = 1,                                 -- background sprite frame duration
+		}
+	end,
+
 	init = function(this)
-		-- Configuration.
-		this.parallax_x = this.parallax_x or 1 -- Horizontal parallax factor
-		this.parallax_y = this.parallax_y or 1 -- Vertical parallax factor
-
-		-- (Higher parallax factors imply a greater "distance")
-
-		if this.image then
-			this.spr = sprite.create('bg/' .. this.image, this.frame_w, this.frame_h, this.duration)
-			this.spr_w, this.spr_h = sprite.frame_size(this.spr)
-		end
+		this.spr = sprite.create('bg/' .. this.image, this.frame_w, this.frame_h, this.duration)
+		this.spr_w, this.spr_h = sprite.frame_size(this.spr)
 	end,
 
 	update = function(this, dt)
