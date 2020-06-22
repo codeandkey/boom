@@ -8,7 +8,7 @@ return {
     init = function(this)
         -- Configuration.
         this.resolution   = this.resolution or 100
-        this.radius       = this.radius or 100
+        this.radius       = this.radius or 150
         this.object_range = this.object_range or 100
         this.intensity    = this.intensity or 5
         this.num_casts    = this.num_casts or 5 -- number of times rays sent out after init
@@ -22,7 +22,15 @@ return {
             local dist = math.sqrt(math.pow(other_obj.x - this.x, 2) + math.pow(other_obj.y - this.y, 2))
 
             if dist < this.object_range then
-                object.call(other_obj, 'explode', dist, (other_obj.x - this.x) / dist, (other_obj.y - this.y) / dist)
+                other_obj.w = other_obj.w or 32
+                other_obj.h = other_obj.h or 32
+                other_obj.x = other_obj.x + (other_obj.w/2)
+                other_obj.y = other_obj.y - (other_obj.h/2)
+                object.call(other_obj,
+                            'explode',
+                            dist,
+                            (other_obj.x - this.x) / dist,
+                            (other_obj.y - this.y) / dist, this.radius);
             end
         end)
 

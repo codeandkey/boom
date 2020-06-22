@@ -120,7 +120,7 @@ return {
             this.option = this.option + 1
         end
 
-        if key == 'jump' then
+        if key == 'up' then
             this.option = this.option - 1
         end
 
@@ -147,7 +147,7 @@ return {
             end
         end
 
-        if key == 'ok' then
+        if key == 'ok' or key == 'jump' then
             if this.state == this.STATE_MAIN then
                 -- Handle main menu buttons.
 

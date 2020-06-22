@@ -25,11 +25,12 @@ local util         = require 'util'
 
 return {
     init = function(this)
+
         -- Configuration.
         this.gravity           = this.gravity or 350
         this.crouch_decel      = this.crouch_decel or 1000
         this.passive_decel     = this.passive_decel or 600
-        this.midair_decel      = this.midair_decel or 200
+        this.midair_decel      = this.midair_decel or 50
         this.jump_dy           = this.jump_dy or -280
         this.dx_accel          = this.dx_accel or 1600
         this.air_accel         = this.air_accel or 800
@@ -37,10 +38,28 @@ return {
         this.grenade_dampening = this.grenade_dampening or 3
         this.color             = this.color or {1, 1, 1, 1}
 
-	this.walljump_strength = {
-		x = 350,
-		y = -150,
-	}
+	    this.walljump_strength = {
+		    x = 350,
+		    y = -150,
+	    }
+
+        -- question mark prompt
+        this.question_prompt   = false
+        this.question_y_counter  = 0
+        this.question_time     = 0.5
+        this.question_y_dist   = -20
+        this.question_alpha    = 0
+
+        -- grenade count
+        this.max_nades = this.max_nades or 1
+        this.nades = 0
+
+        -- base knockback from thrown nades (player only)
+        this.nade_push_x = this.nade_push_x or 250
+        this.nade_push_y = this.nade_push_y or 250
+
+        -- set question mark sprite
+        this.spr_question = sprite.create('16x16_qmark.png', 16, 16, 0)
 
         -- set character sprites to use
         this.spriteset = this.spriteset or 'char/player/'
@@ -113,27 +132,49 @@ return {
         this.squish        = 0
         this.squishiness   = this.squishiness or 1
         this.squishspeed   = 32 -- pixels per second
-	this.can_walljump  = false
+
+        this.can_walljump  = false
+
+        this.nade_xoffset = this.nade_xoffset or 0
+        this.nade_yoffset = this.nade_yoffset or 0
     end,
 
-    explode = function(this, _, _, _)
-        this.dead = true
+    explode = function(this, dist, xdist, ydist, radius)
+        -- if we're the player
+        -- and we're going to explode
+        -- don't die, cuz that's lame
+        -- A haiku by quigley-c
+        if this.__parent.__typename == 'player' then
 
-        local sprite_left = this.x + this.spr_offsetx
+            -- don't divide by 0 lol
+            -- this also sets a max power for a single throw by limiting distance minimum
+            if dist < 0.1 then
+                dist = 0.1
+            end
 
-        for _, v in pairs(this.gib_config) do
-            local gib = object_group.create_object(this.__layer, 'gib', {
-                spr_name = v.spr,
-                x = sprite_left + v.x,
-                y = this.y + v.y,
-                dx = this.dx,
-                dy = this.dy,
-                flip = (this.direction == 'left'),
-                color = this.color,
-            })
+            -- calculate knockback
+            -- less distance = more power
+            this.dx = this.dx + (radius / dist) + this.nade_push_x * (xdist/math.abs(xdist))
+            this.dy = this.dy + (radius / dist) + this.nade_push_y * (ydist/math.abs(ydist))
+        else
+            this.dead = true
 
-            if v.follow then
-                this.follow_gib = gib
+            local sprite_left = this.x + this.spr_offsetx
+
+            for _, v in pairs(this.gib_config) do
+                local gib = object_group.create_object(this.__layer, 'gib', {
+                    spr_name = v.spr,
+                    x = sprite_left + v.x,
+                    y = this.y + v.y,
+                    dx = this.dx,
+                    dy = this.dy,
+                    flip = (this.direction == 'left'),
+                    color = this.color,
+                })
+
+                if v.follow then
+                    this.follow_gib = gib
+                end
             end
         end
     end,
@@ -143,8 +184,13 @@ return {
             this.wants_left = true
         elseif key == 'right' then
             this.wants_right = true
-        elseif key == 'crouch' and this.jump_enabled then
-            this.wants_crouch = true
+        elseif key == 'up' then
+            this.wants_up = true
+        elseif key == 'crouch' then
+            this.wants_down = true
+            if this.jump_enabled then
+                this.wants_crouch = true
+            end
         elseif key == 'jump' then
             -- Perform a jump if we can.
             if this.jump_enabled then
@@ -171,11 +217,17 @@ return {
 	    end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
-            if this.nade == nil then
+            if this.nade == nil and this.nades < this.max_nades then
+                this.nades = this.nades + 1
                 this.nade = object_group.create_object(this.__layer, 'nade', {
+                    thrower = this.__parent,
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
                 })
+            else
+                -- display ? prmopt
+                this.question_prompt = true
+                this.question_y_counter = 0
             end
         elseif key == 'interact' then
             -- Send out interaction events.
@@ -192,21 +244,32 @@ return {
     inputup = function(this, key)
         if key == 'left' then
             this.wants_left = false
+            this.nade_xoffset = 0
         elseif key == 'right' then
             this.wants_right = false
+            this.nade_xoffset = 0
         elseif key == 'throw' then
             -- Throw a grenade if we're holding one.
             if this.nade ~= nil then
                 this.nade:throw(this.dx / this.grenade_dampening, this.dy / this.grenade_dampening)
                 this.nade = nil
             end
+        elseif key == 'up' then
+            this.wants_up = false
+            this.nade_yoffset = 0
         elseif key == 'jump' then
             if this.dy < 0 then
                 this.dy = this.dy / 2
             end
         elseif key == 'crouch' then
             this.wants_crouch = false
+            this.wants_down = false
+            this.nade_yoffset = 0
         end
+    end,
+
+    decrement_nades = function(this)
+        this.nades = this.nades - 1
     end,
 
     update = function(this, dt)
@@ -228,11 +291,15 @@ return {
         -- Update movement velocities.
         -- if both movement keys are held don't move,
         -- use air/crouch decel to stop quicker
+        -- air movement should never clamp accel or top speed
+        -- but should never apply more speed when above the max
         if this.wants_right and this.wants_left then
             decel_amt = this.crouch_decel
             this.is_walking = false
+            this.nade_xoffset = 0
         elseif this.wants_left then
             this.direction = 'left'
+            this.nade_xoffset = -10
 
             if this.jump_enabled then
                 this.is_walking = true
@@ -240,12 +307,15 @@ return {
 			this.dx = this.dx - this.dx_accel * dt
 		end
             else
-		if this.dx > -this.dx_max then
-			this.dx = this.dx - this.air_accel * dt
-		end
+                if math.abs(this.dx) <= this.dx_max then
+                    this.dx = this.dx - this.air_accel * dt
+                else
+                    this.dx = this.dx - 0 * dt
+                end
             end
         elseif this.wants_right then
             this.direction = 'right'
+            this.nade_xoffset = 10
 
             if this.jump_enabled then
                 this.is_walking = true
@@ -254,16 +324,26 @@ return {
 			this.dx = this.dx + this.dx_accel * dt
 		end
             else
-		if this.dx < this.dx_max then
-			this.dx = this.dx + this.air_accel * dt
-		end
+                if math.abs(this.dx) <= this.dx_max then
+                    this.dx = this.dx + this.air_accel * dt
+                else
+                    this.dx = this.dx + 0 * dt
+                end
             end
+        end
+
+        if this.wants_up then
+            this.nade_yoffset = -10
         end
 
         if this.wants_crouch then
             decel_amt = this.crouch_decel
         elseif not this.jump_enabled then
             decel_amt = this.midair_decel
+        end
+
+        if this.wants_down then
+            this.nade_yoffset = 10
         end
 
         -- Perform deceleration.
@@ -278,8 +358,8 @@ return {
 
         -- Update nade location if we're holding one.
         if this.nade then
-            this.nade.x = this.x + this.w / 2
-            this.nade.y = this.y + this.h / 2
+            this.nade.x = this.x + this.w / 2 + this.nade_xoffset
+            this.nade.y = this.y + this.h / 2 + this.nade_yoffset
             this.nade.dx, this.nade.dy = 0, 0
         end
 
@@ -338,6 +418,20 @@ return {
         if math.abs(this.dy) > 20 then
             this.jump_enabled = false
         end
+
+        -- question mark prompt
+        if this.question_prompt then
+            -- begin the question mark fade
+            this.question_alpha = math.min(this.question_alpha + dt, 0.8)
+
+            if this.question_y_counter > this.question_time then
+                this.question_prompt = false
+            end
+
+            this.question_y_counter = this.question_y_counter + dt
+        end
+
+
     end,
 
     render = function(this)
@@ -362,6 +456,17 @@ return {
 		    -- Jump was not explicit, switch to loop immediately.
 		    this.spr = this.spr_jump_loop
 	    end
+        end
+
+        if this.question_prompt then
+            -- question prompt width should be the size of the sprite
+            local question_width = 16
+            local question_x = this.x + this.w / 2 - question_width / 2
+            local question_y = this.y -10 + math.sin(this.question_y_counter) * this.question_y_dist
+
+            --display question prompt
+	        love.graphics.setColor(1,1,1, this.question_alpha)
+            sprite.render(this.spr_question, question_x-1, question_y-1)
         end
 
         -- Apply the appropriate color.

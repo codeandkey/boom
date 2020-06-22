@@ -42,6 +42,9 @@ return {
 
     destroy = function(this)
         -- Create an explosion. Place it in the same layer as this.
+        -- tell the origin character the nade has exploaded
+        object.call(this.thrower, 'decrement_nades')
+
         object_group.create_object(this.__layer, 'explosion', { x = this.x, y = this.y })
 
         if this.thrown then
