@@ -95,7 +95,9 @@ return {
             ["frame_w"] = 800,
             ["image"] = "800x600_background_mountain.png",
             ["offset_x"] = 300,
-            ["parallax_x"] = 1.1
+            ["offset_y"] = 50,
+            ["parallax_x"] = 1.001,
+            ["parallax_y"] = 1.001
           }
         }
       }
@@ -125,7 +127,9 @@ return {
           properties = {
             ["image"] = "800x600_background_fog2.png",
             ["parallax_x"] = 1.5,
-            ["repeat_x"] = true
+            ["parallax_y"] = 1.1,
+            ["repeat_x"] = true,
+            ["repeat_y"] = true
           }
         }
       }
@@ -155,7 +159,9 @@ return {
           properties = {
             ["image"] = "800x600_background_fog1.png",
             ["parallax_x"] = 1.3,
-            ["repeat_x"] = true
+            ["parallax_y"] = 1.1,
+            ["repeat_x"] = true,
+            ["repeat_y"] = true
           }
         }
       }
@@ -183,8 +189,10 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["image"] = "800x600_background_hills.png",
+            ["image"] = "400x300_background_hills.png",
+            ["offset_y"] = 75,
             ["parallax_x"] = 1.6,
+            ["parallax_y"] = 1.1,
             ["repeat_x"] = true
           }
         }
