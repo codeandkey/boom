@@ -114,8 +114,9 @@ return {
 
         this.spr_idle = sprite.create(this.spriteset .. 'idle.png', 32, 32, 0.25)
         this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
-	this.spr_jump_loop = sprite.create(this.spriteset .. 'jump-loop.png', 32, 32, 0.05)
-	this.spr_jump_start = sprite.create(this.spriteset .. 'jump-start.png', 32, 32, 0.05)
+	this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
+	this.spr_jump_loop = sprite.create(this.spriteset .. 'jump-loop.png', 32, 32, 0.05) or this.spr_jump
+	this.spr_jump_start = sprite.create(this.spriteset .. 'jump-start.png', 32, 32, 0.05) or this.spr_jump
         this.spr_jump_start.looping = false
         this.spr_wallslide = sprite.create(this.spriteset .. 'wallslide.png', 32, 32, 0.05)
 
