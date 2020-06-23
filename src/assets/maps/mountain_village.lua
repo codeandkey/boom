@@ -191,7 +191,7 @@ return {
           properties = {
             ["image"] = "400x300_background_hills.png",
             ["offset_y"] = 75,
-            ["parallax_x"] = 1.6,
+            ["parallax_x"] = 1.1,
             ["parallax_y"] = 1.1,
             ["repeat_x"] = true
           }

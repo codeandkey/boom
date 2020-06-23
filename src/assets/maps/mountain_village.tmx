@@ -51,7 +51,7 @@
    <properties>
     <property name="image" value="400x300_background_hills.png"/>
     <property name="offset_y" type="float" value="75"/>
-    <property name="parallax_x" type="float" value="1.6"/>
+    <property name="parallax_x" type="float" value="1.1"/>
     <property name="parallax_y" type="float" value="1.1"/>
     <property name="repeat_x" type="bool" value="true"/>
    </properties>
