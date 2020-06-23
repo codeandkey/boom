@@ -39,7 +39,7 @@ return {
         this.color             = this.color or {1, 1, 1, 1}
 
 	    this.walljump_strength = {
-		    x = 350,
+		    x = 175,
 		    y = -150,
 	    }
 
