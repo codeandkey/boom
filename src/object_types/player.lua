@@ -2,7 +2,6 @@ local log          = require 'log'
 local map          = require 'map'
 local camera       = require 'camera'
 local object       = require 'object'
-local object_group = require 'object_group'
 local opts         = require 'opts'
 local post         = require 'post'
 local sprite       = require 'sprite'
@@ -49,8 +48,6 @@ return {
         object.add_component(this, 'character', { x = this.x,
                                                   y = this.y,
                                                   spriteset = this.spriteset })
-
-        object_group.create_object(this.__layer, 'dialog_sequence', {})
     end,
 
     ready = function(this, dest)
