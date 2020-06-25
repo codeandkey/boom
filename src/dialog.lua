@@ -5,7 +5,6 @@ local hud  = require 'hud'
 local fs   = require 'fs'
 local log  = require 'log'
 local map  = require 'map'
-local util = require 'util'
 
 local dialog = {
     active = nil,
