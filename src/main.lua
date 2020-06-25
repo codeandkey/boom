@@ -7,6 +7,7 @@ local camera = require 'camera'
 local event  = require 'event'
 local input  = require 'input'
 local fs     = require 'fs'
+local hud    = require 'hud'
 local log    = require 'log'
 local map    = require 'map'
 local opts   = require 'opts'
@@ -20,6 +21,8 @@ local delta_graph_len = 128
 local delta_graph_ind = 0
 
 function love.load(arg)
+    hud.init()
+
     -- Load game. Check first: is there a saved mode? If so, apply it.
     local mode = opts.get('mode')
 
@@ -99,10 +102,12 @@ function love.update(dt)
 end
 
 function love.draw()
+    hud.start()
     post.begin_frame()
     camera.apply()
     map.render()
     camera.unapply()
+    hud.render()
     post.end_frame()
 
     if enable_debug then
