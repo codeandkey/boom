@@ -42,6 +42,11 @@ return {
         -- Set the sprites to be used
         this.spriteset = this.spriteset or 'char/hero/'
 
+        -- Make some npcs interactable.
+        if this.name == 'Merchant' or this.name == 'Old Man' then
+            this.interactable = true
+        end
+
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
         object.add_component(this, 'character',
