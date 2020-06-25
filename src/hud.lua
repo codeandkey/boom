@@ -96,6 +96,8 @@ function hud.render()
             local w, wrap = hud.font:getWrap(v.content, hud.TEXTBOX.MAX_WIDTH)
             local h = table.getn(wrap) * hud.font:getHeight()
 
+            w = math.max(w, 2 * hud.TEXTBOX.ARROW_SIZE)
+
             -- grab relevant points
             local x, y = rx - w / 2, ry - (hud.TEXTBOX.ARROW_DIST + hud.TEXTBOX.ARROW_SIZE) - h
 
