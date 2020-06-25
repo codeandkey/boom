@@ -50,4 +50,12 @@ function util.pcall(func, ...)
     return status, result
 end
 
+--- Returns a random flaot in a range.
+-- @param min Minimum value.
+-- @param max Maximum value.
+-- @return Random float between min and max.
+function util.randrange(min, max)
+    return math.random() * (max - min) + min
+end
+
 return util
