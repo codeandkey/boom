@@ -3,7 +3,6 @@
 
 local camera = require 'camera'
 local fs     = require 'fs'
-local log    = require 'log'
 
 local hud = {
     elements = {},
