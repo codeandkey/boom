@@ -2,6 +2,7 @@
 -- Renders all visual elements of an explosion and then dissappears.
 
 local object = require 'object'
+local util = require 'util'
 
 return {
     init = function(this)
@@ -28,15 +29,15 @@ return {
             local rad = math.random() * this.smoke_radius_max
 
             this.smoke_particles[i] = {
-                rotspeed = math.random() * (this.smoke_rotation_max - this.smoke_rotation_min) + this.smoke_rotation_min,
-                alpha_decay = math.random() * (this.smoke_alpha_decay_max - this.smoke_alpha_decay_min) + this.smoke_alpha_decay_min,
+                rotspeed = util.randrange(this.smoke_rotation_min, this.smoke_rotation_max),
+                alpha_decay = util.randrange(this.smoke_alpha_decay_min, this.smoke_alpha_decay_max),
                 x = this.x + math.cos(ang) * rad,
                 y = this.y + math.sin(ang) * rad,
                 ang = math.random() * 2.0 * 3.141,
-                alpha = math.random() * (this.smoke_alpha_max - this.smoke_alpha_min) + this.smoke_alpha_min,
-                dx = math.random() * (this.smoke_dx_max - this.smoke_dx_min) + this.smoke_dx_min,
-                dy = math.random() * (this.smoke_dy_max - this.smoke_dy_min) + this.smoke_dy_min,
-                size = math.random() * (this.smoke_size_max - this.smoke_size_min) + this.smoke_size_min,
+                alpha = util.randrange(this.smoke_alpha_min, this.smoke_alpha_max),
+                dx = util.randrange(this.smoke_dx_min, this.smoke_dx_max),
+                dy = util.randrange(this.smoke_dy_min, this.smoke_dy_max),
+                size = util.randrange(this.smoke_size_min, this.smoke_size_max),
             }
         end
     end,
