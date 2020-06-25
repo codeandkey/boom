@@ -92,9 +92,6 @@ return {
         for i=1,this.num_shrap_particles do
             local v = this.shrap_particles[i]
 
-            local x1 = v.x
-            local y1 = v.y
-
             local x2 = v.x + math.cos(v.ang) * v.size
             local y2 = v.y + math.sin(v.ang) * v.size
 
