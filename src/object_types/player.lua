@@ -1,7 +1,5 @@
 local log          = require 'log'
-local dialog       = require 'dialog'
 local map          = require 'map'
-local hud          = require 'hud'
 local camera       = require 'camera'
 local object       = require 'object'
 local opts         = require 'opts'
