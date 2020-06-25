@@ -234,7 +234,7 @@ return {
         elseif key == 'interact' then
             -- Send out interaction events.
             -- Use the containing object as the 'caller' and do not collide with it.
-            
+
             dialog.skip()
 
             map.foreach_object(function (other_obj)
