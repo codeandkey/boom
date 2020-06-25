@@ -161,7 +161,7 @@ return {
         -- interact prompt fade
         -- this feels.. wrong..
         map.foreach_object(function (other_obj)
-            if other_obj ~= this and other_obj.interactable == 'true' and util.aabb(char, other_obj) then
+            if other_obj ~= this and other_obj.interactable and util.aabb(char, other_obj) then
                 this.interactable = other_obj
                 this.pre_interactable = true
             end
