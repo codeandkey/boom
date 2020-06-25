@@ -4,6 +4,7 @@
 ]]--
 
 local camera = require 'camera'
+local dialog = require 'dialog'
 local event  = require 'event'
 local input  = require 'input'
 local fs     = require 'fs'
@@ -92,6 +93,7 @@ function love.update(dt)
 
     map.update(dt)
     camera.update(dt)
+    dialog.update(dt)
 
     if enable_debug then
         last_delta = dt
@@ -107,6 +109,7 @@ function love.draw()
     camera.apply()
     map.render()
     camera.unapply()
+    dialog.render()
     hud.render()
     post.end_frame()
 
