@@ -128,9 +128,11 @@ function hud.render()
             }
 
             local arrow_border_points = {
-                rx - hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.PADDING, ry - (hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.ARROW_DIST) + hud.TEXTBOX.PADDING,
+                rx - hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.PADDING,
+                ry - (hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.ARROW_DIST) + hud.TEXTBOX.PADDING,
                 rx, ry - hud.TEXTBOX.ARROW_DIST,
-                rx + hud.TEXTBOX.ARROW_SIZE - hud.TEXTBOX.PADDING, ry - (hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.ARROW_DIST) + hud.TEXTBOX.PADDING,
+                rx + hud.TEXTBOX.ARROW_SIZE - hud.TEXTBOX.PADDING,
+                ry - (hud.TEXTBOX.ARROW_SIZE + hud.TEXTBOX.ARROW_DIST) + hud.TEXTBOX.PADDING,
             }
 
             love.graphics.setColor(hud.TEXTBOX.BG_COLOR)
