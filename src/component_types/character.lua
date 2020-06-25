@@ -1,6 +1,7 @@
 --- Character component.
 
 local log          = require 'log'
+local dialog       = require 'dialog'
 local map          = require 'map'
 local object       = require 'object'
 local object_group = require 'object_group'
@@ -233,6 +234,8 @@ return {
         elseif key == 'interact' then
             -- Send out interaction events.
             -- Use the containing object as the 'caller' and do not collide with it.
+            
+            dialog.skip()
 
             map.foreach_object(function (other_obj)
                 if other_obj ~= this.__parent and util.aabb(this, other_obj) then
