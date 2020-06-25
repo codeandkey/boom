@@ -34,7 +34,6 @@ return {
                 y = this.y + math.sin(ang) * rad,
                 ang = math.random() * 2.0 * 3.141,
                 alpha = math.random() * (this.smoke_alpha_max - this.smoke_alpha_min) + this.smoke_alpha_min,
-                rotspeed = math.random() * (this.smoke_rotation_max - this.smoke_rotation_min) + this.smoke_rotation_min,
                 dx = math.random() * (this.smoke_dx_max - this.smoke_dx_min) + this.smoke_dx_min,
                 dy = math.random() * (this.smoke_dy_max - this.smoke_dy_min) + this.smoke_dy_min,
                 size = math.random() * (this.smoke_size_max - this.smoke_size_min) + this.smoke_size_min,
