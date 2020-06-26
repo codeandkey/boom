@@ -199,7 +199,7 @@ return {
                 h = 1,
             }
 
-            local collision, crect = map.aabb_tile(vbox)
+            collision, crect = map.aabb_tile(vbox)
 
             if collision then
                 if v.dy > 0 then
