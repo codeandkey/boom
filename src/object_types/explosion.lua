@@ -3,6 +3,7 @@
 local camera = require 'camera'
 local map    = require 'map'
 local object = require 'object'
+local object_group = require 'object_group'
 
 return {
     init = function(this)
@@ -33,6 +34,14 @@ return {
                             (other_obj.y - this.y) / dist, this.radius);
             end
         end)
+
+        -- Create an explosion effect.
+        object_group.create_object(this.__layer, 'effect_explosion', {
+            x = this.x,
+            y = this.y,
+            w = 1,
+            h = 1,
+        })
 
         -- Shake the camera a little.
         camera.setshake(0.2)
@@ -72,8 +81,4 @@ return {
             object.destroy(this)
         end
     end,
-
-    render = function(this)
-        love.graphics.circle('line', this.x, this.y, this.radius)
-    end
 }

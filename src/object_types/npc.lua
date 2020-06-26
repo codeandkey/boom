@@ -1,5 +1,6 @@
 --- NPC object type.
 local object = require 'object'
+local dialog = require 'dialog'
 
 -- Type-wide constants can go here
 local npc = {
@@ -24,7 +25,7 @@ return {
     init = function(this)
         -- Which NPC are we?
         this.name = this.name or 'noname'
-        this.mode = npc[this.name]
+        this.mode = npc[this.name] or {1, 1, 1, 1}
 
         -- Static movement properties
         this.dx_max =50
@@ -34,8 +35,17 @@ return {
         this.thought_timer_min       = 3
         this.thought_timer           = 0
 
+        this.speak_timer_min = 10
+        this.speak_timer_variation = 10
+        this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
+
         -- Set the sprites to be used
         this.spriteset = this.spriteset or 'char/hero/'
+
+        -- Make some npcs interactable.
+        if this.name == 'Merchant' or this.name == 'Old Man' then
+            this.interactable = true
+        end
 
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
@@ -46,8 +56,28 @@ return {
                                       spriteset = this.spriteset } )
     end,
 
+    interact = function(this)
+        if this.name == 'Merchant' then
+            dialog.run_sequence('merchant_int1', 'merchant_int2')
+        elseif this.name == 'Old Man' then
+            dialog.run_sequence('oldman_int1', 'oldman_int2')
+        end
+    end,
+
     update = function(this, dt)
         local char = this.components.character
+
+        this.speak_timer = this.speak_timer - dt
+
+        if this.speak_timer < 0 then
+            this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
+
+            if this.name == 'Merchant' then
+                dialog.run_sequence('merchant1', 'merchant2', 'merchant3')
+            elseif this.name == 'Old Man' then
+                dialog.run_sequence('oldman1', 'oldman2')
+            end
+        end
 
         this.thought_timer = this.thought_timer - dt
 
@@ -96,8 +126,6 @@ return {
             object.destroy(this)
         end
 
-        -- Mark our object position (for collision calculation)
-        this.x = char.x + char.w / 2
-        this.y = char.y + char.h / 2
+        this.x, this.y, this.w, this.h = char.x, char.y, char.w, char.h
     end
 }
