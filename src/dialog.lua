@@ -140,7 +140,9 @@ function dialog.render()
             local render_text = cur.seqobj[cur.line].text:sub(1, cur.charindex)
             local actor_obj = map.find_object(cur.seqobj[cur.line].actor)
 
-            hud.dialogbox(actor_obj, render_text)
+            if actor_obj then
+                hud.dialogbox(actor_obj, render_text)
+            end
         end
 
         cur = cur.next
