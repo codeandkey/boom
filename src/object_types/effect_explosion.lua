@@ -9,41 +9,41 @@ return {
     init = function(this)
         this.num_smoke_particles = this.num_smoke_particles or math.random(32, 80)
 
-        this.smoke_alpha_decay_min = 1.5
-        this.smoke_alpha_decay_max = 3
+        this.smoke_alpha_decay_min = 0.7
+        this.smoke_alpha_decay_max = 1
         this.smoke_alpha_min = 0.5
         this.smoke_alpha_max = 1
-        this.smoke_rotation_min = -1
-        this.smoke_rotation_max = 1
-        this.smoke_dx_min = -100
-        this.smoke_dx_max = 100
-        this.smoke_dy_min = -125
-        this.smoke_dy_max = -65
+        this.smoke_rotation_min = -1.3
+        this.smoke_rotation_max = 1.3
+        this.smoke_dx_min = -50
+        this.smoke_dx_max = 50
+        this.smoke_dy_min = -100
+        this.smoke_dy_max = -20
         this.smoke_size_min = 4
         this.smoke_size_max = 9
         this.smoke_radius_max = 32
 
-        this.num_shrap_particles = this.num_shrap_particles or math.random(32, 64)
+        this.num_shrap_particles = this.num_shrap_particles or math.random(24, 32)
 
-        this.shrap_alpha_decay_min = 2
-        this.shrap_alpha_decay_max = 4
+        this.shrap_alpha_decay_min = 4
+        this.shrap_alpha_decay_max = 6
         this.shrap_alpha_min = 0.5
         this.shrap_alpha_max = 1
         this.shrap_speed_min = 400
         this.shrap_speed_max = 800
-        this.shrap_size_min = 8
-        this.shrap_size_max = 24
-        this.shrap_width_min = 0.2
-        this.shrap_width_max = 1
-        this.shrap_radius_max = 32
+        this.shrap_size_min = 16
+        this.shrap_size_max = 48
+        this.shrap_width_min = 0.1
+        this.shrap_width_max = 0.5
+        this.shrap_radius_max = 4
 
         this.num_dirt_particles = this.num_dirt_particles or math.random(32, 64)
 
-        this.dirt_alpha_decay_min = 0.3
-        this.dirt_alpha_decay_max = 0.5
+        this.dirt_alpha_decay_min = 0.15
+        this.dirt_alpha_decay_max = 0.3
         this.dirt_rotation_min = -4
         this.dirt_rotation_max = 4
-        this.dirt_alpha_min = 0.5
+        this.dirt_alpha_min = 0.75
         this.dirt_alpha_max = 1
         this.dirt_dx_min = 0 -- can be negated if facing left
         this.dirt_dx_max = 200
@@ -136,11 +136,16 @@ return {
             local x2 = v.x + math.cos(v.ang) * v.size
             local y2 = v.y + math.sin(v.ang) * v.size
 
+            local left = math.min(v.x, x2)
+            local right = math.max(v.x, x2)
+            local top = math.min(v.y, y2)
+            local bottom = math.max(v.y, y2)
+
             if map.aabb_tile({
-                x = x2,
-                y = y2,
-                w = 1,
-                h = 1,
+                x = left,
+                y = top,
+                w = (right - left),
+                h = (bottom - top),
             }) then
                 v.alpha = 0
             end
@@ -234,7 +239,7 @@ return {
             local v = this.smoke_particles[i]
 
             love.graphics.push()
-            love.graphics.setColor({1, 1, 1, v.alpha})
+            love.graphics.setColor({v.alpha / 2, v.alpha / 2, v.alpha / 2, v.alpha})
             love.graphics.translate(v.x, v.y)
             love.graphics.rotate(v.ang)
             love.graphics.rectangle('fill', - v.size / 2, - v.size / 2, v.size, v.size)
@@ -253,11 +258,13 @@ return {
             love.graphics.line({x1, y1, x2, y2})
         end
 
+        love.graphics.setBlendMode('alpha')
+
         for i=1,this.num_dirt_particles do
             local v = this.dirt_particles[i]
 
             love.graphics.push()
-            love.graphics.setColor({v.alpha, v.alpha, v.alpha, v.alpha})
+            love.graphics.setColor({v.alpha / 3.5, v.alpha / 3.5, v.alpha / 3.5, v.alpha})
             love.graphics.translate(v.x, v.y)
             love.graphics.rotate(v.ang)
             love.graphics.rectangle('fill', - v.size / 2, - v.size / 2, v.size, v.size)
