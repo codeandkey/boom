@@ -239,7 +239,7 @@ return {
             local v = this.smoke_particles[i]
 
             love.graphics.push()
-            love.graphics.setColor({v.alpha / 2, v.alpha / 2, v.alpha / 2, v.alpha})
+            love.graphics.setColor({v.alpha, v.alpha, v.alpha, v.alpha})
             love.graphics.translate(v.x, v.y)
             love.graphics.rotate(v.ang)
             love.graphics.rectangle('fill', - v.size / 2, - v.size / 2, v.size, v.size)
