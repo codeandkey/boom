@@ -145,6 +145,20 @@ function camera.set_panic_point(x, y)
     camera.panic_x, camera.panic_y = x, y
 end
 
+--- Convert world coordinates to window coordinates.
+-- @param x Input world x.
+-- @param y Input world y.
+-- @returns x, y in window pixel coordinates.
+function camera.to_screenspace(x, y, w, h)
+    local bounds = camera.get_bounds()
+    local sx, sy = love.graphics.getDimensions()
+
+    h = h or 0
+    w = w or 0
+
+    return ((x - bounds.x) / bounds.w) * sx, ((y - bounds.y) / bounds.h) * sy, (w / bounds.w) * sx, (h / bounds.h) * sy
+end
+
 -- Animate the camera towards the focus point.
 -- @param dt Update time (seconds).
 function camera.update(dt)

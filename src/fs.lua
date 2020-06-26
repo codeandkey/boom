@@ -9,6 +9,7 @@ local fs = {
         maps = 'src/assets/maps/',
         sprites = 'assets/sprites/',
         fonts = 'assets/fonts/',
+        sequences = 'src/assets/sequences/',
     }
 }
 
@@ -26,6 +27,21 @@ function fs.read_map(name)
         return result
     else
         log.error("Couldn't load map %s!", name)
+    end
+end
+
+--- Read a sequence from the disk.
+-- Attempts to load _name_.lua from the map prefix (assets/sequences).
+-- @param name Sequence name to load.
+-- @return The sequence table, or nil if an error occurs.
+function fs.read_sequence(name)
+    local path = fs.prefixes.sequences .. name .. '.lua'
+    local status, result = pcall(function() return dofile(path) end)
+
+    if status then
+        return result
+    else
+        log.error("Couldn't load sequence %s!", path)
     end
 end
 
