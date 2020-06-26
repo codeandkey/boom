@@ -15,7 +15,6 @@ return {
     {
       name = "4096x4096_mountain_village",
       firstgid = 1,
-      filename = "../sprites/4096x4096_mountain_village.tsx",
       tilewidth = 16,
       tileheight = 16,
       spacing = 0,
