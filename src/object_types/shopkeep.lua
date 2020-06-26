@@ -43,7 +43,7 @@ return {
 
     end,
 
-    update = function(this, dt)
+    update = function(this)
         local char = this.components.character
         -- The shopkeep should never move, die, or collide with the player and his grenades.
         -- We use the character component for dialog and to change the direction we're facing.
