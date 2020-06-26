@@ -1,4 +1,5 @@
 --- NPC object type.
+local map = require 'map'
 local object = require 'object'
 
 -- Type-wide constants can go here
@@ -22,6 +23,10 @@ local npc = {
 
 return {
     init = function(this)
+
+        this.dx_max = 0
+        this.interactable = 'true'
+
         -- Which NPC are we?
         this.name = this.name or 'shopkeep'
         this.mode = npc[this.name]
@@ -41,10 +46,19 @@ return {
     update = function(this, dt)
         local char = this.components.character
         -- The shopkeep should never move, die, or collide with the player and his grenades.
-        -- We use the character component for dialog, which doesn't exist yet,
-        -- and to change the direction we're facing.
+        -- We use the character component for dialog and to change the direction we're facing.
 
-
+        map.foreach_object(function (other_obj)
+            if other_obj.name == 'player' then
+                if other_obj.x < this.x then
+                    object.call(char, 'inputdown', 'left')
+                    object.call(char, 'inputup', 'right')
+                else
+                    object.call(char, 'inputdown', 'right')
+                    object.call(char, 'inputup', 'left')
+                end
+            end
+        end)
 
     end
 }
