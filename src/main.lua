@@ -67,6 +67,11 @@ function love.resize()
 end
 
 function love.keypressed(key)
+    -- Enter debug
+    if key == '`' then
+        debug.debug()
+    end
+
     -- Translate key to the bound input (if there is one).
     local inp = input.translate(key)
 

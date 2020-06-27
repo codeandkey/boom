@@ -22,8 +22,8 @@ return {
         this.gravity    = this.gravity or 357.8
         this.fade_speed = 3
         this.idle_wait  = 3
-        this.smashspeed = 200
-        this.throwspeed = 100
+        this.smashspeed = 500
+        this.throwspeed = 120
         this.rope_length = 120
         this.trail_len = 7
         this.angle = 0
@@ -50,8 +50,8 @@ return {
             self.alpha = 1
             self.in_smash = true
             self.in_trail = true
-            self.dx = self.dx + vx * self.smashspeed
-            self.dy = self.dy + vy * self.smashspeed
+            self.dx = self.dx / 5 + vx * self.smashspeed
+            self.dy = self.dy / 5 + vy * self.smashspeed
         end
 
         -- State
@@ -106,7 +106,7 @@ return {
 
             if this.dx > 0 then
                 this.x = cbox.x - this.w - 1
-            else
+            elseif this.dx < 0 then
                 this.x = cbox.x + cbox.w + 1
             end
 
@@ -116,14 +116,14 @@ return {
         end
 
         -- Run vertical collision
-        local hbox = {
+        local vbox = {
             x = this.x,
             y = this.y + dt * this.dy,
             w = this.w,
             h = this.h,
         }
 
-        local col, cbox = map.aabb_tile(hbox)
+        local col, cbox = map.aabb_tile(vbox)
 
         if col then
             this.angle = 0
@@ -133,9 +133,9 @@ return {
             this.dx = this.friction * this.dx
 
             if this.dy > 0 then
-                this.y = cbox.y - this.h - 1
-            else
-                this.y = cbox.y + cbox.h + 1
+                this.y = cbox.y - this.h
+            elseif this.dy < 0 then
+                this.y = cbox.y + cbox.h
             end
 
             this.dy = 0

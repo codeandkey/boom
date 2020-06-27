@@ -248,7 +248,7 @@ return {
             dialog.skip()
 
             local vx = 0
-            local vy = -0.7
+            local vy = -1.2
 
             if this.wants_right then
                 vx = vx + 1
@@ -259,11 +259,9 @@ return {
             end
 
             if this.wants_up then
-                vy = vy - 1
-            end
-
-            if this.wants_down then
-                vy = vy + 1
+                vy = vy - 0.5
+            elseif this.wants_down then
+                vy = 1
             end
 
             if this.flail then
