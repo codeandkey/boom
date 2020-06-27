@@ -22,8 +22,8 @@ return {
         this.gravity    = this.gravity or 357.8
         this.fade_speed = 3
         this.idle_wait  = 3
-        this.smashspeed = 340
-        this.throwspeed = 200
+        this.smashspeed = 200
+        this.throwspeed = 100
         this.rope_length = 120
         this.trail_len = 7
         this.angle = 0
