@@ -30,6 +30,7 @@ return {
         this.friction = 0.7
         this.vx = this.vx or 0
         this.vy = this.vy or 1
+        this.rope_strength = 0.2
 
         -- seconds to stand still after smashing something
         this.postsmash_wait = this.postsmash_wait or 0.5
@@ -123,7 +124,7 @@ return {
             h = this.h,
         }
 
-        local col, cbox = map.aabb_tile(vbox)
+        col, cbox = map.aabb_tile(vbox)
 
         if col then
             log.debug('colliding y, this LRTB (%f %f %f %f), cbox LRTB (%f %f %f %f), dy %f', this.x, this.x + this.w, this.y, this.y + this.h, cbox.x, cbox.x + cbox.w, cbox.y, cbox.y + cbox.h, this.dy)
@@ -165,8 +166,23 @@ return {
         end
         ]]--
 
+
         local center = object.center(this)
         local thrower_center = object.center(this.thrower)
+
+        local dist = math.sqrt(math.pow(center.x - thrower_center.x, 2) + math.pow(center.y - thrower_center.y, 2))
+        local ang = math.atan2(center.y - thrower_center.y, center.x - thrower_center.x)
+
+        log.debug('dist = %f, ang = %f', dist, ang)
+
+        if dist > this.rope_length then
+            local targetx, targety = math.cos(ang) * this.rope_length + thrower_center.x, math.sin(ang) * this.rope_length + thrower_center.y
+
+            this.dx = this.dx + (targetx - center.x) * this.rope_strength
+            this.dy = this.dy + (targety - center.y) * this.rope_strength
+        end
+
+        --[[
 
         -- No circular clamping for y. Just use linear bounds
         if this.y + this.h / 2 >= thrower_center.y + this.rope_length then
@@ -183,7 +199,7 @@ return {
         elseif this.x + this.w / 2 <= thrower_center.x - this.rope_length then
             this.x = thrower_center.x - this.rope_length - this.w / 2
             this.dx = 0
-        end
+        end]]--
 
         --[[center = object.center(this)
         thrower_center = object.center(this.thrower)
