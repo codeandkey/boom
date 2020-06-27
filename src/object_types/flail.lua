@@ -105,9 +105,9 @@ return {
             this.dy = this.friction * this.dy
 
             if this.dx > 0 then
-                this.x = cbox.x - this.w - 1
+                this.x = cbox.x - this.w
             elseif this.dx < 0 then
-                this.x = cbox.x + cbox.w + 1
+                this.x = cbox.x + cbox.w
             end
 
             this.dx = 0
@@ -126,6 +126,7 @@ return {
         local col, cbox = map.aabb_tile(vbox)
 
         if col then
+            log.debug('colliding y, this LRTB (%f %f %f %f), cbox LRTB (%f %f %f %f), dy %f', this.x, this.x + this.w, this.y, this.y + this.h, cbox.x, cbox.x + cbox.w, cbox.y, cbox.y + cbox.h, this.dy)
             this.angle = 0
             this.rotation = 0
             did_collide = true
@@ -264,14 +265,14 @@ return {
         end
         ]]--
 
-        local tx, ty = this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2
-        local x, y = this.x, this.y
+        local source = object.center(this.thrower)
+        local dest = object.center(this)
 
         local d = 4
-        local ang = math.atan2(ty - y, tx - x)
+        local ang = math.atan2(source.y - dest.y, source.x - dest.x)
 
-        local cx, cy = x, y
-        local dist = math.sqrt(math.pow(x - tx, 2) + math.pow(y - ty, 2))
+        local cx, cy = dest.x, dest.y
+        local dist = math.sqrt(math.pow(source.x - dest.x, 2) + math.pow(source.y - dest.y, 2))
         local num = dist / d
 
         for i=1,num do
