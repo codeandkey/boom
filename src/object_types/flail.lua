@@ -5,6 +5,8 @@ local map    = require 'map'
 local sprite = require 'sprite'
 local camera = require 'camera'
 local physics_groups = require 'physics_groups'
+local util = require 'util'
+local object_group = require 'object_group'
 
 return {
     init = function(this)
@@ -127,8 +129,10 @@ return {
 
     update = function(this, dt)
         this.idle_wait = this.idle_wait - dt
-
         this.tether_body:setPosition(this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2)
+
+        this.x, this.y = this.body:getPosition()
+        this.angle = this.body:getAngle()
 
         if this.in_smash then
             table.insert(this.trail, 1, {
@@ -153,10 +157,20 @@ return {
         if did_collide then
             if this.in_smash then
                 if not this.did_bcast then
-                    -- TODO: broadcast smash event to notify interactable objects
                     this.did_bcast = true
                     this.in_trail = false
                     this.postsmash_timer = this.postsmash_wait
+
+                    object_group.create_object(this.__layer, 'explosion', {
+                        x = this.x,
+                        y = this.y
+                    })
+
+                    --[[map.foreach_object(function (other_obj)
+                        if other_obj ~= this and other_obj.__typename ~= 'player' and util.aabb(other_obj, this) then
+                            object.call(other_obj, 'explode', 100, (other_obj.x - this.x) / 30, (other_obj.y - this.y) / 30, 30)
+                        end
+                    end)]]--
 
                     camera.setshake(0.1)
                 end
@@ -188,9 +202,6 @@ return {
                 end
             end
         end
-
-        this.x, this.y = this.body:getPosition()
-        this.angle = this.body:getAngle()
     end,
 
     render = function(this)
