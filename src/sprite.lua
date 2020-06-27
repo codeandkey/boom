@@ -24,6 +24,11 @@ function sprite.create(tex_path, frame_w, frame_h, duration)
 
     -- load the spritesheet texture
     out.image = fs.read_texture(tex_path)
+
+    if not out.image then
+        return nil
+    end
+
     out.image_w, out.image_h = out.image:getDimensions()
 
     -- fill the sprite if no frame width

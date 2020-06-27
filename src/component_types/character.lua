@@ -115,9 +115,9 @@ return {
 
         this.spr_idle = sprite.create(this.spriteset .. 'idle.png', 32, 32, 0.25)
         this.spr_walk = sprite.create(this.spriteset .. 'walk.png', 32, 32, 0.1)
-	this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
-	this.spr_jump_loop = sprite.create(this.spriteset .. 'jump-loop.png', 32, 32, 0.05) or this.spr_jump
-	this.spr_jump_start = sprite.create(this.spriteset .. 'jump-start.png', 32, 32, 0.05) or this.spr_jump
+        this.spr_jump = sprite.create(this.spriteset .. 'jump.png', 32, 32, 0.05)
+        this.spr_jump_loop = sprite.create(this.spriteset .. 'jump-loop.png', 32, 32, 0.05) or this.spr_jump
+        this.spr_jump_start = sprite.create(this.spriteset .. 'jump-start.png', 32, 32, 0.05) or this.spr_jump
         this.spr_jump_start.looping = false
         this.spr_wallslide = sprite.create(this.spriteset .. 'wallslide.png', 32, 32, 0.05)
 
@@ -139,6 +139,10 @@ return {
 
         this.nade_xoffset = this.nade_xoffset or 0
         this.nade_yoffset = this.nade_yoffset or 0
+
+        this.expire_flail = function(self)
+            self.flail = nil
+        end
     end,
 
     explode = function(this, dist, xdist, ydist, radius)
@@ -188,6 +192,15 @@ return {
             this.wants_right = true
         elseif key == 'up' then
             this.wants_up = true
+
+            -- Send out interaction events.
+            -- Use the containing object as the 'caller' and do not collide with it.
+
+            map.foreach_object(function (other_obj)
+                if other_obj ~= this.__parent and util.aabb(this, other_obj) then
+                    object.call(other_obj, 'interact', this.__parent)
+                end
+            end)
         elseif key == 'crouch' then
             this.wants_down = true
             if this.jump_enabled then
@@ -203,20 +216,20 @@ return {
                 -- Start the jump sprite from the beginning.
                 sprite.play(this.spr_jump)
 
-		this.spr = this.spr_jump
+                this.spr = this.spr_jump
             end
 
-	    -- Test for walljump.
-	    if this.can_walljump then
-		    if this.can_walljump == 'left' then
-			    this.dx = -this.walljump_strength.x
-		    else
-			    this.dx = this.walljump_strength.x
-		    end
+            -- Test for walljump.
+            if this.can_walljump then
+                if this.can_walljump == 'left' then
+                    this.dx = -this.walljump_strength.x
+                else
+                    this.dx = this.walljump_strength.x
+                end
 
-		    this.dy = this.walljump_strength.y
-		    this.spr = this.spr_jump_loop
-	    end
+                this.dy = this.walljump_strength.y
+                this.spr = this.spr_jump_loop
+            end
         elseif key == 'throw' then
             -- Start to throw a nade if we can.
             if this.nade == nil and this.nades < this.max_nades then
@@ -232,16 +245,51 @@ return {
                 this.question_y_counter = 0
             end
         elseif key == 'interact' then
-            -- Send out interaction events.
-            -- Use the containing object as the 'caller' and do not collide with it.
-
             dialog.skip()
 
-            map.foreach_object(function (other_obj)
-                if other_obj ~= this.__parent and util.aabb(this, other_obj) then
-                    object.call(other_obj, 'interact', this.__parent)
+            if this.flail then
+                -- Smash a current flail
+
+                local vx = 0
+                local vy = 0
+
+                if this.wants_right then
+                    vx = vx + 1
                 end
-            end)
+
+                if this.wants_left then
+                    vx = vx - 1
+                end
+
+                if this.wants_down then
+                    vy = vy + 1
+                end
+
+                -- default to down
+                if vx == 0 and vy == 0 then
+                    vy = 1
+                end
+
+                this.flail:smash(vx, vy)
+            else
+                local flail_dx = this.dx / 4
+
+                if this.wants_right then
+                    flail_dx = flail_dx + 10
+                end
+
+                if this.wants_left then
+                    flail_dx = flail_dx - 10
+                end
+
+                this.flail = object_group.create_object(this.__layer, 'flail', {
+                    thrower = this,
+                    x = this.x + this.w / 2,
+                    y = this.y + this.h / 2,
+                    dx = flail_dx,
+                    dy = -30,
+                })
+            end
         end
     end,
 
@@ -434,8 +482,6 @@ return {
 
             this.question_y_counter = this.question_y_counter + dt
         end
-
-
     end,
 
     render = function(this)

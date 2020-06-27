@@ -1,6 +1,7 @@
 --- Tile layer structure.
 
 local tile_layer = {}
+local physics_groups = require 'physics_groups'
 
 --- Initialize a tile layer.
 -- Prepares a tile layer for rendering and collisions.
@@ -43,6 +44,8 @@ function tile_layer.init(tiled_obj, tilesets_obj, physics_world)
                                                       x * tw + (tw / 2),
                                                       y * th + (th / 2), 'static')
                     local fixture = love.physics.newFixture(body, tileshape)
+
+                    fixture:setGroupIndex(physics_groups.WORLD)
 
                     table.insert(tiled_obj.bodies, body)
                     table.insert(tiled_obj.fixtures, fixture)
