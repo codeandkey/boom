@@ -247,47 +247,34 @@ return {
         elseif key == 'interact' then
             dialog.skip()
 
+            local vx = 0
+            local vy = -0.7
+
+            if this.wants_right then
+                vx = vx + 1
+            end
+
+            if this.wants_left then
+                vx = vx - 1
+            end
+
+            if this.wants_up then
+                vy = vy - 1
+            end
+
+            if this.wants_down then
+                vy = vy + 1
+            end
+
             if this.flail then
-                -- Smash a current flail
-
-                local vx = 0
-                local vy = 0
-
-                if this.wants_right then
-                    vx = vx + 1
-                end
-
-                if this.wants_left then
-                    vx = vx - 1
-                end
-
-                if this.wants_down then
-                    vy = vy + 1
-                end
-
-                -- default to down
-                if vx == 0 and vy == 0 then
-                    vy = 1
-                end
-
                 this.flail:smash(vx, vy)
             else
-                local flail_dx = this.dx / 4
-
-                if this.wants_right then
-                    flail_dx = flail_dx + 10
-                end
-
-                if this.wants_left then
-                    flail_dx = flail_dx - 10
-                end
-
                 this.flail = object_group.create_object(this.__layer, 'flail', {
                     thrower = this,
                     x = this.x + this.w / 2,
                     y = this.y + this.h / 2,
-                    dx = flail_dx,
-                    dy = -30,
+                    vx = vx,
+                    vy = vy,
                 })
             end
         end

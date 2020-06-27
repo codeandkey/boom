@@ -141,4 +141,14 @@ function object.del_component(obj, type_name)
     end
 end
 
+--- Gets the center coordinates of an object rectangle.
+-- @param obj Object to query. Must have xywh.
+-- @return center x, center y
+function object.center(obj)
+    return {
+        x = obj.x + obj.w / 2,
+        y = obj.y + obj.h / 2,
+    }
+end
+
 return object

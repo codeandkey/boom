@@ -7,6 +7,7 @@ local camera = require 'camera'
 local physics_groups = require 'physics_groups'
 local util = require 'util'
 local object_group = require 'object_group'
+local log = require 'log'
 
 return {
     init = function(this)
@@ -18,14 +19,17 @@ return {
 
         -- Configuration
         this.damage     = this.damage or 45
-        this.dx         = this.dx or 0
-        this.dy         = this.dy or 0
-        this.gravity    = this.gravity or 156.8
+        this.gravity    = this.gravity or 357.8
         this.fade_speed = 3
         this.idle_wait  = 3
-        this.smashspeed = 140
-        this.rope_length = 75
+        this.smashspeed = 340
+        this.throwspeed = 200
+        this.rope_length = 120
         this.trail_len = 7
+        this.angle = 0
+        this.friction = 0.7
+        this.vx = this.vx or 0
+        this.vy = this.vy or 1
 
         -- seconds to stand still after smashing something
         this.postsmash_wait = this.postsmash_wait or 0.5
@@ -37,54 +41,6 @@ return {
         this.w = 16
         this.h = 16
 
-        -- Physics elements
-        this.shape = love.physics.newRectangleShape(this.w, this.h)
-        this.body = love.physics.newBody(map.get_physics_world(), this.x, this.y, 'dynamic')
-        this.fixture = love.physics.newFixture(this.body, this.shape, 1)
-
-        this.body:applyLinearImpulse(this.dx, this.dy)
-        this.fixture:setFriction(0.9)
-        this.fixture:setGroupIndex(physics_groups.FLAIL)
-        this.fixture:setMask(-physics_groups.FLAIL_CHAIN)
-
-        -- Create a tether
-        this.tether_shape = love.physics.newRectangleShape(1, 1)
-        this.tether_body = love.physics.newBody(map.get_physics_world(), this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2, 'kinematic')
-        this.tether_fixture = love.physics.newFixture(this.tether_body, this.tether_shape, 1)
-        this.tether_fixture:setGroupIndex(physics_groups.FLAIL_CHAIN)
-
-        -- Link flail to tether
-        this.rope_joint = love.physics.newRopeJoint(this.body, this.tether_body, this.x, this.y, this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2, this.rope_length, false)
-
-        -- Create rope links
-        --[[
-        this.num_ropelinks = math.floor(this.rope_length / 4)
-        this.ropelinks = {}
-
-        this.ropelink_shape = love.physics.newRectangleShape(6, 3)
-        this.ropelink_joints = {}
-
-        for i=1,this.num_ropelinks do
-            this.ropelinks[i] = {}
-            this.ropelinks[i].body = love.physics.newBody(map.get_physics_world(), this.x, this.y, 'dynamic')
-            this.ropelinks[i].fixture = love.physics.newFixture(this.ropelinks[i].body, this.ropelink_shape, 1)
-            this.ropelinks[i].fixture:setGroupIndex(physics_groups.FLAIL_CHAIN)
-            this.ropelinks[i].fixture:setMask(physics_groups.FLAIL)
-
-            if i > 1 then
-                table.insert(this.ropelink_joints, love.physics.newRopeJoint(this.ropelinks[i].body, this.ropelinks[i - 1].body, this.x + 2, this.y, this.x - 2, this.y, 1, false))
-            end
-
-            if i == 1 then
-                table.insert(this.ropelink_joints, love.physics.newRopeJoint(this.ropelinks[i].body, this.tether_body, this.x + 3, this.y, this.x, this.y, 0, false))
-            end
-
-            if i == this.num_ropelinks then
-                table.insert(this.ropelink_joints, love.physics.newRopeJoint(this.ropelinks[i].body, this.body, this.x + 2, this.y, this.x, this.y, 1, false))
-            end
-        end
-        ]]--
-
         -- Manipulation
         this.smash = function(self, vx, vy)
             if self.in_smash then
@@ -94,7 +50,8 @@ return {
             self.alpha = 1
             self.in_smash = true
             self.in_trail = true
-            self.body:applyLinearImpulse(vx * self.smashspeed, vy * self.smashspeed)
+            self.dx = self.dx + vx * self.smashspeed
+            self.dy = self.dy + vy * self.smashspeed
         end
 
         -- State
@@ -104,41 +61,25 @@ return {
         this.postsmash_timer = 0
         this.alpha = 1
         this.trail = {}
+        this.rotation = (math.random() - 0.5) * 2.0
+        this.dx = this.vx * this.throwspeed + this.thrower.dx
+        this.dy = this.vy * this.throwspeed + this.thrower.dy
     end,
 
     destroy = function(this)
-        --[[
-        for i=1,this.num_ropelinks do
-            this.ropelink_joints[i]:destroy()
-            this.ropelinks[i].fixture:destroy()
-            this.ropelinks[i].body:destroy()
-        end
-
-        this.ropelink_shape:destroy()
-        ]]--
-
-        this.rope_joint:destroy()
-        this.tether_fixture:destroy()
-        this.tether_shape:release()
-        this.tether_body:destroy()
-        this.fixture:destroy()
-        this.body:destroy()
-        this.shape:release()
         this.thrower:expire_flail()
     end,
 
     update = function(this, dt)
         this.idle_wait = this.idle_wait - dt
-        this.tether_body:setPosition(this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2)
-
-        this.x, this.y = this.body:getPosition()
-        this.angle = this.body:getAngle()
+        this.angle = this.angle + this.rotation * dt
+        this.dy = this.dy + this.gravity * dt
 
         if this.in_smash then
             table.insert(this.trail, 1, {
-                x = this.body:getX(),
-                y = this.body:getY(),
-                angle = this.body:getAngle(),
+                x = this.x,
+                y = this.y,
+                angle = this.angle,
             })
 
             this.trail[this.trail_len + 1] = nil
@@ -146,12 +87,119 @@ return {
 
         local did_collide = false
 
-        for _, v in ipairs(this.body:getContacts()) do
-            local first, second = v:getFixtures()
-            if first:getGroupIndex() == physics_groups.WORLD or second:getGroupIndex() == physics_groups.WORLD then
-                did_collide = true
+        -- Run horizontal collision
+        local hbox = {
+            x = this.x + dt * this.dx,
+            y = this.y,
+            w = this.w,
+            h = this.h,
+        }
+
+        local col, cbox = map.aabb_tile(hbox)
+
+        if col then
+            this.angle = 0
+            this.rotation = 0
+            did_collide = true
+
+            this.dy = this.friction * this.dy
+
+            if this.dx > 0 then
+                this.x = cbox.x - this.w - 1
+            else
+                this.x = cbox.x + cbox.w + 1
+            end
+
+            this.dx = 0
+        else
+            this.x = this.x + dt * this.dx
+        end
+
+        -- Run vertical collision
+        local hbox = {
+            x = this.x,
+            y = this.y + dt * this.dy,
+            w = this.w,
+            h = this.h,
+        }
+
+        local col, cbox = map.aabb_tile(hbox)
+
+        if col then
+            this.angle = 0
+            this.rotation = 0
+            did_collide = true
+
+            this.dx = this.friction * this.dx
+
+            if this.dy > 0 then
+                this.y = cbox.y - this.h - 1
+            else
+                this.y = cbox.y + cbox.h + 1
+            end
+
+            this.dy = 0
+        else
+            this.y = this.y + dt * this.dy
+        end
+
+        --[[
+        -- Clamp position to maintain rope, this could cause UB if the player reeeally tries
+        local center = object.center(this)
+        local thrower_center = object.center(this.thrower)
+
+        local clamp_angle = math.atan2(center.y - thrower_center.y, center.x - thrower_center.x)
+        local clamp_x = math.cos(clamp_angle) * this.rope_length + thrower_center.x
+
+        if center.x < thrower_center.x then
+            if center.x + dt * this.dx <= clamp_x then
+                this.dx = 0
+                this.x = clamp_x
+            end
+        elseif center.x > thrower_center.x then
+            if center.x + dt * this.dx >= clamp_x then
+                this.dx = 0
+                this.x = clamp_x
             end
         end
+        ]]--
+
+        local center = object.center(this)
+        local thrower_center = object.center(this.thrower)
+
+        -- No circular clamping for y. Just use linear bounds
+        if this.y + this.h / 2 >= thrower_center.y + this.rope_length then
+            this.y = thrower_center.y + this.rope_length - this.h / 2
+            this.dy = 0
+        elseif this.y + this.h / 2 <= thrower_center.y - this.rope_length then
+            this.y = thrower_center.y - this.rope_length - this.h / 2
+            this.dy = 0
+        end
+
+        if this.x + this.w / 2 >= thrower_center.x + this.rope_length then
+            this.x = thrower_center.x + this.rope_length - this.w / 2
+            this.dx = 0
+        elseif this.x + this.w / 2 <= thrower_center.x - this.rope_length then
+            this.x = thrower_center.x - this.rope_length - this.w / 2
+            this.dx = 0
+        end
+
+        --[[center = object.center(this)
+        thrower_center = object.center(this.thrower)
+        clamp_angle = math.atan2(center.y - thrower_center.y, center.x - thrower_center.x)
+        local clamp_y = math.sin(clamp_angle) * this.rope_length + thrower_center.y
+
+        if center.y < thrower_center.y then
+            if center.y + dt * this.dy <= clamp_y then
+                this.dy = 0
+                this.y = clamp_y
+            end
+        elseif center.y > thrower_center.y then
+            if center.y + dt * this.dy >= clamp_y then
+                this.dy = 0
+                this.y = clamp_y
+            end
+        end]]--
 
         -- If in a smash and collided, broadcast the event and start the timer
         if did_collide then
@@ -216,8 +264,8 @@ return {
         end
         ]]--
 
-        local tx, ty = this.tether_body:getPosition()
-        local x, y = this.body:getPosition()
+        local tx, ty = this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2
+        local x, y = this.x, this.y
 
         local d = 4
         local ang = math.atan2(ty - y, tx - x)
@@ -237,13 +285,13 @@ return {
                 -- render trail
                 for n, v in ipairs(this.trail) do
                     love.graphics.setColor(1, 1, 1, 1 / n)
-                    sprite.render(this.spr_smash, v.x - this.w / 2, v.y - this.h / 2, v.angle)
+                    sprite.render(this.spr_smash, v.x, v.y, v.angle)
                 end
             end
 
-            sprite.render(this.spr_smash, this.x - this.w / 2, this.y - this.h / 2, this.angle)
+            sprite.render(this.spr_smash, this.x, this.y, this.angle)
         else
-            sprite.render(this.spr, this.x - this.w / 2, this.y - this.h / 2, this.angle)
+            sprite.render(this.spr, this.x, this.y, this.angle)
         end
     end,
 }
