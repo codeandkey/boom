@@ -21,15 +21,16 @@ return {
         this.gravity    = this.gravity or 156.8
         this.fade_speed = 3
         this.idle_wait  = 3
-        this.smashspeed = 100
-        this.alpha      = 1
+        this.smashspeed = 140
         this.rope_length = 75
+        this.trail_len = 7
 
         -- seconds to stand still after smashing something
         this.postsmash_wait = this.postsmash_wait or 0.5
 
         -- Resources
         this.spr = sprite.create('obj/16x16_flail.png', 16, 16, 0)
+        this.spr_smash = sprite.create('obj/16x16_flail_smash.png', 16, 16, 0)
         this.spr_link = sprite.create('obj/6x3_flail_link.png', 6, 3, 0)
         this.w = 16
         this.h = 16
@@ -90,14 +91,17 @@ return {
 
             self.alpha = 1
             self.in_smash = true
+            self.in_trail = true
             self.body:applyLinearImpulse(vx * self.smashspeed, vy * self.smashspeed)
         end
 
         -- State
         this.in_smash = false
+        this.in_trail = false
         this.did_bcast = false
         this.postsmash_timer = 0
         this.alpha = 1
+        this.trail = {}
     end,
 
     destroy = function(this)
@@ -125,7 +129,16 @@ return {
         this.idle_wait = this.idle_wait - dt
 
         this.tether_body:setPosition(this.thrower.x + this.thrower.w / 2, this.thrower.y + this.thrower.h / 2)
-        --this.ropelinks[this.num_ropelinks].body:setPosition(this.body:getPosition())
+
+        if this.in_smash then
+            table.insert(this.trail, 1, {
+                x = this.body:getX(),
+                y = this.body:getY(),
+                angle = this.body:getAngle(),
+            })
+
+            this.trail[this.trail_len + 1] = nil
+        end
 
         local did_collide = false
 
@@ -142,6 +155,7 @@ return {
                 if not this.did_bcast then
                     -- TODO: broadcast smash event to notify interactable objects
                     this.did_bcast = true
+                    this.in_trail = false
                     this.postsmash_timer = this.postsmash_wait
 
                     camera.setshake(0.1)
@@ -207,6 +221,18 @@ return {
             cy = cy + d * math.sin(ang)
         end
 
-        sprite.render(this.spr, this.x - this.w / 2, this.y - this.h / 2, this.angle)
+        if this.in_smash then
+            if this.in_trail then
+                -- render trail
+                for n, v in ipairs(this.trail) do
+                    love.graphics.setColor(1, 1, 1, 1 / n)
+                    sprite.render(this.spr_smash, v.x - this.w / 2, v.y - this.h / 2, v.angle)
+                end
+            end
+
+            sprite.render(this.spr_smash, this.x - this.w / 2, this.y - this.h / 2, this.angle)
+        else
+            sprite.render(this.spr, this.x - this.w / 2, this.y - this.h / 2, this.angle)
+        end
     end,
 }
