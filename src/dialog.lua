@@ -14,16 +14,14 @@ local dialog = {
 
 --- Selects a dialog sequence to run and then executes it.
 -- @param ... One or more dialog sequence names. One is selected randomly.
-function dialog.run_sequence(...)
+function dialog.run_sequence(seqname)
     if #arg == 0 then
         log.warn('dialog.run_sequence() called without any arguments, skipping..')
         return
     end
 
-    local seq = select(math.random(select('#', ...)), ...)
-
     -- Try and load the sequence.
-    local seqobj = fs.read_sequence(seq)
+    local seqobj = fs.read_sequence(seqname)
 
     if seqobj == nil then
         return
@@ -43,11 +41,11 @@ function dialog.run_sequence(...)
             cur = cur.next
         end
 
-        log.debug('Starting sequence %s.', seq)
+        log.debug('Starting sequence %s.', seqname)
 
         local entry = {
             seqobj = seqobj,
-            seqname = seq,
+            seqname = seqname,
             line = 1,
             charindex = 1,
             state = 'typing',

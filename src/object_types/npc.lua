@@ -57,6 +57,9 @@ return {
     end,
 
     interact = function(this)
+
+        dialog.run_sequence(this.name .. '_int')
+
         if this.name == 'Merchant' then
             dialog.run_sequence('merchant_int1', 'merchant_int2')
         elseif this.name == 'Old Man' then
@@ -72,12 +75,7 @@ return {
         if this.speak_timer < 0 then
             this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
 
-            if this.name == 'Merchant' then
-                dialog.run_sequence('merchant1', 'merchant2', 'merchant3')
-            elseif this.name == 'Old Man' then
-                dialog.run_sequence('oldman1', 'oldman2')
-            end
-        end
+            dialog.run_sequence(this.name)
 
         this.thought_timer = this.thought_timer - dt
 
@@ -88,7 +86,7 @@ return {
                 -- Move somewhere. What direction?
                 if math.random(0, 1) == 0 then
                     -- Go left!
-                    object.call(char, 'inputdown', 'left')
+                   object.call(char, 'inputdown', 'left')
                     object.call(char, 'inputup', 'right')
                 else
                     -- Go other left!
@@ -127,5 +125,6 @@ return {
         end
 
         this.x, this.y, this.w, this.h = char.x, char.y, char.w, char.h
+    end
     end
 }
