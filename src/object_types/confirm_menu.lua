@@ -1,22 +1,26 @@
---- Main menu object type.
+--- Options menu confirm dialog.
 
 local camera  = require 'camera'
 local fs      = require 'fs'
 local hud     = require 'hud'
 local map     = require 'map'
 local object  = require 'object'
-local object_group  = require 'object_group'
+local object_group = require 'object_group'
 local save    = require 'save'
 local util    = require 'util'
+local options = require 'options'
+local event   = require 'event'
 
 return {
     init = function(this)
         -- Set state.
         this.current_button = 1
         this.button_spacing = 100
-        this.button_width = 400
+        this.button_width = 640
         this.font_size = 24
         this.font = fs.read_font('pixeled.ttf', this.font_size)
+
+        this.timer = 6
 
         this.selected_scale = 1
         this.selected_scale_speed = 2
@@ -27,52 +31,26 @@ return {
 
         this.buttons = {}
 
-        -- Add start game button. This is either a new game or continue game.
-
-        local startgame_button_text = 'START GAME'
-
-        if save.loaded() then
-            startgame_button_text = 'CONTINUE GAME'
-        end
-
         table.insert(this.buttons, {
-            text = startgame_button_text,
-            action = function()
-                map.request(save.get('map'), save.get('spawn'))
-            end,
-            scale = 1,
-        })
-
-        -- Add a new game button as well if there is an existing save.
-
-        if save.loaded() then
-            table.insert(this.buttons, {
-                text = 'NEW GAME',
-                action = function()
-                    save.newgame()
-                    map.request(save.get('map'), save.get('spawn'))
-                end,
-                scale = 1,
-            })
-        end
-
-        -- Add options button.
-
-        table.insert(this.buttons, {
-            text = 'SETTINGS',
+            text = 'KEEP CHANGES',
             action = function(self)
+                -- Write the new options values and save.
+                options.values = self.new_values
+                options.write()
                 object_group.create_object(self.__layer, 'options_menu', {})
                 object.destroy(self)
             end,
             scale = 1,
         })
 
-        -- Add a quit button.
-
         table.insert(this.buttons, {
-            text = 'QUIT GAME',
-            action = function()
-                love.event.quit()
+            text = 'REVERT CHANGES',
+            action = function(self)
+                -- Apply the previous mode and then return.
+                love.window.setMode(options.values.width, options.values.height, options.values.flags)
+                event.push('fbsize', options.values.width, options.values.height)
+                object_group.create_object(self.__layer, 'options_menu', {})
+                object.destroy(self)
             end,
             scale = 1,
         })
@@ -96,13 +74,24 @@ return {
             return true
         end
 
-        if key == 'ok' or key == 'jump' then
+        if (key == 'ok' or key == 'jump') and this.timer < 5.5 then
             util.pcall(this.buttons[this.current_button].action, this)
             return true
         end
     end,
 
     update = function(this, dt)
+        this.timer = this.timer - dt
+
+        if this.timer < 0 then
+            util.pcall(this.buttons[2].action, this)
+        end
+
+        this.buttons[2].text = string.format(
+            'DISCARD CHANGES (%d)',
+            math.floor(this.timer)
+        )
+
         -- Update button scales.
         for i, v in ipairs(this.buttons) do
             if i == this.current_button then
