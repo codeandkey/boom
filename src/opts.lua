@@ -59,7 +59,11 @@ function opts.serialize(v)
     if type(v) == 'table' then
         local out = '{ '
         for k, nv in pairs(v) do
-            out = out .. '["' .. k .. '"] = ' .. opts.serialize(nv) .. ','
+            if type(k) == 'string' then
+                k = '"' .. k .. '"'
+            end
+
+            out = out .. '[' .. k .. '] = ' .. opts.serialize(nv) .. ','
         end
         return out .. ' }'
     elseif type(v) == 'string' then
