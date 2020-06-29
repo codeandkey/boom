@@ -44,7 +44,7 @@ function util.pcall(func, ...)
     local status, result = pcall(func, ...)
 
     if not status then
-        log.debug('pcall() failed: %s', result)
+        log.warn('pcall() failed: %s', result)
     end
 
     return status, result
@@ -56,6 +56,48 @@ end
 -- @return Random float between min and max.
 function util.randrange(min, max)
     return math.random() * (max - min) + min
+end
+
+--- Tries to execute a file and return the result.
+-- @param path Path of file to execute, relative to top-level directory.
+-- @return status, result
+function util.execfile(path)
+    return util.pcall(function() return dofile(path) end)
+end
+
+--- Serializes a table object into a string.
+-- @param input Input table. Should only contain strings, numbers, or tables.
+-- @return Serialized string output.
+function util.serialize(v)    
+    if type(v) == 'table' then    
+        local out = '{ '    
+        for k, nv in pairs(v) do    
+            out = out .. '["' .. k .. '"] = ' .. util.serialize(nv) .. ','    
+        end    
+        return out .. ' }'    
+    elseif type(v) == 'string' then    
+        return '"' .. v .. '"'    
+    elseif type(v) == 'number' or type(v) == 'boolean' then    
+        return tostring(v)    
+    end    
+end
+
+--- Serializes a table object into a lua file.
+-- @param input Input table. Should only contain strings, numbers, or tables.
+-- @param path Output file path
+-- @return true if successful, false otherwise
+function util.serialize_to_file(v, path)
+    local status, ofile = pcall(io.open, path, 'w')
+
+    if not status then
+        log.error("Failed to write to %s: %s", path, ofile)
+        return false
+    end
+
+    ofile:write('return ' .. util.serialize(v))
+    ofile:close()
+
+    return true
 end
 
 return util

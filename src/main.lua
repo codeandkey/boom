@@ -3,16 +3,16 @@
     entry point and mainloop
 ]]--
 
-local camera = require 'camera'
-local dialog = require 'dialog'
-local event  = require 'event'
-local input  = require 'input'
-local fs     = require 'fs'
-local hud    = require 'hud'
-local log    = require 'log'
-local map    = require 'map'
-local opts   = require 'opts'
-local post   = require 'post'
+local camera  = require 'camera'
+local dialog  = require 'dialog'
+local event   = require 'event'
+local input   = require 'input'
+local fs      = require 'fs'
+local hud     = require 'hud'
+local log     = require 'log'
+local map     = require 'map'
+local options = require 'options'
+local post    = require 'post'
 
 local enable_debug    = false
 local debug_font      = nil
@@ -24,21 +24,11 @@ local delta_graph_ind = 0
 function love.load(arg)
     hud.init()
 
-    -- Load game. Check first: is there a saved mode? If so, apply it.
-    local mode = opts.get('mode')
-
-    if mode then
-        log.debug('Applying saved video mode..')
-        love.window.setMode(mode.width, mode.height, mode.flags)
-    else
-        -- Choose the nicest looking default mode.
-        love.window.setFullscreen(false)
+    -- Initialize options and video mode.
+    if not options.load() then
+        log.error('Could not load a valid video mode. Exiting..')
+        love.event.quit(1)
     end
-
-    -- Send a resize event to set up anything dependent on fb size.
-    local w, h, _ = love.window.getMode()
-    log.debug('Pushing fbsize event: %d, %d', w, h)
-    event.push('fbsize', w, h)
 
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
