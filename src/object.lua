@@ -90,7 +90,7 @@ end
 -- @param ... Arguments to pass to handler.
 -- @return The value returned from the handler, or nil if not implemented.
 function object.call(obj, name, ...)
-    local status, ret = false, nil
+    local status, ret
 
     for _, v in pairs(obj.components) do
         status, ret = util.pcall(v.__type[name], v, ...)
