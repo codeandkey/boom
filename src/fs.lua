@@ -42,7 +42,7 @@ function fs.read_sequence(name)
         -- Pick a random sequence from the possibilities.
         return result[math.random(#result)]
     else
-        log.error("Couldn't load sequence %s!", path)
+        log.warn("Couldn't load sequence %s!", path)
     end
 end
 
