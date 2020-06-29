@@ -7,7 +7,6 @@ local map     = require 'map'
 local object  = require 'object'
 local save    = require 'save'
 local util    = require 'util'
-local log = require 'log'
 
 return {
     init = function(this)
