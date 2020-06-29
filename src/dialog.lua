@@ -4,6 +4,7 @@
 local hud  = require 'hud'
 local fs   = require 'fs'
 local map  = require 'map'
+local log  = require 'log'
 
 local dialog = {
     active = nil,
