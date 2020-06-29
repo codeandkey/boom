@@ -68,18 +68,18 @@ end
 --- Serializes a table object into a string.
 -- @param input Input table. Should only contain strings, numbers, or tables.
 -- @return Serialized string output.
-function util.serialize(v)    
-    if type(v) == 'table' then    
-        local out = '{ '    
-        for k, nv in pairs(v) do    
-            out = out .. '["' .. k .. '"] = ' .. util.serialize(nv) .. ','    
-        end    
-        return out .. ' }'    
-    elseif type(v) == 'string' then    
-        return '"' .. v .. '"'    
-    elseif type(v) == 'number' or type(v) == 'boolean' then    
-        return tostring(v)    
-    end    
+function util.serialize(v)
+    if type(v) == 'table' then
+        local out = '{ '
+        for k, nv in pairs(v) do
+            out = out .. '["' .. k .. '"] = ' .. util.serialize(nv) .. ','
+        end
+        return out .. ' }'
+    elseif type(v) == 'string' then
+        return '"' .. v .. '"'
+    elseif type(v) == 'number' or type(v) == 'boolean' then
+        return tostring(v)
+    end
 end
 
 --- Serializes a table object into a lua file.
