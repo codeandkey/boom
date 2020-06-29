@@ -8,6 +8,7 @@ local tilesets = require 'tilesets'
 local object_group = require 'object_group'
 local tile_layer = require 'tile_layer'
 local util       = require 'util'
+local post       = require 'post'
 
 local map = {
     default_gravity = 9.8 * 16,
@@ -189,10 +190,7 @@ function map.render()
     end
 
     -- Render transition fade overlay.
-    local cb = camera.get_bounds()
-
-    love.graphics.setColor(0, 0, 0, map.fade_alpha)
-    love.graphics.rectangle('fill', cb.x, cb.y, cb.w, cb.h)
+    post.set_fade(map.fade_alpha)
 end
 
 --- Find a layer by name.

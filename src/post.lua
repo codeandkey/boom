@@ -8,6 +8,7 @@ local post = {
     ready = false,
     effects = {
         grayscale = 0,
+        fade = 0,
     },
 }
 
@@ -42,12 +43,22 @@ function post.end_frame()
 
     -- Re-enable alpha blending for game drawing.
     love.graphics.setBlendMode('alpha')
+
+    -- Render fade overlay.
+    love.graphics.setColor(0, 0, 0, post.effects.fade)
+    love.graphics.rectangle('fill', 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 end
 
 --- Set grayscale effect intensity
 -- @param amt Effect intensity. 1 is total grayscale, 0 disables the effect.
 function post.set_grayscale(amt)
     post.effects.grayscale = amt
+end
+
+--- Set fade effect alpha.
+-- @param amt Fade alpha. 1 is total black, 0 is invisible.
+function post.set_fade(amt)
+    post.effects.fade = amt
 end
 
 --- Apply grayscale effect in pipeline.
