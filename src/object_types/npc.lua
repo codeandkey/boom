@@ -42,10 +42,7 @@ return {
         -- Set the sprites to be used
         this.spriteset = this.spriteset or 'char/hero/'
 
-        -- Make some npcs interactable.
-        if this.name == 'Merchant' or this.name == 'Old Man' then
-            this.interactable = true
-        end
+        this.interactable = true
 
         -- Create a character component, but don't subsbcribe to input events.
         -- We will generate our own.
@@ -60,11 +57,6 @@ return {
 
         dialog.run_sequence(this.name .. '_int')
 
-        if this.name == 'Merchant' then
-            dialog.run_sequence('merchant_int1', 'merchant_int2')
-        elseif this.name == 'Old Man' then
-            dialog.run_sequence('oldman_int1', 'oldman_int2')
-        end
     end,
 
     update = function(this, dt)

@@ -1,6 +1,6 @@
 return {
 
-    merch1 = {
+    {
         {
             actor = 'merchant',
             text  = 'BEST WEAPONS IN THE VALE!',
@@ -11,17 +11,36 @@ return {
         },
     },
 
-    merch2 = {
+    {
         {
             actor = 'merchant',
-            text  = 'COME BACK WITH MORE COINS!',
+            text  = 'GOT COINS?',
+        },
+
+        {
+            actor = 'merchant',
+            text  = 'WE TAKE THOSE!',
         },
     },
 
-    merch3 = {
+    {
         {
             actor = 'merchant',
             text  = 'HEY YOU! YOU LOOK LIKE YOU COULD USE SOME MORE FIREPOWER.',
+        },
+    },
+
+    {
+        {
+            actor = 'merchant',
+            text  = 'ALL YOU CAN EAT.',
+        },
+    },
+
+    {
+        {
+            actor = 'merchant',
+            text  = 'COME ON IN!',
         },
     },
 }

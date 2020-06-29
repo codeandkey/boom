@@ -1,15 +1,15 @@
 return {
-    interact1 = {
+    {
         {
-            actor = 'Merchant',
-            text  = 'WHAT IS IT?',
+            actor = 'merchant',
+            text  = 'I\'M NOT THE SHOPKEEP, HEAD INSIDE.',
         },
     },
 
-    interact2 = {
+    {
         {
-            actor = 'Merchant',
-            text  = 'I\'M BUSY RIGHT NOW.',
+            actor = 'merchant',
+            text  = 'THE DOOR\'S RIGHT OVER THERE.',
         },
     },
 }

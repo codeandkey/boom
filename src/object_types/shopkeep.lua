@@ -1,5 +1,6 @@
 --- NPC object type.
 local map = require 'map'
+local dialog = require 'dialog'
 local object = require 'object'
 
 -- Type-wide constants can go here
@@ -31,6 +32,10 @@ return {
         this.name = this.name or 'shopkeep'
         this.mode = npc[this.name]
 
+        this.speak_timer_min = 10
+        this.speak_timer_variation = 10
+        this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
+
         -- Set the sprites to be used
         this.spriteset = this.spriteset or 'char/shopkeep/'
 
@@ -43,10 +48,18 @@ return {
 
     end,
 
-    update = function(this)
+    update = function(this, dt)
         local char = this.components.character
         -- The shopkeep should never move, die, or collide with the player and his grenades.
-        -- We use the character component for dialog and to change the direction we're facing.
+        -- We use the character component change the direction we're facing.
+
+        this.speak_timer = this.speak_timer - dt
+
+        if this.speak_timer < 0 then
+            this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
+
+            dialog.run_sequence(this.name)
+        end
 
         map.foreach_object(function (other_obj)
             if other_obj.name == 'player' then
