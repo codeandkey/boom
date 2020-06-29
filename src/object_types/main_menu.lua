@@ -1,6 +1,5 @@
 --- Main menu object type.
 
-local camera  = require 'camera'
 local fs      = require 'fs'
 local hud     = require 'hud'
 local map     = require 'map'
