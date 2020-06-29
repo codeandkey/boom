@@ -120,8 +120,7 @@ return {
             camera.setescale(this.death_sequence * 2)
 
             if this.death_sequence >= this.death_sequence_max then
-                local loc = opts.get('save_location')
-                map.request(loc.map_name, loc.spawn_name)
+                map.request(save.get('map'), save.get('spawn'))
             end
 
             post.set_grayscale(math.min(this.death_sequence / this.death_sequence_max, 1.0))
