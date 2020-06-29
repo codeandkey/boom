@@ -76,6 +76,7 @@ return {
             this.speak_timer = math.random(0, this.speak_timer_variation) + this.speak_timer_min
 
             dialog.run_sequence(this.name)
+        end
 
         this.thought_timer = this.thought_timer - dt
 
@@ -125,6 +126,5 @@ return {
         end
 
         this.x, this.y, this.w, this.h = char.x, char.y, char.w, char.h
-    end
     end
 }
