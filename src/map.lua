@@ -1,6 +1,5 @@
 --- Subsystem for managing Tiled-based worlds.
 
-local camera = require 'camera'
 local log = require 'log'
 local event = require 'event'
 local fs = require 'fs'
