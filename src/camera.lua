@@ -15,6 +15,7 @@ local camera = {
     panic_x = 0,
     panic_y = 0,
     max_game_width = 640, -- maximum camera width in game coordinates
+    focus_follow_enabled = true,
 
     focus_box = {
         left = 0.3,
@@ -162,6 +163,10 @@ end
 -- Animate the camera towards the focus point.
 -- @param dt Update time (seconds).
 function camera.update(dt)
+    if not camera.focus_follow_enabled then
+        return
+    end
+
     local sw, sh = love.graphics.getDimensions()
 
     -- Get camera dimensions in world space.
@@ -295,6 +300,13 @@ function camera.render_debug()
     love.graphics.line(cam_bounds.left, pbox_world.bottom, cam_bounds.right, pbox_world.bottom)
     love.graphics.line(pbox_world.left, cam_bounds.top, pbox_world.left, cam_bounds.bottom)
     love.graphics.line(pbox_world.right, cam_bounds.top, pbox_world.right, cam_bounds.bottom)
+end
+
+--- Enables or disables focus box motion.
+-- When this is disabled, the camera must be manually updated.
+-- @param enabled Boolean flag to enable.
+function camera.set_focus_follow_enabled(enabled)
+    camera.focus_follow_enabled = enabled
 end
 
 -- Global event handler for camera resizing.

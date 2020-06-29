@@ -21,6 +21,7 @@ return {
         -- Unset any death sequence effects.
         post.set_grayscale(0)
         camera.setescale(0)
+        camera.set_focus_follow_enabled(true)
 
         -- Center the camera on the player initially.
         camera.center(this.x + this.w / 2, this.y + this.h / 2)
