@@ -115,7 +115,7 @@ return {
         local total_height = this.button_spacing * (#this.buttons - 1) + this.font_size * #this.buttons
         local cur_y = cy - total_height / 2
 
-        for i, v in ipairs(this.buttons) do
+        for _, v in ipairs(this.buttons) do
             hud.textbox(
                 cx - this.button_width / 2,
                 cur_y,
