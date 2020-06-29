@@ -127,6 +127,10 @@ function tile_layer.aabb(layer, rect)
     local top = math.floor((rect.y - layer.offsety) / layer.tileheight)
     local bottom = math.ceil((rect.y + rect.h - layer.offsety) / layer.tileheight) - 1
 
+    if left < 0 or right >= layer.width or top < 0 or bottom >= layer.height then
+        return false
+    end
+
     -- Check the tile data within the integer bounds for any nonzero TIDs
     for x=left,right do
         for y=top,bottom do
