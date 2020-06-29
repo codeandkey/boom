@@ -19,6 +19,7 @@ local event = {
 --- Subscribe to an event.
 -- Makes a new subscription to 'event_name' events.
 -- 'callback' is called on event evaluation, with <userdata> as the first arguments
+-- The callback can consume the event early by returning true.
 -- More arguments may be passed to the callback depending on the event.
 -- The returned object is the subscription. Call :destroy() on the subscription object to unsubscribe from the event.
 --
@@ -90,10 +91,17 @@ function event.next()
         for k, v in pairs(sublist) do
             if v.valid then
                 -- valid subscription, make the call
+                local status, result = false, nil
+
                 if v.userdata then
-                    util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
+                    status, result = util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
                 else
-                    util.pcall(v.callback, unpack(current.args))
+                    status, result = util.pcall(v.callback, unpack(current.args))
+                end
+
+                -- "consume" the event, preventing other objects from receiving it.
+                if status and (result == true) then
+                    break
                 end
             else
                 -- subscription no longer valid, destroy it

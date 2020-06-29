@@ -49,7 +49,7 @@ end
 function object.subscribe(obj, event_name)
     if obj.__subscriptions[event_name] == nil then
         obj.__subscriptions[event_name] = event.subscribe(event_name, function (_obj, ...)
-            object.call(_obj, event_name, ...)
+            return object.call(_obj, event_name, ...)
         end, obj)
     else
         log.warn('Ignoring multiple subscription to %s from object of type %s!', event_name, obj.__typename)
@@ -90,11 +90,17 @@ end
 -- @param ... Arguments to pass to handler.
 -- @return The value returned from the handler, or nil if not implemented.
 function object.call(obj, name, ...)
+    local status, ret = false, nil
+
     for _, v in pairs(obj.components) do
-        util.pcall(v.__type[name], v, ...)
+        status, ret = util.pcall(v.__type[name], v, ...)
+
+        if status and (ret == true) then
+            return ret
+        end
     end
 
-    local status, ret = util.pcall(obj.__type[name], obj, ...)
+    status, ret = util.pcall(obj.__type[name], obj, ...)
 
     if status then
         return ret
