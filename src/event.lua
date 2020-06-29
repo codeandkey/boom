@@ -91,10 +91,14 @@ function event.next()
         for k, v in pairs(sublist) do
             if v.valid then
                 -- valid subscription, make the call
-                local status, result = false, nil
+                local status, result
 
                 if v.userdata then
-                    status, result = util.pcall(v.callback, unpack(v.userdata, v.userdata.n), unpack(current.args, current.args.n))
+                    status, result = util.pcall(
+                        v.callback,
+                        unpack(v.userdata, v.userdata.n),
+                        unpack(current.args, current.args.n)
+                    )
                 else
                     status, result = util.pcall(v.callback, unpack(current.args))
                 end
