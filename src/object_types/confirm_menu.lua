@@ -1,12 +1,9 @@
 --- Options menu confirm dialog.
 
-local camera  = require 'camera'
 local fs      = require 'fs'
 local hud     = require 'hud'
-local map     = require 'map'
 local object  = require 'object'
 local object_group = require 'object_group'
-local save    = require 'save'
 local util    = require 'util'
 local options = require 'options'
 local event   = require 'event'
