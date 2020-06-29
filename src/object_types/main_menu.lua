@@ -112,7 +112,18 @@ return {
                 cur_scale = this.selected_scale
             end
 
-            hud.textbox(cx - this.button_width / 2, cur_y, this.button_width, nil, v.text, 'center', 'screen', this.font, cur_scale)
+            hud.textbox(
+                cx - this.button_width / 2,
+                cur_y,
+                this.button_width,
+                nil,
+                v.text,
+                'center',
+                'screen',
+                this.font,
+                cur_scale
+            )
+
             cur_y = cur_y + this.font_size + this.button_spacing
         end
     end,
