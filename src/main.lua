@@ -13,6 +13,7 @@ local log     = require 'log'
 local map     = require 'map'
 local options = require 'options'
 local post    = require 'post'
+local save    = require 'save'
 
 local enable_debug    = false
 local debug_font      = nil
@@ -27,6 +28,12 @@ function love.load(arg)
     -- Initialize options and video mode.
     if not options.load() then
         log.error('Could not load a valid video mode. Exiting..')
+        love.event.quit(1)
+    end
+
+    -- Load save game.
+    if not save.load() then
+        log.error('Error occurred initializing saves. Exiting..')
         love.event.quit(1)
     end
 

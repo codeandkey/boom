@@ -1,6 +1,7 @@
 --- Save game control.
 
 local util  = require 'util'
+local log   = require 'log'
 
 local save = {
     PATH = 'profile.lua',
@@ -10,10 +11,11 @@ local save = {
 -- If a save cannot be loaded, a new save is created.
 -- @return true on success, false otherwise
 function save.load()
-    local status, result = util.execfile(options.PATH)
+    local status, result = util.execfile(save.PATH)
 
     if status then
         save.values = result
+        save.was_loaded = true
         log.info('Loaded save game from %s.', save.PATH)
         return true
     else
@@ -28,8 +30,10 @@ function save.newgame()
 
     save.values = {
         map = 'intro',
-        spawn = 'intro_1',
+        spawn = 'intro_0',
     }
+
+    save.was_loaded = false
 
     return save.write()
 end
@@ -39,7 +43,10 @@ end
 function save.write()
     if util.serialize_to_file(save.values, save.PATH) then
         log.info('Wrote save game to %s.', save.PATH)
+        return true
     end
+
+    return false
 end
 
 --- Sets a save value and writes the save state.
@@ -56,6 +63,12 @@ end
 -- @return Value associated with key, or nil if not set.
 function save.get(k)
     return save.values[k]
+end
+
+--- Returns true if a save game was loaded from the disk.
+-- @return true if save loaded, false otherwise.
+function save.loaded()
+    return save.was_loaded
 end
 
 return save

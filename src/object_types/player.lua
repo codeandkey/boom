@@ -2,8 +2,8 @@ local log          = require 'log'
 local map          = require 'map'
 local camera       = require 'camera'
 local object       = require 'object'
-local opts         = require 'opts'
 local post         = require 'post'
+local save         = require 'save'
 local sprite       = require 'sprite'
 local fs     = require 'fs'
 local util   = require 'util'
@@ -65,12 +65,8 @@ return {
                 this.components.character.y = dest_obj.y + dest_obj.h - this.h
 
                 -- Valid destination; write the save file.
-                opts.set('save_location', {
-                    map_name = map.get_current_name(),
-                    spawn_name = dest,
-                })
-
-                opts.save()
+                save.set('map', map.get_current_name())
+                save.set('spawn', dest)
             else
                 log.debug('Invalid destination %s!', dest)
             end

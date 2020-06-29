@@ -28,16 +28,18 @@ function hud.start()
     hud.elements = {}
 end
 
-function hud.textbox(x, y, w, h, content, align, coordmode)
+function hud.textbox(x, y, w, h, content, align, coordmode, font, scale)
     table.insert(hud.elements, {
         type = 'textbox',
         x = x or 0,
         y = y or 0,
-        w = w or 256,
-        h = h or 64,
+        w = w or (font or hud.font):getWidth(content),
+        h = h or (font or hud.font):getHeight(),
         content = content or '',
-        align = align or true,
+        align = align or 'center',
         coordmode = coordmode or 'world',
+        font = font or hud.font,
+        scale = scale or 1,
     })
 end
 
@@ -59,12 +61,16 @@ function hud.render()
                 v.x, v.y, v.w, v.h = camera.to_screenspace(v.x, v.y, v.w, v.h)
             end
 
+            love.graphics.push()
+            love.graphics.translate(v.x + v.w / 2, v.y + v.h / 2)
+            love.graphics.scale(v.scale)
+
             -- backdrop
             love.graphics.setColor(hud.TEXTBOX.BG_COLOR)
             love.graphics.rectangle(
                 'fill',
-                v.x - hud.TEXTBOX.PADDING,
-                v.y - hud.TEXTBOX.PADDING,
+                -v.w / 2 - hud.TEXTBOX.PADDING,
+                -v.h / 2 - hud.TEXTBOX.PADDING,
                 v.w + 2 * hud.TEXTBOX.PADDING,
                 v.h + 2 * hud.TEXTBOX.PADDING
             )
@@ -74,15 +80,17 @@ function hud.render()
             love.graphics.setLineWidth(hud.TEXTBOX.BORDER_WIDTH)
             love.graphics.rectangle(
                 'line',
-                v.x - hud.TEXTBOX.PADDING,
-                v.y - hud.TEXTBOX.PADDING,
+                -v.w / 2 - hud.TEXTBOX.PADDING,
+                -v.h / 2 - hud.TEXTBOX.PADDING,
                 v.w + 2 * hud.TEXTBOX.PADDING,
                 v.h + 2 * hud.TEXTBOX.PADDING
             )
 
             -- content
             love.graphics.setColor(hud.TEXTBOX.TEXT_COLOR)
-            love.graphics.printf(v.content, hud.font, v.x, v.y, v.w, v.align)
+            love.graphics.printf(v.content, v.font, -v.w / 2, -v.h / 2, v.w, v.align)
+
+            love.graphics.pop()
         end
 
         if v.type == 'dialogbox' then
