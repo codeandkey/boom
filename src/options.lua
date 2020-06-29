@@ -68,7 +68,7 @@ function options.modestring()
     return string.format('%d by %d, fullscreen %s, vsync %s, msaa %d',
         options.values.width,
         options.values.height,
-        tostring(options.values.flags.fullscreen), 
+        tostring(options.values.flags.fullscreen),
         options.values.flags.vsync,
         options.values.flags.msaa
     )
