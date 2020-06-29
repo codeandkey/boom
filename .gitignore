@@ -1,2 +1,3 @@
 options.lua
+profile.lua
 src/assets/maps/*.lua
