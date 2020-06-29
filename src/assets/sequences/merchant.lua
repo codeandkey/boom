@@ -1,4 +1,4 @@
-possibilities = {
+return {
 
     merch1 = {
         {
@@ -25,6 +25,3 @@ possibilities = {
         },
     },
 }
-
-return select(math.random(select('#', possibilities)), possibilities)
-

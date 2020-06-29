@@ -39,7 +39,8 @@ function fs.read_sequence(name)
     local status, result = pcall(function() return dofile(path) end)
 
     if status then
-        return result
+        -- Pick a random sequence from the possibilities.
+        return result[math.random(#result)]
     else
         log.error("Couldn't load sequence %s!", path)
     end

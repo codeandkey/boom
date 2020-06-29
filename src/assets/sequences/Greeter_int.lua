@@ -1,14 +1,14 @@
 return {
-    interact1 = {
+    {
         {
-            actor = 'Merchant',
+            actor = 'Greeter',
             text  = 'WHAT IS IT?',
         },
     },
 
-    interact2 = {
+    {
         {
-            actor = 'Merchant',
+            actor = 'Greeter',
             text  = 'I\'M BUSY RIGHT NOW.',
         },
     },

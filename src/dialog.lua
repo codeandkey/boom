@@ -3,7 +3,6 @@
 
 local hud  = require 'hud'
 local fs   = require 'fs'
-local log  = require 'log'
 local map  = require 'map'
 
 local dialog = {
@@ -30,8 +29,8 @@ function dialog.run_sequence(seqname)
         local cur = dialog.active
 
         while cur ~= nil do
-            for _, v in cur.seqobj do
-                for _, k in seqobj do
+            for _, v in ipairs(cur.seqobj) do
+                for _, k in ipairs(seqobj) do
                     if k.actor == v.actor then
                         cur.state = 'dead'
                     end
