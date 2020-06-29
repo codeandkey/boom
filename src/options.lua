@@ -28,43 +28,42 @@ function options.load()
         end
     else
         log.info('Failed to read saved mode, applying defaults..')
-
-        if not options.defaults() then
-            return false
-        end
-
-        return options.write()
+        return options.defaults()
     end
 end
 
+--- Applies default options and writes the disk.
+-- @return true if successful, false otherwise.
 function options.defaults()
-        options.values = {
-            flags = {
-                fullscreen = true,
-                vsync = 1,
-                msaa = 0,
-            },
-        }
+    options.values = {
+        flags = {
+            fullscreen = true,
+            vsync = 1,
+            msaa = 0,
+        },
+    }
 
-        local res = love.window.setMode(0, 0, options.values.flags)
+    local res = love.window.setMode(0, 0, options.values.flags)
 
-        options.values = {
-            flags = options.values.flags,
-            width = love.graphics.getWidth(),
-            height = love.graphics.getHeight(),
-        }
+    options.values = {
+        flags = options.values.flags,
+        width = love.graphics.getWidth(),
+        height = love.graphics.getHeight(),
+    }
 
-        if res then
-            log.info('Applied default mode: %s', options.modestring())
-            event.push('fbsize', options.values.width, options.values.height)
+    if res then
+        log.info('Applied default mode: %s', options.modestring())
+        event.push('fbsize', options.values.width, options.values.height)
 
-            return true
-        else
-            log.warn('Failed to apply default mode: %s', options.modestring())
-            return false
-        end
+        return options.write()
+    else
+        log.warn('Failed to apply default mode: %s', options.modestring())
+        return false
+    end
 end
 
+--- Gets the current video mode as a printable string.
+-- @return Video mode string.
 function options.modestring()
     return string.format('%d by %d, fullscreen %s, vsync %s, msaa %d',
         options.values.width,
@@ -75,6 +74,8 @@ function options.modestring()
     )
 end
 
+--- Writes the current options to disk.
+-- @return true if successful, false otherwise.
 function options.write()
     return util.serialize_to_file(options.values, options.PATH)
 end
