@@ -44,6 +44,7 @@ return {
             action = function()
                 map.request(save.get('map'), save.get('spawn'))
             end,
+            scale = 1,
         })
 
         -- Add a new game button as well if there is an existing save.
@@ -55,6 +56,7 @@ return {
                     save.newgame()
                     map.request(save.get('map'), save.get('spawn'))
                 end,
+                scale = 1,
             })
         end
 
@@ -65,6 +67,7 @@ return {
             action = function()
                 love.event.quit()
             end,
+            scale = 1,
         })
     end,
 
@@ -90,7 +93,14 @@ return {
     end,
 
     update = function(this, dt)
-        this.selected_scale = math.min(this.selected_scale + dt * this.selected_scale_speed, this.selected_scale_max)
+        -- Update button scales.
+        for i, v in ipairs(this.buttons) do
+            if i == this.current_button then
+                v.scale = math.min(v.scale + dt * this.selected_scale_speed, this.selected_scale_max)
+            else
+                v.scale = math.max(v.scale - dt * this.selected_scale_speed, 1)
+            end
+        end
 
         -- Slowly scroll camera.
         this.focus_x = this.focus_x + dt * this.scrollspeed
@@ -106,12 +116,6 @@ return {
         local cur_y = cy - total_height / 2
 
         for i, v in ipairs(this.buttons) do
-            local cur_scale = 1
-
-            if i == this.current_button then
-                cur_scale = this.selected_scale
-            end
-
             hud.textbox(
                 cx - this.button_width / 2,
                 cur_y,
@@ -121,7 +125,7 @@ return {
                 'center',
                 'screen',
                 this.font,
-                cur_scale
+                v.scale
             )
 
             cur_y = cur_y + this.font_size + this.button_spacing
