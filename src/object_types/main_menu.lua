@@ -16,15 +16,10 @@ return {
         this.button_width = 400
         this.font_size = 24
         this.font = fs.read_font('pixeled.ttf', this.font_size)
-        this.scrollspeed = 32
-        this.focus_x = 0
 
         this.selected_scale = 1
         this.selected_scale_speed = 2
         this.selected_scale_max = 1.2
-
-        camera.center(0, 0)
-        camera.set_focus_follow_enabled(false)
 
         -- Subscribe to key events.
         object.subscribe(this, 'inputdown')
@@ -101,10 +96,6 @@ return {
                 v.scale = math.max(v.scale - dt * this.selected_scale_speed, 1)
             end
         end
-
-        -- Slowly scroll camera.
-        this.focus_x = this.focus_x + dt * this.scrollspeed
-        camera.center(this.focus_x, 0)
     end,
 
     render = function(this)
