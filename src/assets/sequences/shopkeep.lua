@@ -2,7 +2,7 @@ return {
     {
         {
             actor = 'shopkeep',
-            text  = 'WELCOME, PLEASE COME IN.',
+            text  = 'WELCOME, PLEASE HAVE A LOOK AROUND.',
         },
     },
 
