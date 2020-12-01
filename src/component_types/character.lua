@@ -159,27 +159,31 @@ return {
             this.dx = this.dx + (radius / dist) + this.nade_push_x * (xdist/math.abs(xdist))
             this.dy = this.dy + (radius / dist) + this.nade_push_y * (ydist/math.abs(ydist))
         else
-            this.dead = true
-
-            local sprite_left = this.x + this.spr_offsetx
-
-            for _, v in pairs(this.gib_config) do
-                local gib = object_group.create_object(this.__layer, 'gib', {
-                    spr_name = v.spr,
-                    x = sprite_left + v.x,
-                    y = this.y + v.y,
-                    dx = this.dx,
-                    dy = this.dy,
-                    flip = (this.direction == 'left'),
-                    color = this.color,
-                })
-
-                if v.follow then
-                    this.follow_gib = gib
-                end
-            end
+            object.kill(this)
         end
     end,
+
+    kill = function(this)
+        this.dead = true
+
+        local sprite_left = this.x + this.spr_offsetx
+
+        for _, v in pairs(this.gib_config) do
+            local gib = object_group.create_object(this.__layer, 'gib', {
+                spr_name = v.spr,
+                x = sprite_left + v.x,
+                y = this.y + v.y,
+                dx = this.dx,
+                dy = this.dy,
+                flip = (this.direction == 'left'),
+                color = this.color,
+            })
+
+            if v.follow then
+                this.follow_gib = gib
+            end
+        end
+    end
 
     inputdown = function(this, key)
         if key == 'left' then
