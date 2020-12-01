@@ -811,8 +811,8 @@ return {
           rotation = 0,
           visible = true,
           properties = {
-            ["destination"] = "intro",
-            ["entry_point"] = "intro_1",
+            ["destination"] = "mountain_village",
+            ["entry_point"] = "mountain_village_1",
             ["interactable"] = "true"
           }
         }

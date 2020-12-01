@@ -596,8 +596,8 @@
   </object>
   <object id="73" name="first_zone_2" type="load_trigger" x="4000" y="624" width="80" height="48">
    <properties>
-    <property name="destination" value="intro"/>
-    <property name="entry_point" value="intro_1"/>
+    <property name="destination" value="mountain_village"/>
+    <property name="entry_point" value="mountain_village_1"/>
     <property name="interactable" value="true"/>
    </properties>
   </object>
