@@ -50,6 +50,11 @@ return {
                                                   spriteset = this.spriteset })
     end,
 
+    pitfall = function(this)
+        -- simply set the dead flag, even though the character is still alive this triggers the death sequence.
+        this.dead = true
+    end
+
     ready = function(this, dest)
         -- Jump to an object if we need to.
 
