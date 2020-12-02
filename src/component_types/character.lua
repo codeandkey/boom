@@ -183,7 +183,7 @@ return {
                 this.follow_gib = gib
             end
         end
-    end
+    end,
 
     inputdown = function(this, key)
         if key == 'left' then
