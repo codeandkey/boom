@@ -159,7 +159,7 @@ return {
             this.dx = this.dx + (radius / dist) + this.nade_push_x * (xdist/math.abs(xdist))
             this.dy = this.dy + (radius / dist) + this.nade_push_y * (ydist/math.abs(ydist))
         else
-            object.kill(this)
+            object.call(this, 'kill')
         end
     end,
 
