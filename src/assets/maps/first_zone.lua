@@ -784,7 +784,7 @@ return {
         },
         {
           id = 59,
-          name = "first_zone_2",
+          name = "first_zone_3",
           type = "load_trigger",
           shape = "rectangle",
           x = 1248,

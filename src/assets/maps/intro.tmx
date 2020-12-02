@@ -237,7 +237,7 @@
   <object id="83" name="intro_1" type="load_trigger" x="1264" y="544" width="64" height="48">
    <properties>
     <property name="destination" value="first_zone"/>
-    <property name="entry_point" value="first_zone_0"/>
+    <property name="entry_point" value="first_zone_3"/>
     <property name="interactable" value="true"/>
    </properties>
   </object>

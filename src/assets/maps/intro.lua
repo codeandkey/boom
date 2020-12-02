@@ -393,7 +393,7 @@ return {
           visible = true,
           properties = {
             ["destination"] = "first_zone",
-            ["entry_point"] = "first_zone_0",
+            ["entry_point"] = "first_zone_3",
             ["interactable"] = "true"
           }
         }
