@@ -530,7 +530,7 @@
   <object id="7" name="mountain_village_1" type="load_trigger" x="1.77636e-15" y="608" width="112" height="48">
    <properties>
     <property name="destination" value="first_zone"/>
-    <property name="entry_point" value="first_zone_1"/>
+    <property name="entry_point" value="first_zone_2"/>
     <property name="interactable" value="true"/>
    </properties>
   </object>
