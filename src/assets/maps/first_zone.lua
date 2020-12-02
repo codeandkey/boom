@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 13,
-  nextobjectid = 74,
+  nextobjectid = 76,
   properties = {},
   tilesets = {
     {
@@ -815,6 +815,32 @@ return {
             ["entry_point"] = "mountain_village_1",
             ["interactable"] = "true"
           }
+        },
+        {
+          id = 74,
+          name = "pitfall",
+          type = "pitfall_trigger",
+          shape = "rectangle",
+          x = 2320,
+          y = 896.354,
+          width = 1776,
+          height = 79.6457,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 75,
+          name = "spikes",
+          type = "kill_trigger",
+          shape = "rectangle",
+          x = 3628.52,
+          y = 606.943,
+          width = 32,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     },
