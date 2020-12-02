@@ -534,7 +534,7 @@
     <property name="interactable" value="true"/>
    </properties>
   </object>
-  <object id="17" name="mountain_village_shop" type="load_trigger" x="705.509" y="616.667" width="28" height="40.5">
+  <object id="17" name="mountain_village_shop" type="load_trigger" x="705.509" y="615.281" width="28" height="40.5">
    <properties>
     <property name="destination" value="shop"/>
     <property name="entry_point" value="mountain_village"/>

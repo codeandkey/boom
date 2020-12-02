@@ -761,7 +761,7 @@ return {
           type = "load_trigger",
           shape = "rectangle",
           x = 705.509,
-          y = 616.667,
+          y = 615.281,
           width = 28,
           height = 40.5,
           rotation = 0,
